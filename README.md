@@ -33,7 +33,10 @@ O projeto é dividido em duas partes: `back-app` e `mobile-app`. A primeira é r
 
 ### Front-end
 
-[![kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=Kotlin&logoColor=white)](https://kotlinlang.org/)
+[![kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square&logo=Kotlin&logoColor=white)](https://kotlinlang.org/)
+[![android](https://img.shields.io/badge/Android-3DDC84?style=flat-square&logo=Android&logoColor=white)](https://www.android.com/intl/pt_br/)
+[![jetpack compose](https://img.shields.io/badge/Jetpack_Compose-1.5.12-4285F4?logo=jetpackcompose)](https://developer.android.com/jetpack?gad_source=1&gclid=CjwKCAiAudG5BhAREiwAWMlSjNzhMBrMmxC-cTC7yk26Ml-4lwCbYDTzeAkMp4gqVhfdNYxAX5cX2xoCzywQAvD_BwE&gclsrc=aw.ds&hl=pt-br)
+
 
 ### Back-end
 
