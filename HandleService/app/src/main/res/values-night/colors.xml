@@ -2,7 +2,6 @@
 <resources>
     <color name="handle_blue">#1A73E8</color>
     <color name="handle_red">#FF5252</color>
-    <color name="background">#F4F5F8</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
