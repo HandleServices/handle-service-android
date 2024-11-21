@@ -1,12 +1,16 @@
 package br.com.handleservice.presentation.nvgraph
 
+import BottomNavigationBar
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavGraph
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navigation
 import androidx.navigation.compose.rememberNavController
-import br.com.handleservice.presentation.home.HomeScreen
+import br.com.handleservice.presentation.screens.contracts.ContractsScreen
+import br.com.handleservice.presentation.screens.home.HomeScreen
+import br.com.handleservice.presentation.screens.profile.ProfileScreen
 
 @Composable
 fun NavGraph(
@@ -14,15 +18,32 @@ fun NavGraph(
 ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = startDestination){
-        navigation(
-            route = Route.AppStartNavigation.route,
-            startDestination = Route.HomeScreen.route
-        ){
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController) }
+    ) { paddingValues ->
+        NavHost(
+            navController = navController,
+            startDestination = startDestination,
+            modifier = Modifier.padding(paddingValues)
+        ) {
             composable(
                 route = Route.HomeScreen.route
-            ){
+            ) {
                 HomeScreen()
+            }
+
+            composable (
+                route =
+                Route.Contracts.route
+            ) {
+                ContractsScreen()
+            }
+
+            composable (
+                route =
+                Route.Profile.route
+            ) {
+                ProfileScreen()
             }
         }
     }
