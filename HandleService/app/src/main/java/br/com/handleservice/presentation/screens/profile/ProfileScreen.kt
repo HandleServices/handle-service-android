@@ -1,4 +1,4 @@
-package br.com.handleservice.presentation.home.components
+package br.com.handleservice.presentation.screens.profile
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun HomePage(
+fun ProfileScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -17,6 +17,6 @@ fun HomePage(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "HOME PAGE")
+        Text(text = "PROFILE PAGE")
     }
 }

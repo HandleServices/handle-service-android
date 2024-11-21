@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             HandleServiceTheme {
                 Box(modifier = Modifier.background(colorResource(id = R.color.background))){
-                    NavGraph(startDestination = Route.AppStartNavigation.route)
+                    NavGraph(startDestination = Route.HomeScreen.route)
                 }
             }
         }
