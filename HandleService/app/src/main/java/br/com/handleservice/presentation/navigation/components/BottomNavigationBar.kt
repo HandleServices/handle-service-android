@@ -1,8 +1,4 @@
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,8 +13,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import br.com.handleservice.R
-import br.com.handleservice.presentation.nvgraph.components.NavItem
-import br.com.handleservice.presentation.nvgraph.components.getNavItems
+import br.com.handleservice.presentation.navigation.components.getNavItems
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
