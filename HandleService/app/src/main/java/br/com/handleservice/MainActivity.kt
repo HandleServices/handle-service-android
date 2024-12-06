@@ -10,8 +10,8 @@ import br.com.handleservice.ui.theme.HandleServiceTheme
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
-import br.com.handleservice.presentation.nvgraph.NavGraph
-import br.com.handleservice.presentation.nvgraph.Route
+import br.com.handleservice.presentation.navigation.NavGraph
+import br.com.handleservice.presentation.navigation.Route
 
 
 @AndroidEntryPoint

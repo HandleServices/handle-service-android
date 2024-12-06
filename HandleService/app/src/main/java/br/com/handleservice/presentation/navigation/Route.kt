@@ -1,4 +1,4 @@
-package br.com.handleservice.presentation.nvgraph
+package br.com.handleservice.presentation.navigation
 
 sealed class Route(
     val route: String

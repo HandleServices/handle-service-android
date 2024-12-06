@@ -1,4 +1,4 @@
-package br.com.handleservice.presentation.nvgraph
+package br.com.handleservice.presentation.navigation
 
 import BottomNavigationBar
 import androidx.compose.foundation.layout.padding

@@ -1,11 +1,11 @@
-package br.com.handleservice.presentation.nvgraph.components
+package br.com.handleservice.presentation.navigation.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import br.com.handleservice.R
-import br.com.handleservice.presentation.nvgraph.Route
+import br.com.handleservice.presentation.navigation.Route
 
 data class NavItem(
     val label: String,

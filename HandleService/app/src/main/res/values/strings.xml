@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Handle Service</string>
+    <string name="agendados">Agendados</string>
+    <string name="historico">Histórico</string>
 </resources>
