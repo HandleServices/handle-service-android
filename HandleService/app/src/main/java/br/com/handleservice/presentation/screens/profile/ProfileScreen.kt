@@ -60,19 +60,19 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(12.dp))
 
         ProfileOption(
-            icon = R.drawable.ic_messages,
+            icon = R.drawable.ic_filled_messages,
             label = "Chat",
             description = "Meu histórico de conversas",
             onClick = { }
         )
         ProfileOption(
-            icon = R.drawable.ic_address,
+            icon = R.drawable.ic_filled_address,
             label = "Meus Endereços",
             description = "Endereços cadastrados",
             onClick = { }
         )
         ProfileOption(
-            icon = R.drawable.ic_document_data,
+            icon = R.drawable.ic_filled_document_data,
             label = "Dados da Conta",
             description = "Minhas informações",
             onClick = { }
