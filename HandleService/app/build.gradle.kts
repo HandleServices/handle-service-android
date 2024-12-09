@@ -42,7 +42,8 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.calligraphy3)
+    implementation(libs.viewpump)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

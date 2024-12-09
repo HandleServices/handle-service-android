@@ -2,5 +2,6 @@
 <resources>
     <style name="Theme.HandleService" parent="android:Theme.Material.Light.NoActionBar" >
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:fontFamily">@font/manrope</item>
     </style>
 </resources>

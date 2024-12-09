@@ -37,7 +37,6 @@ fun ContractsScreen (
 
     val groupedContracts by viewModel.groupedContracts.collectAsState()
 
-
     Column(
         modifier = modifier
             .fillMaxSize()
