@@ -23,7 +23,6 @@ fun ProfileOption(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
     ) {
         Column(
             modifier = Modifier
@@ -40,7 +39,7 @@ fun ProfileOption(
                 Icon(
                     painter = painterResource(id = icon),
                     contentDescription = label,
-                    modifier = Modifier.size(32.dp),
+                    modifier = Modifier.size(25.dp),
                     tint = colorResource(R.color.handle_light_gray)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
@@ -53,7 +52,7 @@ fun ProfileOption(
                         fontSize = 18.sp,
                         color = colorResource(R.color.handle_titles)
                     )
-                    Spacer(modifier = Modifier.height(4.dp)) // Adicionado espaçamento entre nome e descrição
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = description,
                         style = MaterialTheme.typography.bodySmall,
@@ -64,17 +63,17 @@ fun ProfileOption(
                 Icon(
                     painter = painterResource(R.drawable.ic_chevron_right),
                     contentDescription = "Seta",
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(25.dp),
                     tint = colorResource(R.color.handle_gray)
                 )
             }
         }
-        Divider(
-            color = colorResource(R.color.handle_divider),
-            thickness = 1.dp,
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
+                .align(Alignment.BottomCenter),
+            thickness = 1.dp,
+            color = colorResource(R.color.handle_divider)
         )
     }
 }
