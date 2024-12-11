@@ -1,4 +1,4 @@
-package br.com.handleservice.presentation.components.searchbar
+package br.com.handleservice.ui.components.searchbar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +20,7 @@ interface SearchableClass {
 }
 
 @ViewModelScoped
-class SearchBarViewModel<T : SearchableClass> @Inject constructor() : ViewModel() {
+class SearchBarViewModel<T> @Inject constructor() : ViewModel() {
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
@@ -36,7 +36,7 @@ class SearchBarViewModel<T : SearchableClass> @Inject constructor() : ViewModel(
                 allElements
             } else {
                 delay(2000L)  // simulate delay for search query
-                allElements.filter { it.doesMatchSearchQuery(query) }
+                emptyList()
             }
         }
         .onEach { _isSearching.update { false } }
