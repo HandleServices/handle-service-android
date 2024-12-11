@@ -1,5 +1,5 @@
-//package br.com.handleservice.presentation.screens.home
-//
+package br.com.handleservice.presentation.screens.home
+
 //import androidx.lifecycle.ViewModel
 //import androidx.lifecycle.viewModelScope
 //import dagger.hilt.android.lifecycle.HiltViewModel

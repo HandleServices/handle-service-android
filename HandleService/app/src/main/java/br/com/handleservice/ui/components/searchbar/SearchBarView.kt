@@ -1,4 +1,4 @@
-package br.com.handleservice.presentation.components.searchbar
+package br.com.handleservice.ui.components.searchbar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,6 +21,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -47,91 +48,12 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.Brush
 
-enum class Side {
-    Top, Bottom, Start, End
-}
-
 @Composable
-fun SideShadow(
-    color: Color = Color.Black,
-    alpha: Float = 0.1f,
-    shadowSize: Dp = 4.dp,
-    sides: List<Side> = listOf(Side.Bottom),
-    content: @Composable () -> Unit
-) {
-    Box {
-        content()
-        sides.forEach { side ->
-            Box(
-                modifier = Modifier
-                    .matchParentSize()
-                    .then(
-                        when (side) {
-                            Side.Top -> Modifier
-                                .align(Alignment.TopCenter)
-                                .fillMaxWidth()
-                                .height(shadowSize)
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            color.copy(alpha = alpha),
-                                            Color.Transparent
-                                        )
-                                    )
-                                )
-                            Side.Bottom -> Modifier
-                                .align(Alignment.BottomCenter)
-                                .fillMaxWidth()
-                                .height(shadowSize)
-                                .background(
-                                    brush = Brush.verticalGradient(
-                                        colors = listOf(
-                                            Color.Transparent,
-                                            color.copy(alpha = alpha)
-                                        )
-                                    )
-                                )
-                            Side.Start -> Modifier
-                                .align(Alignment.CenterStart)
-                                .width(shadowSize)
-                                .fillMaxHeight()
-                                .background(
-                                    brush = Brush.horizontalGradient(
-                                        colors = listOf(
-                                            color.copy(alpha = alpha),
-                                            Color.Transparent
-                                        )
-                                    )
-                                )
-                            Side.End -> Modifier
-                                .align(Alignment.CenterEnd)
-                                .width(shadowSize)
-                                .fillMaxHeight()
-                                .background(
-                                    brush = Brush.horizontalGradient(
-                                        colors = listOf(
-                                            Color.Transparent,
-                                            color.copy(alpha = alpha)
-                                        )
-                                    )
-                                )
-                        }
-                    )
-            )
-        }
-    }
-}
-
-@Composable
-fun <T : SearchableClass> HandleSearchBar(
-    searchableElements: List<T>,
-    placeholder: @Composable () -> Unit,
-    icon: ImageVector? = Icons.Default.Search,
-    iconColor: Color = Color.Black,
-    modifier: Modifier = Modifier,
-    cornerRadius: Dp = 0.dp,
-    elevation: Dp = 4.dp,
-    shadowColor: Color = Color.Black.copy(alpha = 0.25f) // Adjust alpha as needed
+fun <T> HandleSearchBar(
+    searchableElements: List<T> = emptyList(),
+    placeholder: String,
+    iconColor: Color = Color.Gray,
+    modifier: Modifier = Modifier
 ) {
     val viewModel: SearchBarViewModel<T> = viewModel()
     viewModel.setSearchableElements(searchableElements)
@@ -145,14 +67,8 @@ fun <T : SearchableClass> HandleSearchBar(
         modifier = modifier
             .fillMaxWidth()
             .height(40.dp)
-            .shadow(
-                elevation = elevation,
-                shape = RoundedCornerShape(cornerRadius),
-                ambientColor = shadowColor,
-                spotColor = shadowColor,
-                clip = false
-            )
-            .background(Color.White, shape = RoundedCornerShape(cornerRadius))
+            .shadow(elevation = 4.dp, shape = RoundedCornerShape(5.dp), clip = false)
+            .background(Color.White, shape = RoundedCornerShape(5.dp)),
     ) {
         BasicTextField(
             value = searchText,
@@ -167,18 +83,18 @@ fun <T : SearchableClass> HandleSearchBar(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
-                    if (icon != null) {
-                        Icon(
-                            icon,
-                            tint = iconColor,
-                            contentDescription = null,
-                            modifier = Modifier.size(20.dp)
-                        )
-                        Spacer(modifier = Modifier.width(8.dp))
-                    }
+
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        tint = iconColor,
+                        contentDescription = null,
+                        modifier = Modifier.size(15.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+
                     Box(modifier = Modifier.weight(1f)) {
                         if (searchText.isEmpty()) {
-                            placeholder()
+                            Text(placeholder, color = Color.Gray)
                         }
                         innerTextField()
                     }
@@ -194,11 +110,12 @@ fun <T : SearchableClass> HandleSearchBar(
                     }
                 }
             },
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
     }
 }
 
+// Just example: delete after full implementation
 data class Person(
     val firstName: String,
     val lastName: String
@@ -226,9 +143,6 @@ fun PreviewSearchBar() {
     // Preview the search bar with some example data
     HandleSearchBar<Person>(
         searchableElements = persons,
-        placeholder = {
-            Text("Search...")
-        },
-        icon = Icons.Default.Search,
+        placeholder = "Search..."
     )
 }
