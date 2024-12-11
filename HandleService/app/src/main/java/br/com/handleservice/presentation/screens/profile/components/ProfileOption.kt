@@ -73,7 +73,7 @@ fun ProfileOption(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
             thickness = 1.dp,
-            color = colorResource(R.color.handle_divider)
+            color = colorResource(R.color.handle_gray_secondary)
         )
     }
 }
