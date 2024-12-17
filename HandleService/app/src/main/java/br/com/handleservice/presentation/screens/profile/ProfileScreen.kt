@@ -22,7 +22,9 @@ import br.com.handleservice.presentation.screens.profile.components.ProfileOptio
 
 @Composable
 fun ProfileScreen(
-    viewModel: ProfileViewModel = hiltViewModel()
+    viewModel: ProfileViewModel = hiltViewModel(),
+    onNotificationClick: () -> Unit,
+    onSettingsClick: () -> Unit
 ) {
     val profileState = viewModel.profileState.collectAsState().value
 
@@ -75,13 +77,13 @@ fun ProfileScreen(
             icon = R.drawable.ic_notification,
             label = "Notificações",
             description = "Minhas informações",
-            onClick = { }
+            onClick = onNotificationClick
         )
         ProfileOption(
             icon = R.drawable.ic_settings,
             label = "Configurações",
             description = "Faça ajustes no seu app",
-            onClick = { }
+            onClick = onSettingsClick
         )
     }
 }
