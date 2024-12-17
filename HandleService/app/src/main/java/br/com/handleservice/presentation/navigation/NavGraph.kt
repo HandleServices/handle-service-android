@@ -11,6 +11,8 @@ import androidx.navigation.compose.rememberNavController
 import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.home.HomeScreen
 import br.com.handleservice.presentation.screens.profile.ProfileScreen
+import br.com.handleservice.presentation.screens.notification.NotificationScreen
+import br.com.handleservice.presentation.screens.settings.SettingsScreen
 
 @Composable
 fun NavGraph(
@@ -32,19 +34,38 @@ fun NavGraph(
                 HomeScreen()
             }
 
-            composable (
-                route =
-                Route.Contracts.route
+            composable(
+                route = Route.Contracts.route
             ) {
                 ContractsScreen()
             }
 
-            composable (
-                route =
-                Route.Profile.route
+            composable(
+                route = Route.Profile.route
             ) {
-                ProfileScreen()
+                ProfileScreen(
+                    onNotificationClick = {
+                        navController.navigate(Route.Notification.route)
+                    },
+                    onSettingsClick = {
+                        navController.navigate(Route.Settings.route)
+                    }
+                )
             }
+
+
+            composable(
+                route = Route.Notification.route
+            ) {
+                NotificationScreen(navController = navController)
+            }
+
+            composable(
+                route = Route.Settings.route
+            ) {
+                SettingsScreen(navController = navController)
+            }
+
         }
     }
 }
