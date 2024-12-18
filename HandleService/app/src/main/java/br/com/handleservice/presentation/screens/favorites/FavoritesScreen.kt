@@ -41,7 +41,7 @@ fun FavoritesScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(76.dp)
+                .height(101.dp)
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -53,8 +53,9 @@ fun FavoritesScreen(
                     .clickable { navController.popBackStack() },
                 tint = colorResource(R.color.handle_blue)
             )
+
             Text(
-                text = "Meus Favoritos",
+                text = "Meus favoritos",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.W600
@@ -67,19 +68,22 @@ fun FavoritesScreen(
             )
         }
 
-        Divider(color = colorResource(R.color.handle_divider), thickness = 1.dp)
+        Divider(
+            color = colorResource(R.color.handle_divider),
+            thickness = 1.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 32.dp, end = 32.dp)
+        )
+        Spacer(modifier = Modifier.height(17.dp))
 
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 28.dp)
         ) {
             items(favorites) { favorite ->
                 FavoriteItem(favorite)
-                Divider(
-                    color = colorResource(R.color.handle_divider),
-                    thickness = 1.dp
-                )
             }
         }
     }
