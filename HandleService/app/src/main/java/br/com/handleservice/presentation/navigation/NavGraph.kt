@@ -61,11 +61,15 @@ fun NavGraph(
                     )
                 }
 
-                composable("profile/notification") {
+                composable(
+                    Route.Notification.route
+                ) {
                     NotificationScreen(navController = navController)
                 }
 
-                composable("profile/settings") {
+                composable(
+                    route = Route.Settings.route
+                ) {
                     SettingsScreen(navController = navController)
                 }
 

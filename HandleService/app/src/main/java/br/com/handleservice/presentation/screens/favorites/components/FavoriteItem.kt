@@ -4,10 +4,13 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -26,39 +29,62 @@ fun FavoriteItem(favorite: Favorite) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .background(Color.White),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .background(Color.White, shape = RoundedCornerShape(16.dp))
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row {
+        Row(
+            modifier = Modifier.fillMaxWidth(0.80f),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Icon(
                 painter = painterResource(R.drawable.ic_favorite_filled),
                 contentDescription = "Favorito",
                 tint = colorResource(R.color.handle_blue),
-                modifier = Modifier
-                    .size(24.dp)
-                    .padding(top = 8.dp)
+                modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.width(12.dp))
+
             Column {
-                Text(
-                    text = favorite.name,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                    fontSize = 16.sp,
-                    color = colorResource(R.color.handle_titles)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = favorite.name,
+                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.W500),
+                        fontSize = 16.sp,
+                        color = colorResource(R.color.handle_titles)
+                    )
+                    if (favorite.isAvailable) {
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "Disponível Agora!",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontSize = 9.sp,
+                            color = colorResource(R.color.handle_blue)
+                        )
+                    }
+                }
+                Divider(
+                    color = colorResource(R.color.handle_divider),
+                    thickness = 1.dp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp)
                 )
                 Text(
                     text = favorite.category,
                     style = MaterialTheme.typography.bodySmall,
-                    fontSize = 12.sp,
+                    fontSize = 11.sp,
                     color = colorResource(R.color.handle_gray)
                 )
             }
         }
+
         Image(
             painter = painterResource(id = R.drawable.profile_image_fallback),
             contentDescription = "Imagem do favorito",
             modifier = Modifier
-                .size(40.dp)
+                .size(54.dp)
                 .clip(CircleShape),
             contentScale = ContentScale.Crop
         )
