@@ -3,7 +3,6 @@ package br.com.handleservice.presentation.screens.settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -60,9 +59,15 @@ fun SettingsScreen(
             )
         }
 
-        Divider(color = colorResource(R.color.handle_divider), thickness = 1.dp)
+        Divider(
+            color = colorResource(R.color.handle_divider),
+            thickness = 1.dp,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 32.dp, end = 32.dp)
+        )
 
-        Column(modifier = Modifier.padding(horizontal = 16.dp)) { // Espaço lateral aplicado
+        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
             SettingsItem(
                 title = "Notificações",
                 description = "Ao desativar as notificações, você estará abrindo mão da exibição visual e sonora delas.",
@@ -74,20 +79,28 @@ fun SettingsScreen(
                             checkedThumbColor = colorResource(R.color.white),
                             uncheckedThumbColor = colorResource(R.color.white),
                             checkedTrackColor = colorResource(R.color.handle_blue),
-                            uncheckedTrackColor = colorResource(R.color.handle_red)
+                            uncheckedTrackColor = colorResource(R.color.handle_red),
+                            uncheckedBorderColor = colorResource(R.color.transparent),
+                            checkedBorderColor = colorResource(R.color.transparent)
                         )
                     )
                 }
             )
 
-            Divider(color = colorResource(R.color.handle_divider), thickness = 1.dp)
+            Divider(
+                color = colorResource(R.color.handle_divider),
+                thickness = 1.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp)
+            )
 
             SettingsItem(
                 title = "Convidar amigos",
                 description = "Curtiu nossa plataforma? Convide seus amigos!",
                 action = {
                     Icon(
-                        painter = painterResource(id = R.drawable.ic_share),
+                        painter = painterResource(id = R.drawable.ic_open_in_new),
                         contentDescription = "Convidar amigos",
                         modifier = Modifier.size(32.dp),
                         tint = colorResource(R.color.handle_light_gray)
@@ -95,7 +108,13 @@ fun SettingsScreen(
                 }
             )
 
-            Divider(color = colorResource(R.color.handle_divider), thickness = 1.dp)
+            Divider(
+                color = colorResource(R.color.handle_divider),
+                thickness = 1.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp)
+            )
 
             SettingsItem(
                 title = "Modo escuro",
@@ -108,13 +127,21 @@ fun SettingsScreen(
                             checkedThumbColor = colorResource(R.color.white),
                             uncheckedThumbColor = colorResource(R.color.white),
                             checkedTrackColor = colorResource(R.color.handle_blue),
-                            uncheckedTrackColor = colorResource(R.color.handle_red)
+                            uncheckedTrackColor = colorResource(R.color.handle_red),
+                            uncheckedBorderColor = colorResource(R.color.transparent),
+                            checkedBorderColor = colorResource(R.color.transparent)
                         )
                     )
                 }
             )
 
-            Divider(color = colorResource(R.color.handle_divider), thickness = 1.dp)
+            Divider(
+                color = colorResource(R.color.handle_divider),
+                thickness = 1.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 16.dp)
+            )
         }
     }
 }

@@ -24,7 +24,8 @@ import br.com.handleservice.presentation.screens.profile.components.ProfileOptio
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     onNotificationClick: () -> Unit,
-    onSettingsClick: () -> Unit
+    onSettingsClick: () -> Unit,
+    onFavoritesClick: () -> Unit
 ) {
     val profileState = viewModel.profileState.collectAsState().value
 
@@ -71,7 +72,7 @@ fun ProfileScreen(
             icon = R.drawable.ic_favorite,
             label = "Favoritos",
             description = "Os seus preferidos estarão aqui!",
-            onClick = { }
+            onClick = onFavoritesClick
         )
         ProfileOption(
             icon = R.drawable.ic_notification,

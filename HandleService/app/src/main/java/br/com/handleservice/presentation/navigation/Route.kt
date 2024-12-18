@@ -8,4 +8,5 @@ sealed class Route(
     data object Contracts : Route(route = "contractsScreen")
     data object Notification : Route(route = "notification_screen")
     data object Settings : Route(route = "settings_screen")
+    data object Favorites : Route(route = "favorites_screen")
 }
