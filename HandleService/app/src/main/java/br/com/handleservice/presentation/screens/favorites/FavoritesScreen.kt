@@ -1,14 +1,21 @@
-package br.com.handleservice.presentation.screens.notification
+package br.com.handleservice.presentation.screens.favorites
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -17,14 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.handleservice.R
-import br.com.handleservice.presentation.screens.notification.components.NotificationItem
+import br.com.handleservice.presentation.screens.favorites.components.FavoriteItem
 
 @Composable
-fun NotificationScreen(
+fun FavoritesScreen(
     navController: NavController,
-    viewModel: NotificationViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: FavoritesViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-    val notifications by viewModel.notifications.collectAsState()
+    val favorites by viewModel.favorites.collectAsState()
 
     Column(
         modifier = Modifier
@@ -34,7 +41,7 @@ fun NotificationScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(101.dp)
+                .height(76.dp)
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -46,9 +53,8 @@ fun NotificationScreen(
                     .clickable { navController.popBackStack() },
                 tint = colorResource(R.color.handle_blue)
             )
-
             Text(
-                text = "Notificações",
+                text = "Meus Favoritos",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.W600
@@ -61,26 +67,18 @@ fun NotificationScreen(
             )
         }
 
-        Divider(
-            color = colorResource(R.color.handle_divider),
-            thickness = 1.dp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 32.dp, end = 32.dp)
-        )
+        Divider(color = colorResource(R.color.handle_divider), thickness = 1.dp)
 
         LazyColumn(
-            contentPadding = PaddingValues(vertical = 8.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
         ) {
-            items(notifications) { notification ->
-                NotificationItem(notification)
+            items(favorites) { favorite ->
+                FavoriteItem(favorite)
                 Divider(
                     color = colorResource(R.color.handle_divider),
-                    thickness = 1.dp,
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                    thickness = 1.dp
                 )
             }
         }

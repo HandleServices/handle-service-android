@@ -27,19 +27,19 @@ fun getNavItems(): List<NavItem> {
     return remember {
         listOf(
             NavItem(
-                label = "Home",
+                label = "Início",
                 outlinedIcon = outlinedHomeIcon,
                 filledIcon = filledHomeIcon,
                 route = Route.HomeScreen.route
             ),
             NavItem(
-                label = "Contracts",
+                label = "Contratos",
                 outlinedIcon = outlinedContractsIcon,
                 filledIcon = filledContractsIcon,
                 route = Route.Contracts.route
             ),
             NavItem(
-                label = "Profile",
+                label = "Perfil",
                 outlinedIcon = outlinedProfileIcon,
                 filledIcon = filledProfileIcon,
                 route = Route.Profile.route
