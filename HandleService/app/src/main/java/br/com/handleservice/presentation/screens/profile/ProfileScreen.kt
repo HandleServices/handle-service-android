@@ -33,7 +33,7 @@ fun ProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(colorResource(R.color.background))
-            .padding(horizontal = 30.dp),
+            .padding(horizontal = 16.dp),
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -55,8 +55,8 @@ fun ProfileScreen(
             Text(
                 text = profileState.name,
                 style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.W600),
-                fontSize = 21.sp,
-                color = colorResource(R.color.black)
+                fontSize = 20.sp,
+                color = colorResource(R.color.handle_titles)
             )
         }
 

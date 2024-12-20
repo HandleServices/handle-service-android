@@ -25,10 +25,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.handleservice.R
-import br.com.handleservice.presentation.screens.home.JobsCategoriesType
+import br.com.handleservice.presentation.screens.home.ServicesCategoriesType
 
 @Composable
-fun HomeScreenButton(category: JobsCategoriesType, onClick: () -> Unit) {
+fun HomeScreenButton(category: ServicesCategoriesType, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(10.dp),

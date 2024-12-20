@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -29,10 +28,10 @@ class ContractsViewModel @Inject constructor() : ViewModel() {
     val orders: StateFlow<List<Order>> = _orders
 
     init {
-        loadContracts()
+        getContracts()
     }
 
-    private fun loadContracts() {
+    private fun getContracts() {
         viewModelScope.launch {
             _orders.value = getMockOrders()
         }

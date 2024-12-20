@@ -1,7 +1,11 @@
 package br.com.handleservice.ui.components.handleHeader
 
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -26,65 +30,95 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.com.handleservice.R
 
 @Preview
 @Composable
 fun HandleHeader(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController? = null,
+    hasBack: Boolean = false
 ) {
     Box(
         modifier = modifier
             .fillMaxWidth(),
         contentAlignment = Alignment.CenterStart
     ) {
-        Button(
-            onClick = { println("Address button clicked!") },
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.handle_blue)),
-            shape = RoundedCornerShape(10.dp),
-            border = null,
+        Row(
             modifier = Modifier
-                .width(200.dp)
-                .height(23.dp)
-                .align(Alignment.Center),
-            elevation = ButtonDefaults.buttonElevation(
-                defaultElevation = 8.dp,
-            ),
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.CenterStart
-            ) {
-                Text(
-                    text = "R. Franco Costa, 78",
-                    modifier = Modifier.align(Alignment.Center),
-                    color = Color.White,
-                    textAlign = TextAlign.Center,
-                    style = TextStyle(fontSize = 12.sp)
-                )
+
+            if (hasBack) {
                 Icon(
-                    imageVector = Icons.Rounded.KeyboardArrowDown,
-                    contentDescription = "Dropdown",
-                    tint = Color.White,
+                    painter = painterResource(id = R.drawable.ic_arrow_back),
+                    contentDescription = "Voltar",
                     modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(end = 8.dp)
-                        .size(20.dp)
+                        .size(24.dp)
+                        .clickable { navController?.popBackStack() },
+                    tint = colorResource(R.color.handle_blue)
+                )
+            } else {
+                Spacer(modifier = Modifier.width(24.dp))
+            }
+
+            Box(
+                modifier = Modifier.weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                Button(
+                    onClick = { println("Address button clicked!") },
+                    contentPadding = PaddingValues(0.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.handle_blue)),
+                    shape = RoundedCornerShape(10.dp),
+                    border = null,
+                    modifier = Modifier
+                        .width(200.dp)
+                        .height(23.dp),
+                    elevation = ButtonDefaults.buttonElevation(
+                        defaultElevation = 8.dp,
+                    ),
+                ) {
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        Text(
+                            text = "R. Franco Costa, 78",
+                            modifier = Modifier.align(Alignment.Center),
+                            color = Color.White,
+                            textAlign = TextAlign.Center,
+                            style = TextStyle(fontSize = 12.sp)
+                        )
+                        Icon(
+                            imageVector = Icons.Rounded.KeyboardArrowDown,
+                            contentDescription = "Dropdown",
+                            tint = Color.White,
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .padding(end = 8.dp)
+                                .size(20.dp)
+                        )
+                    }
+                }
+            }
+
+            IconButton(
+                onClick = { println("Notification icon clicked!") }
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.notification),
+                    contentDescription = "Location icon",
+                    tint = colorResource(R.color.handle_blue),
+                    modifier = Modifier.size(20.dp)
                 )
             }
         }
-
-        IconButton(
-            onClick = { println("Location icon clicked!") },
-            modifier = Modifier.align(Alignment.CenterEnd)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.notification),
-                contentDescription = "Location icon",
-                tint = colorResource(R.color.handle_blue),
-                modifier = Modifier.size(20.dp)
-            )
-        }
     }
 }
+
+
+
