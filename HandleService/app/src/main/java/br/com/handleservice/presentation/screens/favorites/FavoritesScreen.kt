@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -68,12 +69,12 @@ fun FavoritesScreen(
             )
         }
 
-        Divider(
-            color = colorResource(R.color.handle_divider),
-            thickness = 1.dp,
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 32.dp, end = 32.dp)
+                .padding(start = 32.dp, end = 32.dp),
+            thickness = 1.dp,
+            color = colorResource(R.color.handle_gray_secondary)
         )
         Spacer(modifier = Modifier.height(17.dp))
 

@@ -13,6 +13,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -62,7 +63,7 @@ fun NotificationScreen(
         }
 
         Divider(
-            color = colorResource(R.color.handle_divider),
+            color = colorResource(R.color.handle_gray_secondary),
             thickness = 1.dp,
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,7 +79,7 @@ fun NotificationScreen(
             items(notifications) { notification ->
                 NotificationItem(notification)
                 Divider(
-                    color = colorResource(R.color.handle_divider),
+                    color = colorResource(R.color.handle_gray_secondary),
                     thickness = 1.dp,
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp)
                 )

@@ -65,7 +65,7 @@ fun FavoriteItem(favorite: Favorite) {
                     }
                 }
                 Divider(
-                    color = colorResource(R.color.handle_divider),
+                    color = colorResource(R.color.handle_gray_secondary),
                     thickness = 1.dp,
                     modifier = Modifier
                         .fillMaxWidth()

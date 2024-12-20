@@ -4,8 +4,9 @@
     <color name="handle_red">#FF5252</color>
     <color name="handle_titles">#323238</color>
     <color name="handle_gray">#7C7C8A</color>
-    <color name="handle_light_gray">#8D8D99</color>
     <color name="handle_gray_secondary">#C5CCD9</color>
+    <color name="handle_gray_tertiary">#E1E1E6</color>
+    <color name="handle_light_gray">#8D8D99</color>
     <color name="handle_background_gray">#D9D9D9</color>
     <color name="background">#F4F5F8</color>
     <color name="black">#FF000000</color>

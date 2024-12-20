@@ -59,12 +59,12 @@ fun SettingsScreen(
             )
         }
 
-        Divider(
-            color = colorResource(R.color.handle_divider),
-            thickness = 1.dp,
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 32.dp, end = 32.dp)
+                .padding(start = 32.dp, end = 32.dp),
+            thickness = 1.dp,
+            color = colorResource(R.color.handle_gray_secondary)
         )
 
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
@@ -87,12 +87,12 @@ fun SettingsScreen(
                 }
             )
 
-            Divider(
-                color = colorResource(R.color.handle_divider),
-                thickness = 1.dp,
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp),
+                thickness = 1.dp,
+                color = colorResource(R.color.handle_gray_secondary)
             )
 
             SettingsItem(
@@ -108,12 +108,12 @@ fun SettingsScreen(
                 }
             )
 
-            Divider(
-                color = colorResource(R.color.handle_divider),
-                thickness = 1.dp,
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp),
+                thickness = 1.dp,
+                color = colorResource(R.color.handle_gray_secondary)
             )
 
             SettingsItem(
@@ -135,12 +135,12 @@ fun SettingsScreen(
                 }
             )
 
-            Divider(
-                color = colorResource(R.color.handle_divider),
-                thickness = 1.dp,
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp),
+                thickness = 1.dp,
+                color = colorResource(R.color.handle_gray_secondary)
             )
         }
     }

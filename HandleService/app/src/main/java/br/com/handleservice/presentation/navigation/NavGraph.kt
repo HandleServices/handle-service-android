@@ -6,16 +6,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
 import br.com.handleservice.presentation.screens.home.HomeScreen
 import br.com.handleservice.presentation.screens.profile.ProfileScreen
 import br.com.handleservice.presentation.screens.notification.NotificationScreen
 import br.com.handleservice.presentation.screens.settings.SettingsScreen
+import br.com.handleservice.presentation.screens.worker.WorkerScreen
 
 @Composable
 fun NavGraph(
@@ -34,7 +37,9 @@ fun NavGraph(
             composable(
                 route = Route.HomeScreen.route
             ) {
-                HomeScreen()
+                HomeScreen(
+                    navController = navController
+                )
             }
 
             composable(
@@ -77,6 +82,14 @@ fun NavGraph(
                     route = Route.Favorites.route
                 ) {
                     FavoritesScreen(navController = navController)
+                }
+
+                composable(
+                    route = Route.WorkerScreen.route,
+                    arguments = listOf(navArgument("work-id") { type = NavType.StringType })
+                ) { backStackEntry ->
+                    val query = backStackEntry.arguments?.getString("work-id")
+                    WorkerScreen(query = query)
                 }
 
             }

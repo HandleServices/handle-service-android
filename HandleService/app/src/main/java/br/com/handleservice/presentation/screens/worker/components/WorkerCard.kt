@@ -1,6 +1,7 @@
 package br.com.handleservice.presentation.screens.worker.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,120 +44,127 @@ import coil.request.ImageRequest
 @Composable
 fun WorkerCard(
     modifier: Modifier = Modifier,
-    worker: Worker
+    worker: Worker ?= null
 ) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(220.dp)
-            .padding(top = 38.dp, bottom = 10.dp)
-            .padding(horizontal = 10.dp)
-    ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(160.dp)
-            ,
-            shape = RoundedCornerShape(20.dp),
-            colors = CardDefaults.cardColors(
-                containerColor =  Color.White
-            ),
-            elevation = CardDefaults.cardElevation(
-                defaultElevation =  10.dp,
-            ),
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                // TO-DO: Implementar "Disponível Agora"
-                Spacer(modifier = Modifier.height(48.dp))
-                Text(
-                    text = worker.businessName,
-                    color = colorResource(R.color.handle_titles),
-                    fontWeight = FontWeight(500),
-                    fontSize = 19.sp,
-                )
-                Spacer(modifier = Modifier.height(3.dp))
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(3.dp)
-                ) {
-                    Text(
-                        text = "${worker.firstName} ${worker.lastName}",
-                        color = colorResource(R.color.handle_titles),
-                        fontWeight = FontWeight(300),
-                        fontSize = 13.sp,
-                    )
-                    Text(
-                        text = " • ${worker.job}",
-                        color = colorResource(R.color.handle_gray),
-                        fontWeight = FontWeight(400),
-                        fontSize = 11.sp,
-                    )
-                }
-                HorizontalDivider(
-                    color = colorResource(R.color.handle_gray_secondary),
-                    thickness = 0.6.dp,
-                    modifier = Modifier.padding(vertical = 10.dp)
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Star,
-                        contentDescription = "Star",
-                        tint = colorResource(R.color.handle_blue),
-                        modifier = Modifier
-                            .size(9.3.dp)
-                    )
-                    Spacer(modifier = Modifier.width(3.dp))
-                    // TO-DO: Implementar lógica de avaliações
-                    Text(
-                        text = "4,8",
-                        fontSize = 13.sp,
-                        color = colorResource(R.color.handle_blue)
-                    )
-                    Text(
-                        text = " • (170 avaliações)",
-                        color = colorResource(R.color.handle_gray),
-                        fontWeight = FontWeight(400),
-                        fontSize = 11.sp,
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Icon(
-                        imageVector = Icons.Rounded.FavoriteBorder,
-                        contentDescription = "Favorite",
-                        tint = colorResource(R.color.handle_blue),
-                        modifier = Modifier
-                            .size(20.dp)
-                    )
-                }
-            }
-        }
-
+    if (worker != null) {
         Box(
             modifier = Modifier
-                .size(87.dp)
-                .align(Alignment.TopCenter)
-                .offset(y = (-34).dp)
-                .clip(CircleShape)
-                .background(Color.White),
-            contentAlignment = Alignment.Center
+                .fillMaxWidth()
+                .height(190.dp)
+                .padding(top = 38.dp)
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(worker.profilePicUrl)
-                    .crossfade(true)
-                    .placeholder(R.drawable.profile_image_fallback)
-                    .build(),
-                contentScale = ContentScale.Crop,
-                contentDescription = "Profile Picture",
+            Card(
                 modifier = Modifier
-                    .size(76.dp)
+                    .fillMaxWidth()
+                    .height(133.dp)
+                ,
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor =  Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation =  10.dp,
+                ),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(top = 8.dp)
+                ) {
+                    // TO-DO: Implementar "Disponível Agora"
+                    Spacer(modifier = Modifier.height(25.dp))
+
+                    Text(
+                        text = worker.businessName,
+                        color = colorResource(R.color.handle_titles),
+                        fontWeight = FontWeight(500),
+                        fontSize = 17.sp,
+                    )
+
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(3.dp)
+                    ) {
+                        Text(
+                            text = "${worker.firstName} ${worker.lastName}",
+                            color = colorResource(R.color.handle_titles),
+                            fontWeight = FontWeight(300),
+                            fontSize = 13.sp,
+                        )
+                        Text(
+                            text = " • ${worker.job}",
+                            color = colorResource(R.color.handle_gray),
+                            fontWeight = FontWeight(400),
+                            fontSize = 11.sp,
+                        )
+                    }
+                    HorizontalDivider(
+                        color = colorResource(R.color.handle_gray_secondary),
+                        thickness = 0.6.dp,
+                        modifier = Modifier.padding(vertical = 10.dp)
+                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.Star,
+                            contentDescription = "Star",
+                            tint = colorResource(R.color.handle_blue),
+                            modifier = Modifier
+                                .size(9.3.dp)
+                        )
+                        Spacer(modifier = Modifier.width(3.dp))
+                        // TO-DO: Implementar lógica de avaliações
+                        Text(
+                            text = "4,8",
+                            fontSize = 13.sp,
+                            lineHeight = 13.sp,
+                            color = colorResource(R.color.handle_blue)
+                        )
+                        Text(
+                            text = " • (170 avaliações)",
+                            color = colorResource(R.color.handle_gray),
+                            fontWeight = FontWeight(400),
+                            fontSize = 11.sp,
+                            lineHeight = 13.sp
+                        )
+                        Spacer(modifier = Modifier.weight(1f))
+                        Icon(
+                            imageVector = Icons.Rounded.FavoriteBorder,
+                            contentDescription = "Favorite",
+                            tint = colorResource(R.color.handle_blue),
+                            modifier = Modifier
+                                .size(20.dp)
+                        )
+                    }
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .size(70.dp)
+                    .align(Alignment.TopCenter)
+                    .offset(y = (-34).dp)
                     .clip(CircleShape)
-            )
+                    .background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(worker.profilePicUrl)
+                        .crossfade(true)
+                        .placeholder(R.drawable.profile_image_fallback)
+                        .build(),
+                    contentScale = ContentScale.Crop,
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier
+                        .size(62.dp)
+                        .clip(CircleShape)
+                )
+
+            }
         }
     }
 }

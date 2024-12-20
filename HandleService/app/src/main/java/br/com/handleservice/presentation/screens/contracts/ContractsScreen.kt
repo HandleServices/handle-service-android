@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.handleservice.R
-import br.com.handleservice.domain.model.OrderStatus
 import br.com.handleservice.domain.model.Service
 import br.com.handleservice.presentation.screens.contracts.components.ContractsCard
 import br.com.handleservice.ui.components.handleHeader.HandleHeader

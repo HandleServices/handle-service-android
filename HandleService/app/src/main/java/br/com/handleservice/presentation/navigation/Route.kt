@@ -9,4 +9,5 @@ sealed class Route(
     data object Notification : Route(route = "profile/notification")
     data object Settings : Route(route = "profile/settings")
     data object Favorites : Route(route = "profile/favorites")
+    data object WorkerScreen : Route(route = "worker_screen/{work-id}")
 }
