@@ -141,12 +141,12 @@ fun ProfileOption(
                 )
             }
         }
-        Divider(
-            color = colorResource(R.color.handle_divider),
-            thickness = 1.dp,
+        HorizontalDivider(
             modifier = Modifier
                 .fillMaxWidth()
-                .align(Alignment.BottomCenter)
+                .align(Alignment.BottomCenter),
+            thickness = 1.dp,
+            color = colorResource(R.color.handle_gray_secondary)
         )
     }
 }
