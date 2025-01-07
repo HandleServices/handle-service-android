@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.home.HomeScreen
 import br.com.handleservice.presentation.screens.profile.ProfileScreen
+import br.com.handleservice.presentation.screens.simple_search.ServiceListScreen
 
 @Composable
 fun NavGraph(
@@ -37,6 +38,13 @@ fun NavGraph(
                 Route.Contracts.route
             ) {
                 ContractsScreen()
+            }
+
+            composable (
+                route =
+                Route.SimpleSearch.route
+            ) {
+                ServiceListScreen()
             }
 
             composable (

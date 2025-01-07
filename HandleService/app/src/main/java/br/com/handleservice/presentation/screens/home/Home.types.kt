@@ -15,7 +15,7 @@ data class JobsCategoriesType (
 
 object JobsCategories {
     val categories = listOf(
-        JobsCategoriesType("Eletricista", R.drawable.electrical_service, "elet"),
+        JobsCategoriesType("Eletricista", R.drawable.electrical_service, "simpleSearch"),
         JobsCategoriesType("Professor", R.drawable.teacher, "elet"),
         JobsCategoriesType("Desenvolvedor", R.drawable.developer, "elet"),
         JobsCategoriesType("Personal Trainer", R.drawable.healthcheck, "elet"),

@@ -1,6 +1,7 @@
 package br.com.handleservice.presentation.screens.simple_search
 
 import android.annotation.SuppressLint
+import br.com.handleservice.R
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,12 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.handleservice.presentation.screens.simple_search.components.FilterButton
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 import coil.compose.rememberImagePainter
 
@@ -31,7 +36,7 @@ fun ServiceListScreen() {
             rating = 4.8,
             category = "Encanador",
             isAvailableNow = true,
-            imageUrl = "https://via.placeholder.com/150"
+            imageUrl = "https://www.safetyandhealthmagazine.com/ext/resources/images/news/construction/older-male-construction-worker.jpg?t=1698244045&width=768"
         ),
         ServiceItem(
             name = "Chaveiro Abre Tudo",
@@ -73,26 +78,45 @@ fun ServiceListScreen() {
         ) {
             HandleSearchBar<ServiceItem>(
                 placeholder = "Buscar em Manutenção & Reparos",
-            )
-
-            Text(
-                text = "Sugestões",
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
-            
+
+
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                OutlinedButton(onClick = { /* Filtros action */ }) {
-                    Text("Filtros")
-                }
-                OutlinedButton(onClick = { /* Ordenar por action */ }) {
-                    Text("Ordenar por")
-                }
+                Text(
+                    text = "Sugestões",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                )
+                FilterButton(
+                    text = "Filtros",
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.tune),
+                            contentDescription = "Filtro",
+                            tint = Color.Black,
+                            modifier = Modifier.size(10.dp)
+                        )
+                    },
+                    onClick = { /* Filtros action */ }
+                )
+                FilterButton(
+                    text = "Ordenar",
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable.arrow_down),
+                            contentDescription = "Ordenar",
+                            tint = Color.Black,
+                            modifier = Modifier.size(10.dp)
+                        )
+                    },
+                    onClick = { /* Ordenar por action */ }
+                )
             }
 
             LazyColumn(
@@ -119,6 +143,7 @@ data class ServiceItem(
 @Composable
 fun ServiceItemCard(item: ServiceItem) {
     Card(
+        colors = CardColors(Color.White, Color.White, Color.White, Color.White),
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier.fillMaxWidth()
@@ -130,32 +155,60 @@ fun ServiceItemCard(item: ServiceItem) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column () {
-                Row {
+            Column(
+                modifier = Modifier.fillMaxWidth(0.80f),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
+                        color = Color.Black,
                         text = item.name,
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.W500),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
+                        lineHeight = TextUnit(20F, TextUnitType(20)),
+                        modifier = Modifier.fillMaxHeight()
                     )
 
                     if (item.isAvailableNow) {
                         Text(
                             text = "Disponível Agora!",
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.primary,
+                                color = colorResource(R.color.handle_blue),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 7.sp,
+                                lineHeight = TextUnit(20f, TextUnitType.Sp)
                             )
                         )
                     }
                 }
-
-                Row {
-                    val ratingAndCategory = "${item.rating} • ${item.category}"
+                HorizontalDivider(
+                    color = colorResource(R.color.handle_gray_200),
+                    thickness = 0.5.dp
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .fillMaxHeight(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.star),
+                        contentDescription = "Filtro",
+                        tint = colorResource(R.color.handle_blue),
+                        modifier = Modifier.size(15.dp)
+                    )
                     Text(
-                        text = ratingAndCategory,
+                        text = "${item.rating}",
+                        color = colorResource(R.color.handle_blue)
+                    )
+                    Text(
+                        text = " • ${item.category}",
                         style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
                     )
                 }
@@ -176,7 +229,7 @@ fun ServiceItemCard(item: ServiceItem) {
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview()
+@Preview
 @Composable
 fun SimpleSearchPreview() {
     Scaffold {
