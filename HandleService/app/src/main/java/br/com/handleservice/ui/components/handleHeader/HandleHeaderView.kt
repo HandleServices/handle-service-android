@@ -1,5 +1,6 @@
 package br.com.handleservice.ui.components.handleHeader
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,16 +34,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.handleservice.R
 
-@Preview
 @Composable
 fun HandleHeader(
     modifier: Modifier = Modifier,
-    navController: NavController? = null,
+    navController: NavController? = null, // Allow null for previews
     hasBack: Boolean = false
 ) {
     Box(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(56.dp) // Ensure a consistent height for the header
+            .background(colorResource(R.color.background)), // Ensure visible background
         contentAlignment = Alignment.CenterStart
     ) {
         Row(
@@ -51,19 +53,21 @@ fun HandleHeader(
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             if (hasBack) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
                     contentDescription = "Voltar",
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable { navController?.popBackStack() },
+                        .clickable {
+                            navController?.popBackStack() // Safely handle null navController
+                        },
                     tint = colorResource(R.color.handle_blue)
                 )
             } else {
                 Spacer(modifier = Modifier.width(24.dp))
             }
+
 
             Box(
                 modifier = Modifier.weight(1f),
@@ -111,7 +115,7 @@ fun HandleHeader(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.notification),
-                    contentDescription = "Location icon",
+                    contentDescription = "Notification icon",
                     tint = colorResource(R.color.handle_blue),
                     modifier = Modifier.size(20.dp)
                 )
@@ -120,5 +124,11 @@ fun HandleHeader(
     }
 }
 
-
-
+@Preview
+@Composable
+fun HandleHeaderPreview() {
+    HandleHeader(
+        navController = null, // Pass null for preview
+        hasBack = true
+    )
+}

@@ -17,17 +17,19 @@ import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.home.HomeScreen
 import br.com.handleservice.presentation.screens.profile.ProfileScreen
-import br.com.handleservice.presentation.screens.simple_search.ServiceListScreen
 import br.com.handleservice.presentation.screens.notification.NotificationScreen
 import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.presentation.screens.settings.SettingsScreen
+import br.com.handleservice.presentation.screens.simple_search.SearchScreen
 import br.com.handleservice.presentation.screens.worker.WorkerScreen
 
 @Composable
 fun NavGraph(
     startDestination: String,
     favoritesViewModel: FavoritesViewModel,
-    notificationViewModel: NotificationViewModel
+    notificationViewModel: NotificationViewModel,
+    onToggleTheme: (Boolean) -> Unit,
+    isDarkTheme: Boolean
 ) {
     val navController = rememberNavController()
 
@@ -53,21 +55,58 @@ fun NavGraph(
                 ContractsScreen()
             }
 
-            composable (
-                route =
-                Route.SimpleSearch.route
-            ) {
-                ServiceListScreen()
+            composable(
+                route = "${Route.SearchScreen.route}/{query}",
+                arguments = listOf(navArgument("query") { type = NavType.StringType; defaultValue = "" })
+            ) { backStackEntry ->
+                val query = backStackEntry.arguments?.getString("query").orEmpty()
+                SearchScreen(query = query, navController)
             }
 
-            composable (
-                route =
-                Route.Profile.route
-              
             navigation(
                 startDestination = "profile/main",
                 route = Route.Profile.route
+            ) {
+                composable("profile/main") {
+                    ProfileScreen(
+                        onNotificationClick = {
+                            navController.navigate("profile/notification")
+                        },
+                        onSettingsClick = {
+                            navController.navigate("profile/settings")
+                        },
+                        onFavoritesClick = {
+                            navController.navigate("profile/favorites")
+                        }
+                    )
+                }
+            }
 
+            navigation(
+                startDestination = "profile/main",
+                route = Route.Profile.route
+            ) {
+                composable("profile/main") {
+                    ProfileScreen(
+                        onNotificationClick = {
+                            navController.navigate("profile/notification")
+                        },
+                        onSettingsClick = {
+                            navController.navigate("profile/settings")
+                        },
+                        onFavoritesClick = {
+                            navController.navigate("profile/favorites")
+                        },
+                        onAddresClick = {
+                            navController.navigate("worker_screen/1")
+                        }
+                    )
+                }
+            }
+
+            navigation(
+                startDestination = "profile/main",
+                route = Route.Profile.route
             ) {
                 composable("profile/main") {
                     ProfileScreen(
@@ -95,10 +134,11 @@ fun NavGraph(
                     )
                 }
 
-                composable(
-                    route = Route.Settings.route
-                ) {
-                    SettingsScreen(navController = navController)
+                composable(Route.Settings.route) {
+                    SettingsScreen(
+                        navController = navController,
+                        onToggleDarkMode = onToggleTheme
+                    )
                 }
 
                 composable(
@@ -116,13 +156,12 @@ fun NavGraph(
                 ) { backStackEntry ->
                     val query = backStackEntry.arguments?.getString("work-id")
                     WorkerScreen(
-                        query = query,
+                        query = query, navController = navController,
                         navController = navController,
                         favoritesViewModel = favoritesViewModel,
                         notificationViewModel = notificationViewModel
                     )
                 }
-
             }
         }
     }

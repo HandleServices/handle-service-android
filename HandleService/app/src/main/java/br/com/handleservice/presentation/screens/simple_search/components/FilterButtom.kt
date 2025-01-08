@@ -35,7 +35,7 @@ fun FilterButton(
         onClick = onClick,
         contentPadding = PaddingValues(0.dp, 0.dp, 0.dp, 0.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = colorResource(R.color.handle_gray_400),
+            containerColor = colorResource(R.color.handle_gray_tertiary),
             contentColor = Color.White
         ),
         shape = RoundedCornerShape(50.dp),

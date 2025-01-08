@@ -17,14 +17,10 @@ class SettingsViewModel @Inject constructor() : ViewModel() {
     val darkModeEnabled: StateFlow<Boolean> = _darkModeEnabled
 
     fun toggleNotifications(isEnabled: Boolean) {
-        viewModelScope.launch {
-            _notificationsEnabled.value = isEnabled
-        }
+        _notificationsEnabled.value = isEnabled
     }
 
     fun toggleDarkMode(isEnabled: Boolean) {
-        viewModelScope.launch {
-            _darkModeEnabled.value = isEnabled
-        }
+        _darkModeEnabled.value = isEnabled
     }
 }

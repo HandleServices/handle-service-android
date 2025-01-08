@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.core.app.ActivityCompat
@@ -19,6 +20,7 @@ import br.com.handleservice.presentation.navigation.NavGraph
 import br.com.handleservice.presentation.navigation.Route
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.notification.NotificationViewModel
+import br.com.handleservice.presentation.screens.settings.SettingsViewModel
 import br.com.handleservice.ui.theme.HandleServiceTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +36,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         NotificationUtils.createNotificationChannel(this)
 
         // Solicita permissão para notificações no Android 13 ou superior
@@ -53,10 +54,15 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
+            val viewModel: SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+            val isDarkTheme by viewModel.darkModeEnabled.collectAsState()
+
             HandleServiceTheme {
                 Box(modifier = Modifier.background(colorResource(id = R.color.background))) {
                     NavGraph(
                         startDestination = Route.HomeScreen.route,
+                        isDarkTheme = isDarkTheme,
+                        onToggleTheme = { viewModel.toggleDarkMode(it) },
                         favoritesViewModel = favoritesViewModel,
                         notificationViewModel = notificationViewModel
                     )
