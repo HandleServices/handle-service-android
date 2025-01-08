@@ -7,10 +7,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import br.com.handleservice.presentation.screens.home.JobsCategoriesType
+import br.com.handleservice.presentation.screens.home.ServicesCategoriesType
 
 @Composable
-fun DoubleHomeScreenColumn(categories: List<JobsCategoriesType>, onClick: (JobsCategoriesType) -> Unit) {
+fun DoubleHomeScreenColumn(categories: List<ServicesCategoriesType>, onClick: (ServicesCategoriesType) -> Unit) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         verticalArrangement = Arrangement.spacedBy(10.dp),

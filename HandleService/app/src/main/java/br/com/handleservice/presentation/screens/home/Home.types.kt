@@ -3,7 +3,7 @@ package br.com.handleservice.presentation.screens.home
 import br.com.handleservice.R
 import br.com.handleservice.ui.components.searchbar.SearchableClass
 
-data class JobsCategoriesType (
+data class ServicesCategoriesType (
     val name: String,
     val iconResId: Int,
     val url: String
@@ -13,16 +13,16 @@ data class JobsCategoriesType (
     }
 }
 
-object JobsCategories {
+object ServicesCategories {
     val categories = listOf(
-        JobsCategoriesType("Eletricista", R.drawable.electrical_service, "simpleSearch"),
-        JobsCategoriesType("Professor", R.drawable.teacher, "elet"),
-        JobsCategoriesType("Desenvolvedor", R.drawable.developer, "elet"),
-        JobsCategoriesType("Personal Trainer", R.drawable.healthcheck, "elet"),
-        JobsCategoriesType("Veterinário", R.drawable.paw, "elet"),
-        JobsCategoriesType("Fotógrafo", R.drawable.color_patern, "elet"),
-        JobsCategoriesType("Diarista", R.drawable.day_laborer, "elet"),
-        JobsCategoriesType("Contador", R.drawable.safe_pig, "elet"),
-        JobsCategoriesType("Cabeleireiro", R.drawable.hairdresser, "elet"),
+        ServicesCategoriesType("Eletricista", R.drawable.electrical_service, "elet"),
+        ServicesCategoriesType("Professor", R.drawable.teacher, "elet"),
+        ServicesCategoriesType("Desenvolvedor", R.drawable.developer, "elet"),
+        ServicesCategoriesType("Personal Trainer", R.drawable.healthcheck, "elet"),
+        ServicesCategoriesType("Veterinário", R.drawable.paw, "elet"),
+        ServicesCategoriesType("Fotógrafo", R.drawable.color_patern, "elet"),
+        ServicesCategoriesType("Diarista", R.drawable.day_laborer, "elet"),
+        ServicesCategoriesType("Contador", R.drawable.safe_pig, "elet"),
+        ServicesCategoriesType("Cabeleireiro", R.drawable.hairdresser, "elet"),
     )
 }
