@@ -25,7 +25,8 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     onNotificationClick: () -> Unit,
     onSettingsClick: () -> Unit,
-    onFavoritesClick: () -> Unit
+    onFavoritesClick: () -> Unit,
+    onAddresClick: () -> Unit
 ) {
     val profileState = viewModel.profileState.collectAsState().value
 

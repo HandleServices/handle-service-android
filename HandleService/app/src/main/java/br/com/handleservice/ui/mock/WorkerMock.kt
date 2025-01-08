@@ -16,9 +16,10 @@ fun getMockWorker(): Sequence<Worker> {
             gender = "",
             email = "jocélio@gmail.com",
             businessName = "Encanamentos & Cia",
-            job = "Encanador",
+            job = "Encanador", // trocado job por category
             phone = "(63) 00000-0000",
-            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg"
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
+            isAvailable = false
         )
     )
 }
