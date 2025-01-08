@@ -1,5 +1,10 @@
 package br.com.handleservice.presentation.screens.worker.components
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,6 +41,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
 import br.com.handleservice.ui.preview.ServicesPreviewProvider
@@ -62,7 +69,40 @@ fun ContractBottomSheet(
     }.toList()
     var selectedTime by remember { mutableStateOf(times.first()) }
 
-    fun handleContract() {
+    fun handleContract(
+        context: Context,
+        serviceName: String,
+        selectedDate: String,
+        selectedTime: String
+    ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permissionGranted = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            println("Notification permission granted: $permissionGranted")
+
+            if (!permissionGranted) {
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    101
+                )
+                return
+            }
+        }
+
+        val notificationTitle = "Serviço Contratado"
+        val notificationMessage = "$serviceName foi contratado para $selectedDate às $selectedTime."
+
+        NotificationUtils.showNotification(
+            context = context,
+            title = notificationTitle,
+            message = notificationMessage
+        )
+
+        // Exibe uma mensagem de sucesso
         Toast.makeText(context, "Contrato realizado com sucesso! $selectedDate - $selectedTime", Toast.LENGTH_SHORT).show()
     }
 
@@ -153,7 +193,14 @@ fun ContractBottomSheet(
                     containerColor = colorResource(R.color.handle_blue),
                     contentColor = Color.White
                 ),
-                onClick = {handleContract()}
+                onClick = {
+                    handleContract(
+                        serviceName = service.name,
+                        selectedDate = selectedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        selectedTime = selectedTime.format(DateTimeFormatter.ofPattern("HH:mm")),
+                        context = context
+                    )
+                }
             ) {
                 Text (
                     modifier = Modifier
