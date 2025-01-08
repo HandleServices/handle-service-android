@@ -16,6 +16,7 @@ import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
 import br.com.handleservice.presentation.screens.home.HomeScreen
 import br.com.handleservice.presentation.screens.profile.ProfileScreen
+import br.com.handleservice.presentation.screens.simple_search.ServiceListScreen
 import br.com.handleservice.presentation.screens.notification.NotificationScreen
 import br.com.handleservice.presentation.screens.settings.SettingsScreen
 import br.com.handleservice.presentation.screens.worker.WorkerScreen
@@ -48,9 +49,21 @@ fun NavGraph(
                 ContractsScreen()
             }
 
+            composable (
+                route =
+                Route.SimpleSearch.route
+            ) {
+                ServiceListScreen()
+            }
+
+            composable (
+                route =
+                Route.Profile.route
+              
             navigation(
                 startDestination = "profile/main",
                 route = Route.Profile.route
+
             ) {
                 composable("profile/main") {
                     ProfileScreen(
