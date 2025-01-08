@@ -2,6 +2,7 @@ package br.com.handleservice.presentation.screens.worker.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.Star
 import androidx.compose.material3.Card
@@ -24,6 +26,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Worker
+import br.com.handleservice.presentation.screens.favorites.Favorite
 import br.com.handleservice.ui.preview.WorkerPreviewProvider
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -44,9 +49,13 @@ import coil.request.ImageRequest
 @Composable
 fun WorkerCard(
     modifier: Modifier = Modifier,
-    worker: Worker ?= null
+    worker: Worker?,
+    isFavorite: Boolean = false,
+    onFavoriteClick: (Favorite) -> Unit
 ) {
     if (worker != null) {
+        val favoriteState = remember { mutableStateOf(isFavorite) }
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -56,14 +65,13 @@ fun WorkerCard(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(133.dp)
-                ,
+                    .height(133.dp),
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor =  Color.White
+                    containerColor = Color.White
                 ),
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation =  10.dp,
+                    defaultElevation = 10.dp,
                 ),
             ) {
                 Column(
@@ -71,7 +79,6 @@ fun WorkerCard(
                         .padding(horizontal = 16.dp)
                         .padding(top = 8.dp)
                 ) {
-                    // TO-DO: Implementar "Disponível Agora"
                     Spacer(modifier = Modifier.height(25.dp))
 
                     Text(
@@ -116,7 +123,6 @@ fun WorkerCard(
                                 .size(9.3.dp)
                         )
                         Spacer(modifier = Modifier.width(3.dp))
-                        // TO-DO: Implementar lógica de avaliações
                         Text(
                             text = "4,8",
                             fontSize = 13.sp,
@@ -131,12 +137,24 @@ fun WorkerCard(
                             lineHeight = 13.sp
                         )
                         Spacer(modifier = Modifier.weight(1f))
+
+                        // Favorite icon
                         Icon(
-                            imageVector = Icons.Rounded.FavoriteBorder,
-                            contentDescription = "Favorite",
+                            imageVector = if (favoriteState.value) Icons.Rounded.Favorite else Icons.Rounded.FavoriteBorder,
+                            contentDescription = if (favoriteState.value) "Remover dos favoritos" else "Adicionar aos favoritos",
                             tint = colorResource(R.color.handle_blue),
                             modifier = Modifier
                                 .size(20.dp)
+                                .clickable {
+                                    favoriteState.value = !favoriteState.value
+                                    onFavoriteClick(
+                                        Favorite(
+                                            name = worker.businessName,
+                                            category = worker.job, // Usando job aqui
+                                            isAvailable = worker.isAvailable
+                                        )
+                                    )
+                                }
                         )
                     }
                 }
@@ -163,18 +181,19 @@ fun WorkerCard(
                         .size(62.dp)
                         .clip(CircleShape)
                 )
-
             }
         }
     }
 }
 
-
 @Composable
 @Preview
-private fun WorkerCardPreview () {
+private fun WorkerCardPreview() {
     WorkerCard(
-        worker = WorkerPreviewProvider().values.first()
+        worker = WorkerPreviewProvider().values.first(),
+        isFavorite = false,
+        onFavoriteClick = {
+            // Mock action for preview
+        }
     )
 }
-

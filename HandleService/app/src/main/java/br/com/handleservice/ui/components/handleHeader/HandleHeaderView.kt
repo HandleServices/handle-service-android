@@ -1,6 +1,6 @@
 package br.com.handleservice.ui.components.handleHeader
 
-import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -40,6 +40,7 @@ import br.com.handleservice.presentation.navigation.Route
 import br.com.handleservice.presentation.screens.address.AddressViewModel
 import br.com.handleservice.presentation.shared.SharedAddressViewModel
 
+@Preview
 @Composable
 fun HandleHeader(
     modifier: Modifier = Modifier,
@@ -51,7 +52,9 @@ fun HandleHeader(
 
     Box(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .height(56.dp)
+            .background(colorResource(R.color.background)),
         contentAlignment = Alignment.CenterStart
     ) {
         Row(
@@ -60,7 +63,6 @@ fun HandleHeader(
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-
             if (hasBack) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_back),
@@ -126,7 +128,7 @@ fun HandleHeader(
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.notification),
-                    contentDescription = "Location icon",
+                    contentDescription = "Notification icon",
                     tint = colorResource(R.color.handle_blue),
                     modifier = Modifier.size(20.dp)
                 )

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
@@ -28,12 +29,14 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
-        .background(colorResource(R.color.background)),
+    modifier: Modifier = Modifier,
     navController: androidx.navigation.NavController,
 ) {
-    val handleButtonClick: (ServicesCategoriesType) -> Unit = { cat ->
-        println("Navigating to: ${cat.url}")
+    val colorScheme = MaterialTheme.colorScheme
+
+    val handleButtonClick: (ServicesCategoriesType) -> Unit = { category ->
+        val searchQuery = category.name.lowercase().replace(" ", "_")
+        navController.navigate("searchScreen/$searchQuery")
     }
 
     var query by remember { mutableStateOf("") }
@@ -41,7 +44,7 @@ fun HomeScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(R.color.background))
+            .background(colorScheme.background)
             .padding(vertical = 26.dp),
         horizontalAlignment = Alignment.Start
     ) {
@@ -55,7 +58,7 @@ fun HomeScreen(
 
         Spacer(modifier = Modifier.height(15.dp))
 
-        Column (
+        Column(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
         ) {
@@ -65,29 +68,26 @@ fun HomeScreen(
                     textAlign = TextAlign.Start,
                     fontSize = 21.sp,
                     fontWeight = FontWeight(600),
-                    color = Color.Black
+                    color = colorScheme.onBackground
                 )
                 Text(
                     text = "o que você procura hoje?",
                     textAlign = TextAlign.Start,
                     fontSize = 12.sp,
                     fontWeight = FontWeight(400),
-                    color = Color(0xFF7C7C8A)
+                    color = colorScheme.onSurfaceVariant
                 )
             }
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-            ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
                 HandleSearchBar<Service>(
                     value = query,
                     onValueChange = { newText -> query = newText },
                     onSearch = {
-                        if (query.isNotEmpty()) {
-                            // TO-DO: Mudar para pesquisa simplificada, usar a query tbm
-                            navController.navigate("worker_screen/$query")
+                        if (query.isNotBlank()) {
+                            navController.navigate("searchScreen/${query.trim()}")
                         }
                     },
                     modifier = Modifier.height(32.dp),
@@ -102,12 +102,15 @@ fun HomeScreen(
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
                 fontWeight = FontWeight(600),
-                color = Color.Black
+                color = colorScheme.onBackground // Usa a cor de texto do tema
             )
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            DoubleHomeScreenColumn(categories = ServicesCategories.categories, onClick = handleButtonClick)
+            DoubleHomeScreenColumn(
+                categories = ServicesCategories.categories,
+                onClick = handleButtonClick
+            )
         }
     }
 }

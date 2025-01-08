@@ -25,7 +25,8 @@ class OrderPreviewProvider : PreviewParameterProvider<Order> {
                 businessName = "Eletricista Moraes",
                 phone = "(63) 0000-0000",
                 job = "Encanador",
-                profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg"
+                profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
+                isAvailable = false
             ),
             service = Service(
                 id = 1,
@@ -53,7 +54,8 @@ class OrderPreviewProvider : PreviewParameterProvider<Order> {
                 businessName = "Eletricista Moraes",
                 phone = "(63) 0000-0000",
                 job = "Encanador",
-                profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg"
+                profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
+                isAvailable = false
             ),
             service = Service(
                 id = 1,

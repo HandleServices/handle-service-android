@@ -23,20 +23,17 @@ class WorkerViewModel @Inject constructor() : ViewModel() {
     private val _services = MutableStateFlow<List<Service>>(emptyList())
     val services: StateFlow<List<Service>> = _services
 
-    init {
-        loadWorker()
-        loadServices()
-    }
-
-    private fun loadWorker() {
+    fun loadWorkerById(workerId: Int) {
         viewModelScope.launch {
-            _worker.value = getMockWorker().first()
+            val foundWorker = getMockWorker().find { it.id == workerId }
+                ?: throw IllegalArgumentException("Trabalhador com ID $workerId não encontrado")
+            _worker.value = foundWorker
         }
     }
 
-    private fun loadServices() {
+    fun loadServicesForWorker(workerId: Int) {
         viewModelScope.launch {
-            _services.value = getMockServices()
+            _services.value = getMockServices().filter { it.workerId == workerId }
         }
     }
 }

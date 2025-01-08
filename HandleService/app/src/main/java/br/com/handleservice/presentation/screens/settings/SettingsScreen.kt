@@ -19,7 +19,8 @@ import br.com.handleservice.presentation.screens.settings.components.SettingsIte
 @Composable
 fun SettingsScreen(
     navController: androidx.navigation.NavController,
-    viewModel: SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel(),
+    onToggleDarkMode: (Boolean) -> Unit
 ) {
     val notificationsEnabled by viewModel.notificationsEnabled.collectAsState()
     val darkModeEnabled by viewModel.darkModeEnabled.collectAsState()
@@ -27,7 +28,7 @@ fun SettingsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.background))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Row(
             modifier = Modifier
@@ -42,7 +43,7 @@ fun SettingsScreen(
                 modifier = Modifier
                     .size(24.dp)
                     .clickable { navController.popBackStack() },
-                tint = colorResource(R.color.handle_blue)
+                tint = MaterialTheme.colorScheme.primary
             )
 
             Text(
@@ -51,7 +52,7 @@ fun SettingsScreen(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.W600
                 ),
-                color = colorResource(R.color.black),
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 24.dp),
@@ -59,12 +60,12 @@ fun SettingsScreen(
             )
         }
 
-        HorizontalDivider(
+        Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 32.dp, end = 32.dp),
+                .padding(horizontal = 32.dp),
             thickness = 1.dp,
-            color = colorResource(R.color.handle_gray_secondary)
+            color = MaterialTheme.colorScheme.outline
         )
 
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {
@@ -79,22 +80,21 @@ fun SettingsScreen(
                             checkedThumbColor = colorResource(R.color.white),
                             uncheckedThumbColor = colorResource(R.color.white),
                             checkedTrackColor = colorResource(R.color.handle_blue),
-                            uncheckedTrackColor = colorResource(R.color.handle_red),
-                            uncheckedBorderColor = colorResource(R.color.transparent),
-                            checkedBorderColor = colorResource(R.color.transparent)
+                            uncheckedTrackColor = colorResource(R.color.handle_red)
                         )
                     )
                 }
             )
 
-            HorizontalDivider(
+            Divider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp),
+                    .padding(horizontal = 16.dp),
                 thickness = 1.dp,
                 color = colorResource(R.color.handle_gray_secondary)
             )
 
+            // Convidar Amigos
             SettingsItem(
                 title = "Convidar amigos",
                 description = "Curtiu nossa plataforma? Convide seus amigos!",
@@ -108,37 +108,46 @@ fun SettingsScreen(
                 }
             )
 
-            HorizontalDivider(
+            Divider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp),
+                    .padding(horizontal = 16.dp),
                 thickness = 1.dp,
                 color = colorResource(R.color.handle_gray_secondary)
             )
 
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.outline
+            )
+
             SettingsItem(
                 title = "Modo escuro",
-                description = "",
+                description = "Ative ou desative o tema escuro.",
                 action = {
                     Switch(
                         checked = darkModeEnabled,
-                        onCheckedChange = { viewModel.toggleDarkMode(it) },
+                        onCheckedChange = { isEnabled ->
+                            viewModel.toggleDarkMode(isEnabled)
+                            onToggleDarkMode(isEnabled)
+                        },
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = colorResource(R.color.white),
                             uncheckedThumbColor = colorResource(R.color.white),
                             checkedTrackColor = colorResource(R.color.handle_blue),
-                            uncheckedTrackColor = colorResource(R.color.handle_red),
-                            uncheckedBorderColor = colorResource(R.color.transparent),
-                            checkedBorderColor = colorResource(R.color.transparent)
+                            uncheckedTrackColor = colorResource(R.color.handle_red)
                         )
                     )
                 }
             )
 
-            HorizontalDivider(
+            Divider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp),
+                    .padding(horizontal = 16.dp),
                 thickness = 1.dp,
                 color = colorResource(R.color.handle_gray_secondary)
             )

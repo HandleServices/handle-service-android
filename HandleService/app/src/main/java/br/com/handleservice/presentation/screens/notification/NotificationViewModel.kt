@@ -34,6 +34,10 @@ class NotificationViewModel @Inject constructor() : ViewModel() {
     )
 
     val notifications: StateFlow<List<Notification>> = _notifications
+
+    fun addNotification(notification: Notification) {
+        _notifications.value = _notifications.value + notification
+    }
 }
 
 data class Notification(

@@ -1,5 +1,10 @@
 package br.com.handleservice.presentation.screens.worker.components
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,8 +41,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
+import br.com.handleservice.presentation.screens.notification.Notification
+import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.ui.preview.ServicesPreviewProvider
 import br.com.handleservice.util.FormatUtils.formatBRCurrency
 import br.com.handleservice.util.FormatUtils.formatTime
@@ -49,7 +58,8 @@ import java.util.Locale
 
 @Composable
 fun ContractBottomSheet(
-    service: Service? = null
+    service: Service? = null,
+    notificationViewModel: NotificationViewModel
 ) {
     val context = LocalContext.current
     val dateFormatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
@@ -62,8 +72,48 @@ fun ContractBottomSheet(
     }.toList()
     var selectedTime by remember { mutableStateOf(times.first()) }
 
-    fun handleContract() {
-        Toast.makeText(context, "Contrato realizado com sucesso! $selectedDate - $selectedTime", Toast.LENGTH_SHORT).show()
+    fun handleContract(
+        context: Context,
+        serviceName: String,
+        selectedDate: String,
+        selectedTime: String
+    ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permissionGranted = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+
+            println("Notification permission granted: $permissionGranted")
+
+            if (!permissionGranted) {
+                ActivityCompat.requestPermissions(
+                    context as Activity,
+                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                    101
+                )
+                return
+            }
+        }
+
+        val notificationTitle = "Serviço Contratado"
+        val notificationMessage = "$serviceName foi contratado para $selectedDate às $selectedTime."
+
+        // mostrando notitificação
+        NotificationUtils.showNotification(
+            context = context,
+            title = notificationTitle,
+            message = notificationMessage
+        )
+
+        // adicionando a tela notitficação
+        notificationViewModel.addNotification(
+            Notification(
+                title = notificationTitle,
+                description = notificationMessage,
+                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+            )
+        )
     }
 
     if (service != null) {
@@ -153,7 +203,14 @@ fun ContractBottomSheet(
                     containerColor = colorResource(R.color.handle_blue),
                     contentColor = Color.White
                 ),
-                onClick = {handleContract()}
+                onClick = {
+                    handleContract(
+                        serviceName = service.name,
+                        selectedDate = selectedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                        selectedTime = selectedTime.format(DateTimeFormatter.ofPattern("HH:mm")),
+                        context = context
+                    )
+                }
             ) {
                 Text (
                     modifier = Modifier
@@ -267,6 +324,7 @@ fun TimeButton(
 @Preview
 private fun ContractBottomSheetPreview() {
     ContractBottomSheet(
-        service = ServicesPreviewProvider().values.first()
+        service = ServicesPreviewProvider().values.first(),
+        notificationViewModel = TODO()
     )
 }
