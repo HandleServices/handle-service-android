@@ -1,8 +1,6 @@
 package br.com.handleservice.presentation.screens.simple_search
 
 import android.annotation.SuppressLint
-import br.com.handleservice.R
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,12 +8,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -26,11 +26,13 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import br.com.handleservice.R
 import br.com.handleservice.presentation.screens.simple_search.components.FilterButton
-import br.com.handleservice.ui.mock.getMockWorker
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
-import coil.compose.rememberImagePainter
+import br.com.handleservice.ui.mock.getMockWorker
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 
 data class ServiceItem(
     val id: Int,
@@ -43,11 +45,10 @@ data class ServiceItem(
 
 @Composable
 fun SearchScreen(query: String?, navController: NavController?) {
-    // Converte os trabalhadores do mock para ServiceItem
     val serviceList = remember {
         getMockWorker().map { worker ->
             ServiceItem(
-                id = worker.id, // Usando o ID único do Worker
+                id = worker.id,
                 name = worker.businessName,
                 rating = 4.5, // Valor fixo para rating (mock)
                 category = worker.job,
@@ -56,7 +57,6 @@ fun SearchScreen(query: String?, navController: NavController?) {
             )
         }.toList()
     }
-
 
     val filteredList = if (!query.isNullOrBlank()) {
         val normalizedQuery = query.replace("_", " ").lowercase()
@@ -217,8 +217,12 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Image(
-                painter = rememberImagePainter(data = item.imageUrl),
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(item.imageUrl)
+                    .crossfade(true)
+                    .placeholder(R.drawable.profile_image_fallback)
+                    .build(),
                 contentDescription = item.name,
                 modifier = Modifier
                     .size(48.dp)

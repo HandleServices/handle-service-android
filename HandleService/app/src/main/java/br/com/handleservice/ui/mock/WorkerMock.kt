@@ -25,7 +25,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Aulas de Matemática",
             job = "Professor",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2017/08/06/11/06/teacher-2590682_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = false
         ),
         Worker(
@@ -37,7 +37,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Dev Rápido",
             job = "Desenvolvedor",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2015/09/05/22/46/programming-924920_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -49,7 +49,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Treinamento Total",
             job = "Personal Trainer",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2016/03/27/21/34/sports-1280821_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = false
         ),
         Worker(
@@ -61,7 +61,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Clínica Veterinária Pata Feliz",
             job = "Veterinário",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2015/08/31/10/52/veterinarian-914056_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -73,7 +73,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Fotos Profissionais",
             job = "Fotógrafo",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2016/11/29/05/18/photographer-1867719_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -85,7 +85,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Limpeza Completa",
             job = "Diarista",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2017/05/02/13/13/cleaning-2271201_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = false
         ),
         Worker(
@@ -97,7 +97,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Contabilidade Rápida",
             job = "Contador",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2015/01/21/14/14/computer-606005_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -109,7 +109,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Salão Beleza Total",
             job = "Cabeleireiro",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2016/11/19/14/00/hairdresser-1840523_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -121,7 +121,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Eletricidade Express",
             job = "Eletricista",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2014/12/21/23/28/electrician-576688_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = false
         ),
         Worker(
@@ -133,7 +133,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Aulas de Inglês",
             job = "Professor",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2015/01/26/22/40/teacher-613389_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -145,7 +145,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Programador Especialista",
             job = "Desenvolvedor",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2015/02/02/11/09/office-621206_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -157,7 +157,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Fitness Pessoal",
             job = "Personal Trainer",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2015/02/05/23/24/men-625251_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -169,7 +169,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Cuidados Veterinários",
             job = "Veterinário",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2016/02/19/10/14/vet-1209820_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = false
         ),
         Worker(
@@ -181,7 +181,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Estúdio Fotográfico",
             job = "Fotógrafo",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2016/03/09/09/22/woman-1245692_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -193,7 +193,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Limpeza Perfeita",
             job = "Diarista",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2018/02/12/22/14/cleanliness-3156211_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -205,7 +205,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Cabelos Incríveis",
             job = "Cabeleireiro",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2017/01/30/10/46/hair-2029929_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -217,7 +217,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Contabilidade Inteligente",
             job = "Contador",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2018/05/02/09/45/financial-3360849_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = false
         ),
         Worker(
@@ -229,7 +229,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Eletro Fácil",
             job = "Eletricista",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2014/11/23/10/38/technology-543520_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         ),
         Worker(
@@ -241,7 +241,7 @@ fun getMockWorker(): Sequence<Worker> {
             businessName = "Fotógrafo de Eventos",
             job = "Fotógrafo",
             phone = "(00) 00000-0000",
-            profilePicUrl = "https://cdn.pixabay.com/photo/2017/02/16/23/10/camera-2072178_1280.jpg",
+            profilePicUrl = "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg",
             isAvailable = true
         )
     )
