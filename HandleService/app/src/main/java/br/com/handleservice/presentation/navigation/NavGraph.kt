@@ -14,9 +14,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
+import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.home.HomeScreen
 import br.com.handleservice.presentation.screens.profile.ProfileScreen
 import br.com.handleservice.presentation.screens.notification.NotificationScreen
+import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.presentation.screens.settings.SettingsScreen
 import br.com.handleservice.presentation.screens.simple_search.SearchScreen
 import br.com.handleservice.presentation.screens.worker.WorkerScreen
@@ -24,6 +26,8 @@ import br.com.handleservice.presentation.screens.worker.WorkerScreen
 @Composable
 fun NavGraph(
     startDestination: String,
+    favoritesViewModel: FavoritesViewModel,
+    notificationViewModel: NotificationViewModel,
     onToggleTheme: (Boolean) -> Unit,
     isDarkTheme: Boolean
 ) {
@@ -92,6 +96,31 @@ fun NavGraph(
                         },
                         onFavoritesClick = {
                             navController.navigate("profile/favorites")
+                        },
+                        onAddresClick = {
+                            navController.navigate("worker_screen/1")
+                        }
+                    )
+                }
+            }
+
+            navigation(
+                startDestination = "profile/main",
+                route = Route.Profile.route
+            ) {
+                composable("profile/main") {
+                    ProfileScreen(
+                        onNotificationClick = {
+                            navController.navigate("profile/notification")
+                        },
+                        onSettingsClick = {
+                            navController.navigate("profile/settings")
+                        },
+                        onFavoritesClick = {
+                            navController.navigate("profile/favorites")
+                        },
+                        onAddresClick = {
+                            navController.navigate("worker_screen/1")
                         }
                     )
                 }
@@ -99,7 +128,10 @@ fun NavGraph(
                 composable(
                     Route.Notification.route
                 ) {
-                    NotificationScreen(navController = navController)
+                    NotificationScreen(
+                        navController = navController,
+                        viewModel = notificationViewModel
+                    )
                 }
 
                 composable(Route.Settings.route) {
@@ -112,7 +144,10 @@ fun NavGraph(
                 composable(
                     route = Route.Favorites.route
                 ) {
-                    FavoritesScreen(navController = navController)
+                    FavoritesScreen(
+                        navController = navController,
+                        favoritesViewModel = favoritesViewModel // Passa o ViewModel aqui
+                    )
                 }
 
                 composable(
@@ -120,7 +155,12 @@ fun NavGraph(
                     arguments = listOf(navArgument("work-id") { type = NavType.StringType })
                 ) { backStackEntry ->
                     val query = backStackEntry.arguments?.getString("work-id")
-                    WorkerScreen(query = query, navController = navController)
+                    WorkerScreen(
+                        query = query, navController = navController,
+                        navController = navController,
+                        favoritesViewModel = favoritesViewModel,
+                        notificationViewModel = notificationViewModel
+                    )
                 }
             }
         }

@@ -1,5 +1,6 @@
 package br.com.handleservice.presentation.screens.worker
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import android.net.Uri
 import androidx.compose.foundation.clickable
@@ -45,11 +46,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
+import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
+import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.presentation.screens.worker.components.ContractBottomSheet
 import br.com.handleservice.presentation.screens.worker.components.ServiceItem
 import br.com.handleservice.presentation.screens.worker.components.WorkerCard
@@ -57,14 +61,16 @@ import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 import kotlinx.coroutines.launch
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun WorkerScreen(
     query: String? = null,
     navController: NavController? = null,
     modifier: Modifier = Modifier,
-    viewModel: WorkerViewModel = hiltViewModel()
+    viewModel: WorkerViewModel = hiltViewModel(),
+    favoritesViewModel: FavoritesViewModel,
+    notificationViewModel: NotificationViewModel
 ) {
     val worker by viewModel.worker.observeAsState()
     val services by viewModel.services.collectAsState()
@@ -75,6 +81,8 @@ fun WorkerScreen(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
+
+    println("AAAAAAAAAAAAAA ViewModel in WorkerScreen: $favoritesViewModel")
 
     LazyColumn(
         modifier = modifier
@@ -113,7 +121,15 @@ fun WorkerScreen(
             ) {
                 WorkerCard(
                     modifier = modifier,
-                    worker = worker
+                    worker = worker,
+                    isFavorite = favoritesViewModel.favorites.value.any { it.name == worker?.businessName },
+                    onFavoriteClick = { favorite ->
+                        if (favoritesViewModel.favorites.value.any { it.name == favorite.name }) {
+                            favoritesViewModel.removeFavorite(favorite)
+                        } else {
+                            favoritesViewModel.addFavorite(favorite)
+                        }
+                    }
                 )
                 Text(
                     text = "Serviços",
@@ -158,7 +174,7 @@ fun WorkerScreen(
                 DisposableEffect(Unit) {
                     val exoPlayer = ExoPlayer.Builder(context).build().apply {
                         val videoUri = Uri.parse("file:///raw/encanador.mp4")
-                        setMediaItem(androidx.media3.common.MediaItem.fromUri(videoUri))
+                        setMediaItem(MediaItem.fromUri(videoUri))
                         prepare()
                     }
                     onDispose {
@@ -174,7 +190,7 @@ fun WorkerScreen(
                         PlayerView(ctx).apply {
                             player = ExoPlayer.Builder(ctx).build().apply {
                                 val videoUri = Uri.parse("android.resource://${ctx.packageName}/$videoRes")
-                                setMediaItem(androidx.media3.common.MediaItem.fromUri(videoUri))
+                                setMediaItem(MediaItem.fromUri(videoUri))
                                 prepare()
                             }
                         }
@@ -213,10 +229,11 @@ fun WorkerScreen(
                 .wrapContentSize()
         ) {
             selectedService.value?.let { service ->
-                ContractBottomSheet(service = service)
+                ContractBottomSheet(
+                    service = service,
+                    notificationViewModel = notificationViewModel
+                )
             }
         }
     }
 }
-
-
