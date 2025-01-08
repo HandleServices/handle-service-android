@@ -19,8 +19,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,20 +34,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import br.com.handleservice.R
+import br.com.handleservice.presentation.navigation.Route
+import br.com.handleservice.presentation.screens.address.AddressViewModel
+import br.com.handleservice.presentation.shared.SharedAddressViewModel
 
+@Preview
 @Composable
 fun HandleHeader(
     modifier: Modifier = Modifier,
-    navController: NavController? = null, // Allow null for previews
-    hasBack: Boolean = false
+    navController: NavController? = null,
+    hasBack: Boolean = false,
+    sharedViewModel: AddressViewModel = hiltViewModel()
 ) {
+    val selectedAddress by sharedViewModel.selectedAddress.collectAsState()
+    val colorScheme = MaterialTheme.colorScheme
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp) // Ensure a consistent height for the header
-            .background(colorResource(R.color.background)), // Ensure visible background
+            .height(56.dp)
+            .background(colorScheme.background),
         contentAlignment = Alignment.CenterStart
     ) {
         Row(
@@ -59,22 +70,25 @@ fun HandleHeader(
                     contentDescription = "Voltar",
                     modifier = Modifier
                         .size(24.dp)
-                        .clickable {
-                            navController?.popBackStack() // Safely handle null navController
-                        },
+                        .clickable { navController?.popBackStack() },
                     tint = colorResource(R.color.handle_blue)
                 )
             } else {
                 Spacer(modifier = Modifier.width(24.dp))
             }
 
-
             Box(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
                 Button(
-                    onClick = { println("Address button clicked!") },
+                    onClick = {
+                        navController?.navigate(Route.Address.route) {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
                     contentPadding = PaddingValues(0.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.handle_blue)),
                     shape = RoundedCornerShape(10.dp),
@@ -124,11 +138,5 @@ fun HandleHeader(
     }
 }
 
-@Preview
-@Composable
-fun HandleHeaderPreview() {
-    HandleHeader(
-        navController = null, // Pass null for preview
-        hasBack = true
-    )
-}
+
+

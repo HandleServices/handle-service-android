@@ -55,6 +55,7 @@ import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.notification.NotificationViewModel
+import br.com.handleservice.presentation.screens.address.AddressScreen
 import br.com.handleservice.presentation.screens.worker.components.ContractBottomSheet
 import br.com.handleservice.presentation.screens.worker.components.ServiceItem
 import br.com.handleservice.presentation.screens.worker.components.WorkerCard
@@ -73,7 +74,6 @@ fun WorkerScreen(
     favoritesViewModel: FavoritesViewModel,
     notificationViewModel: NotificationViewModel
 ) {
-    // Carregar o trabalhador pelo ID assim que a tela é exibida
     LaunchedEffect(workerId) {
         viewModel.loadWorkerById(workerId)
         viewModel.loadServicesForWorker(workerId)
@@ -85,9 +85,10 @@ fun WorkerScreen(
     val videoRes = R.raw.encanador
 
     val selectedService = remember { mutableStateOf<Service?>(null) }
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val coroutineScope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
+
+    val serviceBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val serviceCoroutineScope = rememberCoroutineScope()
+    var showServiceBottomSheet by remember { mutableStateOf(false) }
 
     LazyColumn(
         modifier = modifier
@@ -162,28 +163,69 @@ fun WorkerScreen(
                     .padding(horizontal = 23.dp, vertical = 2.dp)
                     .clickable {
                         selectedService.value = service
-                        showBottomSheet = true
-                        coroutineScope.launch {
-                            bottomSheetState.show()
+                        showServiceBottomSheet = true
+                        serviceCoroutineScope.launch {
+                            serviceBottomSheetState.show()
                         }
                     }
             )
         }
+
+        // Video section
+        item {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 23.dp)
+            ) {
+                Spacer(modifier = Modifier.height(15.dp))
+                Text(
+                    text = "Vídeo de Apresentação",
+                    color = colorResource(R.color.handle_titles),
+                    fontWeight = FontWeight(500),
+                    fontSize = 17.sp,
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+                DisposableEffect(Unit) {
+                    val exoPlayer = ExoPlayer.Builder(context).build().apply {
+                        val videoUri = Uri.parse("file:///raw/encanador.mp4")
+                        setMediaItem(androidx.media3.common.MediaItem.fromUri(videoUri))
+                        prepare()
+                    }
+                    onDispose {
+                        exoPlayer.release()
+                    }
+                }
+
+                AndroidView(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    factory = { ctx ->
+                        PlayerView(ctx).apply {
+                            player = ExoPlayer.Builder(ctx).build().apply {
+                                val videoUri = Uri.parse("android.resource://${ctx.packageName}/$videoRes")
+                                setMediaItem(androidx.media3.common.MediaItem.fromUri(videoUri))
+                                prepare()
+                            }
+                        }
+                    }
+                )
+            }
+        }
     }
 
-    // BottomSheet for Service Details
-    if (showBottomSheet) {
+    if (showServiceBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = {
-                coroutineScope.launch {
-                    bottomSheetState.hide()
+                serviceCoroutineScope.launch {
+                    serviceBottomSheetState.hide()
                 }.invokeOnCompletion {
-                    if (!bottomSheetState.isVisible) {
-                        showBottomSheet = false
+                    if (!serviceBottomSheetState.isVisible) {
+                        showServiceBottomSheet = false
                     }
                 }
             },
-            sheetState = bottomSheetState,
+            sheetState = serviceBottomSheetState,
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             containerColor = colorResource(R.color.white),
             tonalElevation = 16.dp,

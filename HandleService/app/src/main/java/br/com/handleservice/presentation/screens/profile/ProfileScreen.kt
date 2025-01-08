@@ -24,10 +24,11 @@ import br.com.handleservice.presentation.screens.profile.components.ProfileOptio
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
+    onAddressClick: () -> Unit,
     navController: NavController,
     onNotificationClick: () -> Unit,
     onSettingsClick: () -> Unit,
-    onFavoritesClick: () -> Unit,
+    onFavoritesClick: () -> Unit
 ) {
     val profileState = viewModel.profileState.collectAsState().value
 
@@ -68,7 +69,7 @@ fun ProfileScreen(
             icon = R.drawable.ic_filled_address,
             label = "Meus Endereços",
             description = "Endereços cadastrados",
-            onClick = { }
+            onClick = onAddressClick
         )
         ProfileOption(
             icon = R.drawable.ic_favorite,

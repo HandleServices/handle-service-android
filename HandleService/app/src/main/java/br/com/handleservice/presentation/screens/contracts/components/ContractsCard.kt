@@ -46,12 +46,13 @@ fun ContractsCard(
     modifier: Modifier = Modifier,
     order: Order
 ) {
+    val colorScheme = MaterialTheme.colorScheme
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(if (order.status == OrderStatus.FINISHED) 140.dp else 126.dp)
             .clip(RoundedCornerShape(11.dp))
-            .background(MaterialTheme.colorScheme.surface) // Use tema para o fundo
+            .background(colorScheme.surface)
     ) {
         Column(
             modifier = Modifier
@@ -69,7 +70,7 @@ fun ContractsCard(
                 ) {
                     Text(
                         text = order.worker.businessName,
-                        color = MaterialTheme.colorScheme.onBackground, // Ajuste para o tema
+                        color = colorScheme.onBackground,
                         fontWeight = FontWeight(500),
                         fontSize = 16.sp,
                         modifier = Modifier
@@ -80,7 +81,7 @@ fun ContractsCard(
                     ) {
                         Text(
                             text = "85",
-                            color = MaterialTheme.colorScheme.secondary, // Ajuste para o tema
+                            color = colorScheme.secondary,
                             fontWeight = FontWeight.Normal,
                             fontSize = 11.sp,
                             lineHeight = 13.sp,
@@ -88,13 +89,13 @@ fun ContractsCard(
                             modifier = Modifier
                                 .size(13.dp)
                                 .background(
-                                    color = MaterialTheme.colorScheme.surfaceVariant, // Ajuste para o tema
+                                    color = colorScheme.surfaceVariant,
                                     shape = RoundedCornerShape(2.dp)
                                 )
                         )
                         Text(
                             text = order.service.name,
-                            color = MaterialTheme.colorScheme.tertiary, // Ajuste para o tema
+                            color = colorScheme.tertiary,
                             fontWeight = FontWeight(400),
                             fontSize = 11.sp,
                             modifier = Modifier
@@ -133,8 +134,8 @@ fun ContractsCard(
                     shape = RoundedCornerShape(10),
                     contentPadding = PaddingValues(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary, // Botão ajustado para o tema
-                        contentColor = MaterialTheme.colorScheme.onPrimary // Cor do texto do botão ajustada
+                        containerColor = colorScheme.primary,
+                        contentColor = colorScheme.onPrimary
                     )
                 ) {
                     Text(
@@ -162,13 +163,13 @@ fun LearnMoreButton(
     ) {
         Text(
             text = "Saiba mais",
-            color = MaterialTheme.colorScheme.primary, // Ajuste para o tema
+            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(end = 8.dp)
         )
         Icon(
             imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
             contentDescription = "Arrow",
-            tint = MaterialTheme.colorScheme.primary // Ajuste para o tema
+            tint = MaterialTheme.colorScheme.primary
         )
     }
 }

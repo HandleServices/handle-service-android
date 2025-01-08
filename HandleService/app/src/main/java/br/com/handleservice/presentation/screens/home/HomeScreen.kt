@@ -2,11 +2,16 @@ package br.com.handleservice.presentation.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -15,10 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
+import br.com.handleservice.presentation.screens.address.AddressScreen
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 import br.com.handleservice.presentation.screens.home.components.DoubleHomeScreenColumn
+import br.com.handleservice.presentation.screens.worker.components.ContractBottomSheet
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
-
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -61,14 +68,14 @@ fun HomeScreen(
                     textAlign = TextAlign.Start,
                     fontSize = 21.sp,
                     fontWeight = FontWeight(600),
-                    color = colorScheme.onBackground // Usa a cor de texto do tema
+                    color = colorScheme.onBackground
                 )
                 Text(
                     text = "o que você procura hoje?",
                     textAlign = TextAlign.Start,
                     fontSize = 12.sp,
                     fontWeight = FontWeight(400),
-                    color = colorScheme.onSurfaceVariant // Cor alternativa para texto
+                    color = colorScheme.onSurfaceVariant
                 )
             }
 

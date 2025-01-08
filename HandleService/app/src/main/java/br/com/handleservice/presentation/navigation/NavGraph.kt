@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import br.com.handleservice.presentation.screens.address.AddressScreen
 import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
@@ -50,7 +51,9 @@ fun NavGraph(
             composable(
                 route = Route.Contracts.route
             ) {
-                ContractsScreen()
+                ContractsScreen(
+                    navController = navController
+                )
             }
 
             composable(
@@ -87,6 +90,9 @@ fun NavGraph(
                     },
                     onFavoritesClick = {
                         navController.navigate(Route.Favorites.route)
+                    },
+                    onAddressClick = {
+                        navController.navigate(Route.Address.route)
                     }
                 )
             }
@@ -112,6 +118,12 @@ fun NavGraph(
                     navController = navController,
                     favoritesViewModel = favoritesViewModel
                 )
+            }
+
+            composable(
+                route = Route.Address.route
+            ) {
+                AddressScreen(navController = navController)
             }
         }
     }
