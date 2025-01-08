@@ -27,11 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.handleservice.presentation.screens.simple_search.components.FilterButton
+import br.com.handleservice.ui.mock.getMockWorker
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 import coil.compose.rememberImagePainter
 
 data class ServiceItem(
+    val id: Int,
     val name: String,
     val rating: Double,
     val category: String,
@@ -41,148 +43,20 @@ data class ServiceItem(
 
 @Composable
 fun SearchScreen(query: String?, navController: NavController?) {
-    val serviceList = listOf(
-        ServiceItem(
-            name = "Eletricidade Rápida",
-            rating = 4.8,
-            category = "Eletricista",
-            isAvailableNow = true,
-            imageUrl = "https://inpolpolimeros.com.br/wp-content/uploads/2023/04/contratar-eletricista-scaled.jpg"
-        ),
-        ServiceItem(
-            name = "Aulas de Matemática",
-            rating = 4.6,
-            category = "Professor",
-            isAvailableNow = false,
-            imageUrl = "https://cdn.pixabay.com/photo/2017/08/06/11/06/teacher-2590682_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Dev Rápido",
-            rating = 4.7,
-            category = "Desenvolvedor",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2015/09/05/22/46/programming-924920_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Treinamento Total",
-            rating = 4.5,
-            category = "Personal Trainer",
-            isAvailableNow = false,
-            imageUrl = "https://cdn.pixabay.com/photo/2016/03/27/21/34/sports-1280821_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Clínica Veterinária Pata Feliz",
-            rating = 4.9,
-            category = "Veterinário",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2015/08/31/10/52/veterinarian-914056_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Fotos Profissionais",
-            rating = 4.8,
-            category = "Fotógrafo",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2016/11/29/05/18/photographer-1867719_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Limpeza Completa",
-            rating = 4.7,
-            category = "Diarista",
-            isAvailableNow = false,
-            imageUrl = "https://cdn.pixabay.com/photo/2017/05/02/13/13/cleaning-2271201_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Contabilidade Rápida",
-            rating = 4.6,
-            category = "Contador",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2015/01/21/14/14/computer-606005_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Salão Beleza Total",
-            rating = 4.8,
-            category = "Cabeleireiro",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2016/11/19/14/00/hairdresser-1840523_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Eletricidade Express",
-            rating = 4.7,
-            category = "Eletricista",
-            isAvailableNow = false,
-            imageUrl = "https://cdn.pixabay.com/photo/2014/12/21/23/28/electrician-576688_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Aulas de Inglês",
-            rating = 4.8,
-            category = "Professor",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2015/01/26/22/40/teacher-613389_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Programador Especialista",
-            rating = 4.9,
-            category = "Desenvolvedor",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2015/02/02/11/09/office-621206_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Fitness Pessoal",
-            rating = 4.5,
-            category = "Personal Trainer",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2015/02/05/23/24/men-625251_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Cuidados Veterinários",
-            rating = 4.6,
-            category = "Veterinário",
-            isAvailableNow = false,
-            imageUrl = "https://cdn.pixabay.com/photo/2016/02/19/10/14/vet-1209820_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Estúdio Fotográfico",
-            rating = 4.8,
-            category = "Fotógrafo",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2016/03/09/09/22/woman-1245692_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Limpeza Perfeita",
-            rating = 4.7,
-            category = "Diarista",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2018/02/12/22/14/cleanliness-3156211_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Cabelos Incríveis",
-            rating = 4.9,
-            category = "Cabeleireiro",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2017/01/30/10/46/hair-2029929_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Contabilidade Inteligente",
-            rating = 4.7,
-            category = "Contador",
-            isAvailableNow = false,
-            imageUrl = "https://cdn.pixabay.com/photo/2018/05/02/09/45/financial-3360849_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Eletro Fácil",
-            rating = 4.5,
-            category = "Eletricista",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2014/11/23/10/38/technology-543520_1280.jpg"
-        ),
-        ServiceItem(
-            name = "Fotógrafo de Eventos",
-            rating = 4.9,
-            category = "Fotógrafo",
-            isAvailableNow = true,
-            imageUrl = "https://cdn.pixabay.com/photo/2017/02/16/23/10/camera-2072178_1280.jpg"
-        )
-    )
+    // Converte os trabalhadores do mock para ServiceItem
+    val serviceList = remember {
+        getMockWorker().map { worker ->
+            ServiceItem(
+                id = worker.id, // Usando o ID único do Worker
+                name = worker.businessName,
+                rating = 4.5, // Valor fixo para rating (mock)
+                category = worker.job,
+                isAvailableNow = worker.isAvailable,
+                imageUrl = worker.profilePicUrl
+            )
+        }.toList()
+    }
+
 
     val filteredList = if (!query.isNullOrBlank()) {
         val normalizedQuery = query.replace("_", " ").lowercase()
@@ -273,8 +147,8 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                // Navega para o perfil do trabalhador
-                navController?.navigate("worker_screen/${item.name}")
+                println(item.id)
+                navController?.navigate("worker_screen/${item.id}")
             }
     ) {
         Row(
@@ -317,8 +191,8 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
 
                 Divider(
                     color = colorResource(R.color.handle_gray_secondary),
-                    thickness = 1.dp, // Aumente a espessura para garantir visibilidade
-                    modifier = Modifier.fillMaxWidth() // Certifique-se de que a linha preencha a largura do cartão
+                    thickness = 1.dp,
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 Row(

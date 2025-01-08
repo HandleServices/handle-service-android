@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -65,13 +66,19 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WorkerScreen(
-    query: String? = null,
+    workerId: Int,
     navController: NavController? = null,
     modifier: Modifier = Modifier,
     viewModel: WorkerViewModel = hiltViewModel(),
     favoritesViewModel: FavoritesViewModel,
     notificationViewModel: NotificationViewModel
 ) {
+    // Carregar o trabalhador pelo ID assim que a tela é exibida
+    LaunchedEffect(workerId) {
+        viewModel.loadWorkerById(workerId)
+        viewModel.loadServicesForWorker(workerId)
+    }
+
     val worker by viewModel.worker.observeAsState()
     val services by viewModel.services.collectAsState()
     val context = LocalContext.current
@@ -81,8 +88,6 @@ fun WorkerScreen(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
-
-    println("AAAAAAAAAAAAAA ViewModel in WorkerScreen: $favoritesViewModel")
 
     LazyColumn(
         modifier = modifier
@@ -108,36 +113,44 @@ fun WorkerScreen(
                     .fillMaxWidth()
                     .height(36.dp)
                     .padding(horizontal = 20.dp),
-                placeholder = "Buscar em ${worker?.businessName}"
+                placeholder = "Buscar em ${worker?.businessName ?: "..." }"
             )
         }
 
         // Worker card
         item {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 23.dp)
-                    .padding(top = 10.dp)
-            ) {
-                WorkerCard(
-                    modifier = modifier,
-                    worker = worker,
-                    isFavorite = favoritesViewModel.favorites.value.any { it.name == worker?.businessName },
-                    onFavoriteClick = { favorite ->
-                        if (favoritesViewModel.favorites.value.any { it.name == favorite.name }) {
-                            favoritesViewModel.removeFavorite(favorite)
-                        } else {
-                            favoritesViewModel.addFavorite(favorite)
+            worker?.let { currentWorker ->
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 23.dp)
+                        .padding(top = 10.dp)
+                ) {
+                    WorkerCard(
+                        modifier = modifier,
+                        worker = currentWorker,
+                        isFavorite = favoritesViewModel.favorites.value.any { it.name == currentWorker.businessName },
+                        onFavoriteClick = { favorite ->
+                            if (favoritesViewModel.favorites.value.any { it.name == favorite.name }) {
+                                favoritesViewModel.removeFavorite(favorite)
+                            } else {
+                                favoritesViewModel.addFavorite(favorite)
+                            }
                         }
-                    }
-                )
+                    )
+                    Text(
+                        text = "Serviços",
+                        color = colorResource(R.color.handle_titles),
+                        fontWeight = FontWeight(500),
+                        fontSize = 17.sp,
+                    )
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
+            } ?: run {
                 Text(
-                    text = "Serviços",
-                    color = colorResource(R.color.handle_titles),
-                    fontWeight = FontWeight(500),
-                    fontSize = 17.sp,
+                    text = "Carregando trabalhador...",
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.onBackground
                 )
-                Spacer(modifier = Modifier.height(15.dp))
             }
         }
 
@@ -156,50 +169,9 @@ fun WorkerScreen(
                     }
             )
         }
-
-        // Video section
-        item {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 23.dp)
-            ) {
-                Spacer(modifier = Modifier.height(15.dp))
-                Text(
-                    text = "Vídeo de Apresentação",
-                    color = colorResource(R.color.handle_titles),
-                    fontWeight = FontWeight(500),
-                    fontSize = 17.sp,
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                DisposableEffect(Unit) {
-                    val exoPlayer = ExoPlayer.Builder(context).build().apply {
-                        val videoUri = Uri.parse("file:///raw/encanador.mp4")
-                        setMediaItem(MediaItem.fromUri(videoUri))
-                        prepare()
-                    }
-                    onDispose {
-                        exoPlayer.release()
-                    }
-                }
-
-                AndroidView(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    factory = { ctx ->
-                        PlayerView(ctx).apply {
-                            player = ExoPlayer.Builder(ctx).build().apply {
-                                val videoUri = Uri.parse("android.resource://${ctx.packageName}/$videoRes")
-                                setMediaItem(MediaItem.fromUri(videoUri))
-                                prepare()
-                            }
-                        }
-                    }
-                )
-            }
-        }
     }
 
+    // BottomSheet for Service Details
     if (showBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = {
@@ -237,3 +209,4 @@ fun WorkerScreen(
         }
     }
 }
+

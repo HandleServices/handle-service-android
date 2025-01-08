@@ -44,9 +44,7 @@ fun NavGraph(
             composable(
                 route = Route.HomeScreen.route
             ) {
-                HomeScreen(
-                    navController = navController
-                )
+                HomeScreen(navController = navController)
             }
 
             composable(
@@ -60,108 +58,60 @@ fun NavGraph(
                 arguments = listOf(navArgument("query") { type = NavType.StringType; defaultValue = "" })
             ) { backStackEntry ->
                 val query = backStackEntry.arguments?.getString("query").orEmpty()
-                SearchScreen(query = query, navController)
+                SearchScreen(query = query, navController = navController)
             }
 
-            navigation(
-                startDestination = "profile/main",
-                route = Route.Profile.route
-            ) {
-                composable("profile/main") {
-                    ProfileScreen(
-                        onNotificationClick = {
-                            navController.navigate("profile/notification")
-                        },
-                        onSettingsClick = {
-                            navController.navigate("profile/settings")
-                        },
-                        onFavoritesClick = {
-                            navController.navigate("profile/favorites")
-                        }
-                    )
-                }
+            composable(
+                route = "worker_screen/{worker-id}",
+                arguments = listOf(navArgument("worker-id") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val workerId = backStackEntry.arguments?.getInt("worker-id") ?: 0
+                WorkerScreen(
+                    workerId = workerId,
+                    navController = navController,
+                    favoritesViewModel = favoritesViewModel,
+                    notificationViewModel = notificationViewModel
+                )
             }
 
-            navigation(
-                startDestination = "profile/main",
+            composable(
                 route = Route.Profile.route
             ) {
-                composable("profile/main") {
-                    ProfileScreen(
-                        onNotificationClick = {
-                            navController.navigate("profile/notification")
-                        },
-                        onSettingsClick = {
-                            navController.navigate("profile/settings")
-                        },
-                        onFavoritesClick = {
-                            navController.navigate("profile/favorites")
-                        },
-                        onAddresClick = {
-                            navController.navigate("worker_screen/1")
-                        }
-                    )
-                }
+                ProfileScreen(
+                    navController = navController,
+                    onNotificationClick = {
+                        navController.navigate(Route.Notification.route)
+                    },
+                    onSettingsClick = {
+                        navController.navigate(Route.Settings.route)
+                    },
+                    onFavoritesClick = {
+                        navController.navigate(Route.Favorites.route)
+                    }
+                )
             }
 
-            navigation(
-                startDestination = "profile/main",
-                route = Route.Profile.route
+            composable(Route.Notification.route) {
+                NotificationScreen(
+                    navController = navController,
+                    viewModel = notificationViewModel
+                )
+            }
+
+            composable(Route.Settings.route) {
+                SettingsScreen(
+                    navController = navController,
+                    onToggleDarkMode = onToggleTheme
+                )
+            }
+
+            composable(
+                route = Route.Favorites.route
             ) {
-                composable("profile/main") {
-                    ProfileScreen(
-                        onNotificationClick = {
-                            navController.navigate("profile/notification")
-                        },
-                        onSettingsClick = {
-                            navController.navigate("profile/settings")
-                        },
-                        onFavoritesClick = {
-                            navController.navigate("profile/favorites")
-                        },
-                        onAddresClick = {
-                            navController.navigate("worker_screen/1")
-                        }
-                    )
-                }
-
-                composable(
-                    Route.Notification.route
-                ) {
-                    NotificationScreen(
-                        navController = navController,
-                        viewModel = notificationViewModel
-                    )
-                }
-
-                composable(Route.Settings.route) {
-                    SettingsScreen(
-                        navController = navController,
-                        onToggleDarkMode = onToggleTheme
-                    )
-                }
-
-                composable(
-                    route = Route.Favorites.route
-                ) {
-                    FavoritesScreen(
-                        navController = navController,
-                        favoritesViewModel = favoritesViewModel // Passa o ViewModel aqui
-                    )
-                }
-
-                composable(
-                    route = Route.WorkerScreen.route,
-                    arguments = listOf(navArgument("work-id") { type = NavType.StringType })
-                ) { backStackEntry ->
-                    val query = backStackEntry.arguments?.getString("work-id")
-                    WorkerScreen(
-                        query = query, navController = navController,
-                        navController = navController,
-                        favoritesViewModel = favoritesViewModel,
-                        notificationViewModel = notificationViewModel
-                    )
-                }
+                FavoritesScreen(
+                    navController = navController,
+                    favoritesViewModel = favoritesViewModel
+                )
             }
         }
     }

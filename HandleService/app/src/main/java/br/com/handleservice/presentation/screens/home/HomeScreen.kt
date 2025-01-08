@@ -37,7 +37,7 @@ fun HomeScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colorScheme.background) // Usa a cor de fundo do tema
+            .background(colorScheme.background)
             .padding(vertical = 26.dp),
         horizontalAlignment = Alignment.Start
     ) {
