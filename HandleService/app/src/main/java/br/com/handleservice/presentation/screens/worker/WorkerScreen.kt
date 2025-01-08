@@ -68,7 +68,7 @@ fun WorkerScreen(
     navController: NavController? = null,
     modifier: Modifier = Modifier,
     viewModel: WorkerViewModel = hiltViewModel(),
-    favoritesViewModel: FavoritesViewModel = hiltViewModel()
+    favoritesViewModel: FavoritesViewModel // Recebe o ViewModel como parâmetro
 ) {
     val worker by viewModel.worker.observeAsState()
     val services by viewModel.services.collectAsState()
@@ -79,6 +79,8 @@ fun WorkerScreen(
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val coroutineScope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
+
+    println("AAAAAAAAAAAAAA ViewModel in WorkerScreen: $favoritesViewModel")
 
     LazyColumn(
         modifier = modifier

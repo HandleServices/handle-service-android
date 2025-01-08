@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.presentation.screens.favorites.components.FavoriteItem
@@ -30,9 +31,16 @@ import br.com.handleservice.presentation.screens.favorites.components.FavoriteIt
 @Composable
 fun FavoritesScreen(
     navController: NavController,
-    viewModel: FavoritesViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    favoritesViewModel: FavoritesViewModel
 ) {
-    val favorites by viewModel.favorites.collectAsState()
+    // Observa as alterações na lista de favoritos
+    val favorites by favoritesViewModel.favorites.collectAsState()
+
+    println("AAAAAAAAAAAAAA ViewModel in FavoritesScreen: $favoritesViewModel")
+    println("Favorites in FavoritesScreen: ${favorites.joinToString { it.name }}")
+
+    // Log para depuração
+    println("Favoritos NA TELA FAVORITESSCREEN: ${favorites.joinToString { it.name }}")
 
     Column(
         modifier = Modifier
@@ -78,6 +86,7 @@ fun FavoritesScreen(
         )
         Spacer(modifier = Modifier.height(17.dp))
 
+        // Lista de favoritos
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

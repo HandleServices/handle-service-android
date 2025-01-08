@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
+import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.home.HomeScreen
 import br.com.handleservice.presentation.screens.profile.ProfileScreen
 import br.com.handleservice.presentation.screens.notification.NotificationScreen
@@ -22,7 +23,8 @@ import br.com.handleservice.presentation.screens.worker.WorkerScreen
 
 @Composable
 fun NavGraph(
-    startDestination: String
+    startDestination: String,
+    favoritesViewModel: FavoritesViewModel
 ) {
     val navController = rememberNavController()
 
@@ -84,7 +86,10 @@ fun NavGraph(
                 composable(
                     route = Route.Favorites.route
                 ) {
-                    FavoritesScreen(navController = navController)
+                    FavoritesScreen(
+                        navController = navController,
+                        favoritesViewModel = favoritesViewModel // Passa o ViewModel aqui
+                    )
                 }
 
                 composable(
@@ -92,7 +97,11 @@ fun NavGraph(
                     arguments = listOf(navArgument("work-id") { type = NavType.StringType })
                 ) { backStackEntry ->
                     val query = backStackEntry.arguments?.getString("work-id")
-                    WorkerScreen(query = query)
+                    WorkerScreen(
+                        query = query,
+                        navController = navController,
+                        favoritesViewModel = favoritesViewModel // Passa o ViewModel aqui
+                    )
                 }
 
             }
