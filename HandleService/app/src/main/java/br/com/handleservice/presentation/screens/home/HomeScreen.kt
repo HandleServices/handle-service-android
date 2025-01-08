@@ -2,10 +2,15 @@ package br.com.handleservice.presentation.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -14,10 +19,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
+import br.com.handleservice.presentation.screens.address.AddressScreen
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 import br.com.handleservice.presentation.screens.home.components.DoubleHomeScreenColumn
+import br.com.handleservice.presentation.screens.worker.components.ContractBottomSheet
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
-
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -42,7 +49,8 @@ fun HomeScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 13.dp)
-                .padding(bottom = 26.dp)
+                .padding(bottom = 26.dp),
+            navController = navController
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -79,7 +87,7 @@ fun HomeScreen(
                     onSearch = {
                         if (query.isNotEmpty()) {
                             // TO-DO: Mudar para pesquisa simplificada, usar a query tbm
-                           // navController.navigate("worker_screen/$query")
+                            navController.navigate("worker_screen/$query")
                         }
                     },
                     modifier = Modifier.height(32.dp),

@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import br.com.handleservice.presentation.screens.address.AddressScreen
 import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
 import br.com.handleservice.presentation.screens.home.HomeScreen
@@ -45,7 +46,20 @@ fun NavGraph(
             composable(
                 route = Route.Contracts.route
             ) {
-                ContractsScreen()
+                ContractsScreen(
+                    navController = navController
+                )
+            }
+
+            composable(
+                route = Route.WorkerScreen.route,
+                arguments = listOf(navArgument("work-id") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val query = backStackEntry.arguments?.getString("work-id")
+                WorkerScreen(
+                    query = query,
+                    navController = navController
+                )
             }
 
             navigation(
@@ -55,13 +69,16 @@ fun NavGraph(
                 composable("profile/main") {
                     ProfileScreen(
                         onNotificationClick = {
-                            navController.navigate("profile/notification")
+                            navController.navigate(Route.Notification.route)
                         },
                         onSettingsClick = {
-                            navController.navigate("profile/settings")
+                            navController.navigate(Route.Settings.route)
                         },
                         onFavoritesClick = {
-                            navController.navigate("profile/favorites")
+                            navController.navigate(Route.Favorites.route)
+                        },
+                        onAddressClick = {
+                            navController.navigate(Route.Address.route)
                         }
                     )
                 }
@@ -85,13 +102,10 @@ fun NavGraph(
                 }
 
                 composable(
-                    route = Route.WorkerScreen.route,
-                    arguments = listOf(navArgument("work-id") { type = NavType.StringType })
-                ) { backStackEntry ->
-                    val query = backStackEntry.arguments?.getString("work-id")
-                    WorkerScreen(query = query)
+                    route = Route.Address.route
+                ) {
+                    AddressScreen(navController = navController)
                 }
-
             }
         }
     }

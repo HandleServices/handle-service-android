@@ -1,5 +1,6 @@
 package br.com.handleservice.ui.components.handleHeader
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,16 +33,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import br.com.handleservice.R
+import br.com.handleservice.presentation.navigation.Route
+import br.com.handleservice.presentation.screens.address.AddressViewModel
+import br.com.handleservice.presentation.shared.SharedAddressViewModel
 
-@Preview
 @Composable
 fun HandleHeader(
     modifier: Modifier = Modifier,
     navController: NavController? = null,
-    hasBack: Boolean = false
+    hasBack: Boolean = false,
+    sharedViewModel: AddressViewModel = hiltViewModel()
 ) {
+    val selectedAddress by sharedViewModel.selectedAddress.collectAsState()
+
     Box(
         modifier = modifier
             .fillMaxWidth(),
@@ -66,11 +75,17 @@ fun HandleHeader(
             }
 
             Box(
-                modifier = Modifier.weight(1f),
+                modifier = Modifier
+                    .weight(1f),
                 contentAlignment = Alignment.Center
             ) {
                 Button(
-                    onClick = { println("Address button clicked!") },
+                    onClick = {
+                        navController?.navigate(Route.Address.route) {
+                            launchSingleTop = true
+                            restoreState = true
+                        }
+                    },
                     contentPadding = PaddingValues(0.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.handle_blue)),
                     shape = RoundedCornerShape(10.dp),
