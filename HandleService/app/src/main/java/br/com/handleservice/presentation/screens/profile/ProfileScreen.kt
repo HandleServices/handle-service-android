@@ -67,7 +67,7 @@ fun ProfileScreen(
             icon = R.drawable.ic_filled_address,
             label = "Meus Endereços",
             description = "Endereços cadastrados",
-            onClick = onAddresClick
+            onClick = { }
         )
         ProfileOption(
             icon = R.drawable.ic_favorite,

@@ -18,6 +18,7 @@ import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import br.com.handleservice.presentation.navigation.NavGraph
 import br.com.handleservice.presentation.navigation.Route
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
+import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.ui.theme.HandleServiceTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val favoritesViewModel: FavoritesViewModel by viewModels() // Instância compartilhada
+    private val notificationViewModel: NotificationViewModel by viewModels()
 
     companion object {
         const val NOTIFICATION_PERMISSION_REQUEST_CODE = 101
@@ -55,7 +57,8 @@ class MainActivity : ComponentActivity() {
                 Box(modifier = Modifier.background(colorResource(id = R.color.background))) {
                     NavGraph(
                         startDestination = Route.HomeScreen.route,
-                        favoritesViewModel = favoritesViewModel // Passa explicitamente se necessário
+                        favoritesViewModel = favoritesViewModel,
+                        notificationViewModel = notificationViewModel
                     )
                 }
             }

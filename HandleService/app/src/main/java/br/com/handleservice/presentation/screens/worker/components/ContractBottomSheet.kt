@@ -45,6 +45,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
+import br.com.handleservice.presentation.screens.notification.Notification
+import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.ui.preview.ServicesPreviewProvider
 import br.com.handleservice.util.FormatUtils.formatBRCurrency
 import br.com.handleservice.util.FormatUtils.formatTime
@@ -56,7 +58,8 @@ import java.util.Locale
 
 @Composable
 fun ContractBottomSheet(
-    service: Service? = null
+    service: Service? = null,
+    notificationViewModel: NotificationViewModel
 ) {
     val context = LocalContext.current
     val dateFormatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
@@ -96,14 +99,21 @@ fun ContractBottomSheet(
         val notificationTitle = "Serviço Contratado"
         val notificationMessage = "$serviceName foi contratado para $selectedDate às $selectedTime."
 
+        // mostrando notitificação
         NotificationUtils.showNotification(
             context = context,
             title = notificationTitle,
             message = notificationMessage
         )
 
-        // Exibe uma mensagem de sucesso
-        Toast.makeText(context, "Contrato realizado com sucesso! $selectedDate - $selectedTime", Toast.LENGTH_SHORT).show()
+        // adicionando a tela notitficação
+        notificationViewModel.addNotification(
+            Notification(
+                title = notificationTitle,
+                description = notificationMessage,
+                time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"))
+            )
+        )
     }
 
     if (service != null) {
@@ -314,6 +324,7 @@ fun TimeButton(
 @Preview
 private fun ContractBottomSheetPreview() {
     ContractBottomSheet(
-        service = ServicesPreviewProvider().values.first()
+        service = ServicesPreviewProvider().values.first(),
+        notificationViewModel = TODO()
     )
 }

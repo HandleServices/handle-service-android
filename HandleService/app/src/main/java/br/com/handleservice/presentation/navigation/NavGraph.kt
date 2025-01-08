@@ -18,13 +18,15 @@ import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.home.HomeScreen
 import br.com.handleservice.presentation.screens.profile.ProfileScreen
 import br.com.handleservice.presentation.screens.notification.NotificationScreen
+import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.presentation.screens.settings.SettingsScreen
 import br.com.handleservice.presentation.screens.worker.WorkerScreen
 
 @Composable
 fun NavGraph(
     startDestination: String,
-    favoritesViewModel: FavoritesViewModel
+    favoritesViewModel: FavoritesViewModel,
+    notificationViewModel: NotificationViewModel
 ) {
     val navController = rememberNavController()
 
@@ -74,7 +76,10 @@ fun NavGraph(
                 composable(
                     Route.Notification.route
                 ) {
-                    NotificationScreen(navController = navController)
+                    NotificationScreen(
+                        navController = navController,
+                        viewModel = notificationViewModel
+                    )
                 }
 
                 composable(
@@ -100,7 +105,8 @@ fun NavGraph(
                     WorkerScreen(
                         query = query,
                         navController = navController,
-                        favoritesViewModel = favoritesViewModel // Passa o ViewModel aqui
+                        favoritesViewModel = favoritesViewModel,
+                        notificationViewModel = notificationViewModel
                     )
                 }
 

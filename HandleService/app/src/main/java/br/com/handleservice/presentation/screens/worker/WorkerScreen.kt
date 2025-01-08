@@ -46,12 +46,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
+import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.presentation.screens.worker.components.ContractBottomSheet
 import br.com.handleservice.presentation.screens.worker.components.ServiceItem
 import br.com.handleservice.presentation.screens.worker.components.WorkerCard
@@ -61,14 +63,14 @@ import kotlinx.coroutines.launch
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun WorkerScreen(
     query: String? = null,
     navController: NavController? = null,
     modifier: Modifier = Modifier,
     viewModel: WorkerViewModel = hiltViewModel(),
-    favoritesViewModel: FavoritesViewModel // Recebe o ViewModel como parâmetro
+    favoritesViewModel: FavoritesViewModel,
+    notificationViewModel: NotificationViewModel
 ) {
     val worker by viewModel.worker.observeAsState()
     val services by viewModel.services.collectAsState()
@@ -172,7 +174,7 @@ fun WorkerScreen(
                 DisposableEffect(Unit) {
                     val exoPlayer = ExoPlayer.Builder(context).build().apply {
                         val videoUri = Uri.parse("file:///raw/encanador.mp4")
-                        setMediaItem(androidx.media3.common.MediaItem.fromUri(videoUri))
+                        setMediaItem(MediaItem.fromUri(videoUri))
                         prepare()
                     }
                     onDispose {
@@ -188,7 +190,7 @@ fun WorkerScreen(
                         PlayerView(ctx).apply {
                             player = ExoPlayer.Builder(ctx).build().apply {
                                 val videoUri = Uri.parse("android.resource://${ctx.packageName}/$videoRes")
-                                setMediaItem(androidx.media3.common.MediaItem.fromUri(videoUri))
+                                setMediaItem(MediaItem.fromUri(videoUri))
                                 prepare()
                             }
                         }
@@ -227,7 +229,10 @@ fun WorkerScreen(
                 .wrapContentSize()
         ) {
             selectedService.value?.let { service ->
-                ContractBottomSheet(service = service)
+                ContractBottomSheet(
+                    service = service,
+                    notificationViewModel = notificationViewModel
+                )
             }
         }
     }
