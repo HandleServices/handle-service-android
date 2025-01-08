@@ -15,14 +15,14 @@ data class ServicesCategoriesType (
 
 object ServicesCategories {
     val categories = listOf(
-        ServicesCategoriesType("Eletricista", R.drawable.electrical_service, "elet"),
-        ServicesCategoriesType("Professor", R.drawable.teacher, "elet"),
-        ServicesCategoriesType("Desenvolvedor", R.drawable.developer, "elet"),
-        ServicesCategoriesType("Personal Trainer", R.drawable.healthcheck, "elet"),
-        ServicesCategoriesType("Veterinário", R.drawable.paw, "elet"),
-        ServicesCategoriesType("Fotógrafo", R.drawable.color_patern, "elet"),
-        ServicesCategoriesType("Diarista", R.drawable.day_laborer, "elet"),
-        ServicesCategoriesType("Contador", R.drawable.safe_pig, "elet"),
-        ServicesCategoriesType("Cabeleireiro", R.drawable.hairdresser, "elet"),
+        ServicesCategoriesType("Eletricista", R.drawable.electrical_service, "eletricista"),
+        ServicesCategoriesType("Professor", R.drawable.teacher, "professor"),
+        ServicesCategoriesType("Desenvolvedor", R.drawable.developer, "desenvolvedor"),
+        ServicesCategoriesType("Personal Trainer", R.drawable.healthcheck, "personal_trainer"),
+        ServicesCategoriesType("Veterinário", R.drawable.paw, "veterinario"),
+        ServicesCategoriesType("Fotógrafo", R.drawable.color_patern, "fotografo"),
+        ServicesCategoriesType("Diarista", R.drawable.day_laborer, "diarista"),
+        ServicesCategoriesType("Contador", R.drawable.safe_pig, "contador"),
+        ServicesCategoriesType("Cabeleireiro", R.drawable.hairdresser, "cabeleireiro"),
     )
 }
