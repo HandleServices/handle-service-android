@@ -19,6 +19,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,12 +50,12 @@ fun HandleHeader(
     sharedViewModel: AddressViewModel = hiltViewModel()
 ) {
     val selectedAddress by sharedViewModel.selectedAddress.collectAsState()
-
+    val colorScheme = MaterialTheme.colorScheme
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .background(colorResource(R.color.background)),
+            .background(colorScheme.background),
         contentAlignment = Alignment.CenterStart
     ) {
         Row(
