@@ -62,6 +62,9 @@ fun NavGraph(
                         },
                         onFavoritesClick = {
                             navController.navigate("profile/favorites")
+                        },
+                        onAddresClick = {
+                            navController.navigate("worker_screen/1")
                         }
                     )
                 }

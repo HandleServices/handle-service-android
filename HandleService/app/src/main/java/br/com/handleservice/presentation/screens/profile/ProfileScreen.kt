@@ -25,7 +25,8 @@ fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
     onNotificationClick: () -> Unit,
     onSettingsClick: () -> Unit,
-    onFavoritesClick: () -> Unit
+    onFavoritesClick: () -> Unit,
+    onAddresClick: () -> Unit
 ) {
     val profileState = viewModel.profileState.collectAsState().value
 
@@ -66,7 +67,7 @@ fun ProfileScreen(
             icon = R.drawable.ic_filled_address,
             label = "Meus Endereços",
             description = "Endereços cadastrados",
-            onClick = { }
+            onClick = onAddresClick
         )
         ProfileOption(
             icon = R.drawable.ic_favorite,

@@ -1,5 +1,6 @@
 package br.com.handleservice.presentation.screens.worker
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import android.net.Uri
 import androidx.compose.foundation.clickable
@@ -50,6 +51,7 @@ import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
+import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.worker.components.ContractBottomSheet
 import br.com.handleservice.presentation.screens.worker.components.ServiceItem
 import br.com.handleservice.presentation.screens.worker.components.WorkerCard
@@ -57,6 +59,7 @@ import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 import kotlinx.coroutines.launch
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
@@ -64,7 +67,8 @@ fun WorkerScreen(
     query: String? = null,
     navController: NavController? = null,
     modifier: Modifier = Modifier,
-    viewModel: WorkerViewModel = hiltViewModel()
+    viewModel: WorkerViewModel = hiltViewModel(),
+    favoritesViewModel: FavoritesViewModel = hiltViewModel()
 ) {
     val worker by viewModel.worker.observeAsState()
     val services by viewModel.services.collectAsState()
@@ -113,7 +117,15 @@ fun WorkerScreen(
             ) {
                 WorkerCard(
                     modifier = modifier,
-                    worker = worker
+                    worker = worker,
+                    isFavorite = favoritesViewModel.favorites.value.any { it.name == worker?.businessName },
+                    onFavoriteClick = { favorite ->
+                        if (favoritesViewModel.favorites.value.any { it.name == favorite.name }) {
+                            favoritesViewModel.removeFavorite(favorite)
+                        } else {
+                            favoritesViewModel.addFavorite(favorite)
+                        }
+                    }
                 )
                 Text(
                     text = "Serviços",
@@ -218,5 +230,3 @@ fun WorkerScreen(
         }
     }
 }
-
-
