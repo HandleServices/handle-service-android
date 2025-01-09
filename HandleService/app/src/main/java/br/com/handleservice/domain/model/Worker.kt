@@ -11,5 +11,6 @@ data class Worker (
     val phone: String,
     // TO-DO: See how it will be config on back (enum?)
     val job: String,
-    val profilePicUrl: String
+    val profilePicUrl: String,
+    val isAvailable: Boolean // Novo campo
 )

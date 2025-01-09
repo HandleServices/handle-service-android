@@ -1,5 +1,6 @@
 package br.com.handleservice.presentation.screens.worker
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import android.net.Uri
 import androidx.compose.foundation.clickable
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -45,11 +47,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
+import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
+import br.com.handleservice.presentation.screens.notification.NotificationViewModel
+import br.com.handleservice.presentation.screens.address.AddressScreen
 import br.com.handleservice.presentation.screens.worker.components.ContractBottomSheet
 import br.com.handleservice.presentation.screens.worker.components.ServiceItem
 import br.com.handleservice.presentation.screens.worker.components.WorkerCard
@@ -57,24 +63,32 @@ import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 import kotlinx.coroutines.launch
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
 fun WorkerScreen(
-    query: String? = null,
+    workerId: Int,
     navController: NavController? = null,
     modifier: Modifier = Modifier,
-    viewModel: WorkerViewModel = hiltViewModel()
+    viewModel: WorkerViewModel = hiltViewModel(),
+    favoritesViewModel: FavoritesViewModel,
+    notificationViewModel: NotificationViewModel
 ) {
+    LaunchedEffect(workerId) {
+        viewModel.loadWorkerById(workerId)
+        viewModel.loadServicesForWorker(workerId)
+    }
+
     val worker by viewModel.worker.observeAsState()
     val services by viewModel.services.collectAsState()
     val context = LocalContext.current
     val videoRes = R.raw.encanador
 
     val selectedService = remember { mutableStateOf<Service?>(null) }
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-    val coroutineScope = rememberCoroutineScope()
-    var showBottomSheet by remember { mutableStateOf(false) }
+
+    val serviceBottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val serviceCoroutineScope = rememberCoroutineScope()
+    var showServiceBottomSheet by remember { mutableStateOf(false) }
 
     LazyColumn(
         modifier = modifier
@@ -100,28 +114,44 @@ fun WorkerScreen(
                     .fillMaxWidth()
                     .height(36.dp)
                     .padding(horizontal = 20.dp),
-                placeholder = "Buscar em ${worker?.businessName}"
+                placeholder = "Buscar em ${worker?.businessName ?: "..." }"
             )
         }
 
         // Worker card
         item {
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 23.dp)
-                    .padding(top = 10.dp)
-            ) {
-                WorkerCard(
-                    modifier = modifier,
-                    worker = worker
-                )
+            worker?.let { currentWorker ->
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 23.dp)
+                        .padding(top = 10.dp)
+                ) {
+                    WorkerCard(
+                        modifier = modifier,
+                        worker = currentWorker,
+                        isFavorite = favoritesViewModel.favorites.value.any { it.name == currentWorker.businessName },
+                        onFavoriteClick = { favorite ->
+                            if (favoritesViewModel.favorites.value.any { it.name == favorite.name }) {
+                                favoritesViewModel.removeFavorite(favorite)
+                            } else {
+                                favoritesViewModel.addFavorite(favorite)
+                            }
+                        }
+                    )
+                    Text(
+                        text = "Serviços",
+                        color = colorResource(R.color.handle_titles),
+                        fontWeight = FontWeight(500),
+                        fontSize = 17.sp,
+                    )
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
+            } ?: run {
                 Text(
-                    text = "Serviços",
-                    color = colorResource(R.color.handle_titles),
-                    fontWeight = FontWeight(500),
-                    fontSize = 17.sp,
+                    text = "Carregando trabalhador...",
+                    modifier = Modifier.padding(16.dp),
+                    color = MaterialTheme.colorScheme.onBackground
                 )
-                Spacer(modifier = Modifier.height(15.dp))
             }
         }
 
@@ -133,9 +163,9 @@ fun WorkerScreen(
                     .padding(horizontal = 23.dp, vertical = 2.dp)
                     .clickable {
                         selectedService.value = service
-                        showBottomSheet = true
-                        coroutineScope.launch {
-                            bottomSheetState.show()
+                        showServiceBottomSheet = true
+                        serviceCoroutineScope.launch {
+                            serviceBottomSheetState.show()
                         }
                     }
             )
@@ -184,18 +214,18 @@ fun WorkerScreen(
         }
     }
 
-    if (showBottomSheet) {
+    if (showServiceBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = {
-                coroutineScope.launch {
-                    bottomSheetState.hide()
+                serviceCoroutineScope.launch {
+                    serviceBottomSheetState.hide()
                 }.invokeOnCompletion {
-                    if (!bottomSheetState.isVisible) {
-                        showBottomSheet = false
+                    if (!serviceBottomSheetState.isVisible) {
+                        showServiceBottomSheet = false
                     }
                 }
             },
-            sheetState = bottomSheetState,
+            sheetState = serviceBottomSheetState,
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             containerColor = colorResource(R.color.white),
             tonalElevation = 16.dp,
@@ -213,10 +243,12 @@ fun WorkerScreen(
                 .wrapContentSize()
         ) {
             selectedService.value?.let { service ->
-                ContractBottomSheet(service = service)
+                ContractBottomSheet(
+                    service = service,
+                    notificationViewModel = notificationViewModel
+                )
             }
         }
     }
 }
-
 

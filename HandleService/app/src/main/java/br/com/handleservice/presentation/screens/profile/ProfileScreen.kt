@@ -17,12 +17,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.presentation.screens.profile.components.ProfileOption
 
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
+    onAddressClick: () -> Unit,
+    navController: NavController,
     onNotificationClick: () -> Unit,
     onSettingsClick: () -> Unit,
     onFavoritesClick: () -> Unit
@@ -66,7 +69,7 @@ fun ProfileScreen(
             icon = R.drawable.ic_filled_address,
             label = "Meus Endereços",
             description = "Endereços cadastrados",
-            onClick = { }
+            onClick = onAddressClick
         )
         ProfileOption(
             icon = R.drawable.ic_favorite,
