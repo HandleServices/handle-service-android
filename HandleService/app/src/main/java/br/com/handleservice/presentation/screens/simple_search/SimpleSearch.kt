@@ -1,6 +1,7 @@
 package br.com.handleservice.presentation.screens.simple_search
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -68,7 +69,7 @@ fun SearchScreen(query: String?, navController: NavController?) {
     }
 
     Scaffold(
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -143,7 +144,6 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
     Card(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(8.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
@@ -189,10 +189,10 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
                     }
                 }
 
-                Divider(
-                    color = colorResource(R.color.handle_gray_secondary),
+                HorizontalDivider(
+                    modifier = Modifier.fillMaxWidth(),
                     thickness = 1.dp,
-                    modifier = Modifier.fillMaxWidth()
+                    color = colorResource(R.color.handle_gray_secondary)
                 )
 
                 Row(
