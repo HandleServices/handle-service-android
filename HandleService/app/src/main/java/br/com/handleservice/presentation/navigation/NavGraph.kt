@@ -107,7 +107,6 @@ fun NavGraph(
             composable(Route.Settings.route) {
                 SettingsScreen(
                     navController = navController,
-                    onToggleDarkMode = onToggleTheme
                 )
             }
 

@@ -19,7 +19,6 @@ import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,46 +41,46 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
 @Composable
-fun ContractsCard(
+fun ContractsCard (
     modifier: Modifier = Modifier,
     order: Order
 ) {
-    val colorScheme = MaterialTheme.colorScheme
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(if (order.status == OrderStatus.FINISHED) 140.dp else 126.dp)
             .clip(RoundedCornerShape(11.dp))
-            .background(colorScheme.surface)
+            .background(Color.White)
     ) {
-        Column(
+        Column (
             modifier = Modifier
                 .fillMaxHeight()
         ) {
-            Row(
+            Row (
                 modifier = modifier
                     .fillMaxWidth()
                     .weight(1f),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                Column(
+                Column (
                     modifier = Modifier
                         .padding(start = 14.6.dp),
                 ) {
                     Text(
                         text = order.worker.businessName,
-                        color = colorScheme.onBackground,
+                        color = colorResource(R.color.handle_titles),
                         fontWeight = FontWeight(500),
                         fontSize = 16.sp,
                         modifier = Modifier
                             .padding(top = 10.dp, bottom = 13.dp)
+
                     )
-                    Row(
+                    Row (
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
                             text = "85",
-                            color = colorScheme.secondary,
+                            color = colorResource(R.color.handle_gray),
                             fontWeight = FontWeight.Normal,
                             fontSize = 11.sp,
                             lineHeight = 13.sp,
@@ -89,13 +88,13 @@ fun ContractsCard(
                             modifier = Modifier
                                 .size(13.dp)
                                 .background(
-                                    color = colorScheme.surfaceVariant,
+                                    color = colorResource(R.color.handle_background_gray),
                                     shape = RoundedCornerShape(2.dp)
                                 )
                         )
                         Text(
                             text = order.service.name,
-                            color = colorScheme.tertiary,
+                            color = colorResource(R.color.handle_gray),
                             fontWeight = FontWeight(400),
                             fontSize = 11.sp,
                             modifier = Modifier
@@ -103,7 +102,7 @@ fun ContractsCard(
                         )
                     }
                 }
-                Column(
+                Column (
                     modifier = Modifier
                         .fillMaxHeight()
                         .padding(top = 10.dp)
@@ -123,7 +122,7 @@ fun ContractsCard(
                     )
                 }
             }
-            if (order.status == OrderStatus.FINISHED) {
+            if(order.status == OrderStatus.FINISHED) {
                 Button(
                     onClick = {},
                     modifier = Modifier
@@ -134,8 +133,7 @@ fun ContractsCard(
                     shape = RoundedCornerShape(10),
                     contentPadding = PaddingValues(0.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = colorScheme.primary,
-                        contentColor = colorScheme.onPrimary
+                        colorResource(R.color.handle_blue)
                     )
                 ) {
                     Text(
@@ -148,6 +146,7 @@ fun ContractsCard(
     }
 }
 
+// TO-DO: implements that after mobile delivery
 @Composable
 fun LearnMoreButton(
     modifier: Modifier = Modifier,
@@ -163,20 +162,21 @@ fun LearnMoreButton(
     ) {
         Text(
             text = "Saiba mais",
-            color = MaterialTheme.colorScheme.primary,
+            color = colorResource(id = R.color.handle_blue),
             modifier = Modifier.padding(end = 8.dp)
         )
         Icon(
             imageVector = Icons.AutoMirrored.Default.KeyboardArrowRight,
             contentDescription = "Arrow",
-            tint = MaterialTheme.colorScheme.primary
+            tint = colorResource(id = R.color.handle_blue),
         )
     }
 }
 
+
 @Composable
 @Preview
-private fun ContractsCardPreview() {
+private fun ContractsCardPreview () {
     ContractsCard(
         order = OrderPreviewProvider().values.first(),
     )
