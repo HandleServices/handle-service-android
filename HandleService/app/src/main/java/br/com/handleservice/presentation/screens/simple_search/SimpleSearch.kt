@@ -10,7 +10,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,7 +48,7 @@ data class ServiceItem(
 )
 
 @Composable
-fun SearchScreen(query: String?, navController: NavController?) {
+fun SearchScreen(query: String, navController: NavController?) {
     val serviceList = remember {
         getMockWorker().map { worker ->
             ServiceItem(
@@ -68,6 +71,8 @@ fun SearchScreen(query: String?, navController: NavController?) {
         serviceList
     }
 
+    var filterValue by remember { mutableStateOf(query) }
+
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
@@ -84,8 +89,8 @@ fun SearchScreen(query: String?, navController: NavController?) {
 
             HandleSearchBar<ServiceItem>(
                 placeholder = "Buscar em Manutenção & Reparos",
-                value = query ?: "",
-                onValueChange = { /* Handle inline search */ },
+                value = filterValue,
+                onValueChange = { newText -> filterValue = newText },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
