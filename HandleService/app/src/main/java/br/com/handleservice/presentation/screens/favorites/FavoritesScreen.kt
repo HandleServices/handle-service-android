@@ -35,9 +35,6 @@ fun FavoritesScreen(
 ) {
     val favorites by favoritesViewModel.favorites.collectAsState()
 
-    println("ViewModel in FavoritesScreen: $favoritesViewModel")
-    println("Favorites in FavoritesScreen: ${favorites.joinToString { it.name }}")
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -91,7 +88,10 @@ fun FavoritesScreen(
             items(favorites) { favorite ->
                 FavoriteItem(
                     favorite = favorite,
-                    onRemoveFavorite = { favoritesViewModel.removeFavorite(it) }
+                    onFavoriteClick = { favoritesViewModel.removeFavorite(it) },
+                    onWorkerClick = {
+                        navController.navigate("worker_screen/${favorite.id}")
+                    }
                 )
             }
         }

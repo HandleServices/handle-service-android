@@ -26,12 +26,17 @@ import br.com.handleservice.R
 import br.com.handleservice.presentation.screens.favorites.Favorite
 
 @Composable
-fun FavoriteItem(favorite: Favorite, onRemoveFavorite: (Favorite) -> Unit) {
+fun FavoriteItem(
+    favorite: Favorite,
+    onFavoriteClick: (Favorite) -> Unit,
+    onWorkerClick: (Favorite) -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .background(Color.White, shape = RoundedCornerShape(16.dp))
+            .clickable { onWorkerClick(favorite) } // Trata o clique para abrir a WorkerScreen
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -46,7 +51,7 @@ fun FavoriteItem(favorite: Favorite, onRemoveFavorite: (Favorite) -> Unit) {
                 tint = colorResource(R.color.handle_blue),
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable { onRemoveFavorite(favorite) }
+                    .clickable { onFavoriteClick(favorite) } // Remove o favorito
             )
             Spacer(modifier = Modifier.width(12.dp))
 
