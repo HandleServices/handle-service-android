@@ -3,6 +3,7 @@ package br.com.handleservice.domain.usecases.orders
 import android.net.http.HttpException
 import android.os.Build
 import android.os.ext.SdkExtensions
+import android.util.Log
 import androidx.annotation.RequiresExtension
 import br.com.handleservice.domain.model.Order
 import br.com.handleservice.domain.repository.OrdersRepository
@@ -17,18 +18,13 @@ class GetAllOrdersUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<UiState<List<Order>>> = flow {
         emit(UiState.Loading())
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && SdkExtensions.getExtensionVersion(
-                Build.VERSION_CODES.S) >= 7) {
             try {
                 val orders = repository.getAllOrders()
                 emit(UiState.Success(data = orders))
             } catch (e: IOException) {
                 emit(UiState.Error(message = "Network error: ${e.localizedMessage}"))
-            } catch (e: HttpException) {
-                emit(UiState.Error(message = "Server error: ${e.localizedMessage}"))
             } catch (e: Exception) {
                 emit(UiState.Error(message = "Unexpected error: ${e.localizedMessage}"))
             }
-        }
     }
 }

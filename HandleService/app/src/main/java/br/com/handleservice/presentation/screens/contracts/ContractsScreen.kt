@@ -43,7 +43,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
-import br.com.handleservice.presentation.screens.address.AddressScreen
 import br.com.handleservice.presentation.screens.contracts.components.ContractsCard
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar

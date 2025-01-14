@@ -1,7 +1,6 @@
 package br.com.handleservice.di.controllers
 
-import br.com.handleservice.data.repository.OrdersImpl
-import br.com.handleservice.domain.repository.OrdersRepository
+import br.com.handleservice.data.repository.OrdersRepository
 import br.com.handleservice.domain.usecases.orders.GetAllOrdersUseCase
 import br.com.handleservice.domain.usecases.orders.GetOrderByIdUseCase
 import dagger.Module
