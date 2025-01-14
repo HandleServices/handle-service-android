@@ -33,14 +33,10 @@ fun FavoritesScreen(
     navController: NavController,
     favoritesViewModel: FavoritesViewModel
 ) {
-    // Observa as alterações na lista de favoritos
     val favorites by favoritesViewModel.favorites.collectAsState()
 
-    println("AAAAAAAAAAAAAA ViewModel in FavoritesScreen: $favoritesViewModel")
+    println("ViewModel in FavoritesScreen: $favoritesViewModel")
     println("Favorites in FavoritesScreen: ${favorites.joinToString { it.name }}")
-
-    // Log para depuração
-    println("Favoritos NA TELA FAVORITESSCREEN: ${favorites.joinToString { it.name }}")
 
     Column(
         modifier = Modifier
@@ -93,7 +89,10 @@ fun FavoritesScreen(
                 .padding(horizontal = 28.dp)
         ) {
             items(favorites) { favorite ->
-                FavoriteItem(favorite)
+                FavoriteItem(
+                    favorite = favorite,
+                    onRemoveFavorite = { favoritesViewModel.removeFavorite(it) }
+                )
             }
         }
     }

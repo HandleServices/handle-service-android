@@ -2,6 +2,7 @@ package br.com.handleservice.presentation.screens.favorites.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,7 +26,7 @@ import br.com.handleservice.R
 import br.com.handleservice.presentation.screens.favorites.Favorite
 
 @Composable
-fun FavoriteItem(favorite: Favorite) {
+fun FavoriteItem(favorite: Favorite, onRemoveFavorite: (Favorite) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,9 +42,11 @@ fun FavoriteItem(favorite: Favorite) {
         ) {
             Icon(
                 painter = painterResource(R.drawable.ic_favorite_filled),
-                contentDescription = "Favorito",
+                contentDescription = "Remover favorito",
                 tint = colorResource(R.color.handle_blue),
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { onRemoveFavorite(favorite) }
             )
             Spacer(modifier = Modifier.width(12.dp))
 
