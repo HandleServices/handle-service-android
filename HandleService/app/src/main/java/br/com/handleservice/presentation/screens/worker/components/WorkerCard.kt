@@ -149,6 +149,7 @@ fun WorkerCard(
                                     favoriteState.value = !favoriteState.value
                                     onFavoriteClick(
                                         Favorite(
+                                            id = worker.id.toString(),
                                             name = worker.businessName,
                                             category = worker.job, // Usando job aqui
                                             isAvailable = worker.isAvailable

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class Favorite(
+    val id: String,
     val name: String,
     val category: String,
     val isAvailable: Boolean
@@ -18,15 +19,7 @@ data class Favorite(
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor() : ViewModel() {
-    private val _favorites = MutableStateFlow(
-        listOf(
-            Favorite(
-                name = "Pedreiro Jorge",
-                category = "Pedreiro",
-                isAvailable = false
-            )
-        )
-    )
+    private val _favorites = MutableStateFlow( listOf<Favorite>() )
     val favorites: StateFlow<List<Favorite>> = _favorites
 
     // Adicionar um novo favorito
