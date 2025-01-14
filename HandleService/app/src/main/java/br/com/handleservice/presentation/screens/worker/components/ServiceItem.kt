@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -30,17 +31,16 @@ import br.com.handleservice.util.FormatUtils.formatTime
 @Composable
 fun ServiceItem(
     modifier: Modifier = Modifier,
-    service: Service?= null
+    service: Service? = null
 ) {
     if (service != null) {
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .background(colorResource(R.color.background))
+                .background(MaterialTheme.colorScheme.background)
         ) {
-            Column (
-            ) {
-                Row (
+            Column {
+                Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(3.dp),
                     modifier = Modifier
@@ -48,13 +48,13 @@ fun ServiceItem(
                 ) {
                     Text(
                         text = service.name,
-                        color = colorResource(R.color.handle_titles),
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight(500),
                         fontSize = 15.sp,
                     )
                     Text(
                         text = " • ${service.estimatedTime.formatTime()}",
-                        color = colorResource(R.color.handle_gray),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight(400),
                         fontSize = 12.sp,
                     )
@@ -67,7 +67,7 @@ fun ServiceItem(
                     text = service.description,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    color = colorResource(R.color.handle_gray),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight(400),
                     fontSize = 13.sp,
                 )
@@ -77,7 +77,7 @@ fun ServiceItem(
                         .padding(horizontal = 5.dp)
                         .padding(bottom = 5.dp),
                     text = formatBRCurrency(service.value),
-                    color = colorResource(R.color.handle_titles),
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight(400),
                     fontSize = 15.sp,
                 )
@@ -85,7 +85,7 @@ fun ServiceItem(
                     modifier = Modifier
                         .fillMaxWidth(),
                     thickness = 1.dp,
-                    color = colorResource(R.color.handle_gray_secondary)
+                    color = MaterialTheme.colorScheme.outline
                 )
             }
         }

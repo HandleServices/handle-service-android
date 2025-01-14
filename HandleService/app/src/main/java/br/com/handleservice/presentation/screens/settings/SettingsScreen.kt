@@ -13,13 +13,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.presentation.screens.settings.components.SettingsItem
 
 @Composable
 fun SettingsScreen(
-    navController: androidx.navigation.NavController,
-    viewModel: SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    navController: NavController,
+    viewModel: SettingsViewModel
 ) {
     val notificationsEnabled by viewModel.notificationsEnabled.collectAsState()
     val darkModeEnabled by viewModel.darkModeEnabled.collectAsState()
@@ -27,7 +28,7 @@ fun SettingsScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.background))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Row(
             modifier = Modifier
@@ -42,7 +43,7 @@ fun SettingsScreen(
                 modifier = Modifier
                     .size(24.dp)
                     .clickable { navController.popBackStack() },
-                tint = colorResource(R.color.handle_blue)
+                tint = MaterialTheme.colorScheme.primary
             )
 
             Text(
@@ -51,7 +52,7 @@ fun SettingsScreen(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.W600
                 ),
-                color = colorResource(R.color.black),
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 24.dp),
@@ -64,7 +65,7 @@ fun SettingsScreen(
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp),
             thickness = 1.dp,
-            color = colorResource(R.color.handle_gray_secondary)
+            color = MaterialTheme.colorScheme.outline
         )
 
         Column(modifier = Modifier.padding(horizontal = 16.dp)) {

@@ -36,7 +36,7 @@ fun SettingsItem(
                 text = title,
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.W500),
                 fontSize = 16.sp,
-                color = colorResource(R.color.handle_titles)
+                color = MaterialTheme.colorScheme.onSurface
             )
             if (description.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(4.dp))
@@ -44,7 +44,7 @@ fun SettingsItem(
                     text = description,
                     style = MaterialTheme.typography.bodySmall,
                     fontSize = 11.sp,
-                    color = colorResource(R.color.handle_gray)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

@@ -1,3 +1,7 @@
+buildscript {
+
+}
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -106,4 +110,7 @@ dependencies {
 
     //Notification
     implementation(libs.androidx.core.ktx)
+
+    //Dark mode
+    implementation(libs.androidx.datastore.preferences.v100)
 }

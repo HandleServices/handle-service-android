@@ -50,12 +50,13 @@ fun HandleHeader(
     sharedViewModel: AddressViewModel = hiltViewModel()
 ) {
     val selectedAddress by sharedViewModel.selectedAddress.collectAsState()
-    val colorScheme = MaterialTheme.colorScheme
+    val colorScheme = MaterialTheme.colorScheme // Adicionado para acessar o esquema de cores
+
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(56.dp)
-            .background(colorScheme.background),
+            .background(colorScheme.background), // Alterado para MaterialTheme
         contentAlignment = Alignment.CenterStart
     ) {
         Row(
@@ -71,7 +72,7 @@ fun HandleHeader(
                     modifier = Modifier
                         .size(24.dp)
                         .clickable { navController?.popBackStack() },
-                    tint = colorResource(R.color.handle_blue)
+                    tint = colorScheme.primary // Alterado para MaterialTheme
                 )
             } else {
                 Spacer(modifier = Modifier.width(24.dp))
@@ -90,7 +91,7 @@ fun HandleHeader(
                         }
                     },
                     contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.handle_blue)),
+                    colors = ButtonDefaults.buttonColors(containerColor = colorScheme.primary), // Alterado para MaterialTheme
                     shape = RoundedCornerShape(10.dp),
                     border = null,
                     modifier = Modifier
@@ -107,14 +108,14 @@ fun HandleHeader(
                         Text(
                             text = "R. Franco Costa, 78",
                             modifier = Modifier.align(Alignment.Center),
-                            color = Color.White,
+                            color = colorScheme.onPrimary, // Alterado para MaterialTheme
                             textAlign = TextAlign.Center,
                             style = TextStyle(fontSize = 12.sp)
                         )
                         Icon(
                             imageVector = Icons.Rounded.KeyboardArrowDown,
                             contentDescription = "Dropdown",
-                            tint = Color.White,
+                            tint = colorScheme.onPrimary, // Alterado para MaterialTheme
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .padding(end = 8.dp)
@@ -130,7 +131,7 @@ fun HandleHeader(
                 Icon(
                     painter = painterResource(id = R.drawable.notification),
                     contentDescription = "Notification icon",
-                    tint = colorResource(R.color.handle_blue),
+                    tint = colorScheme.primary, // Alterado para MaterialTheme
                     modifier = Modifier.size(20.dp)
                 )
             }

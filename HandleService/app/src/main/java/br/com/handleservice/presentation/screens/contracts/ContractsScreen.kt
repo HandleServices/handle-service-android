@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -59,7 +60,7 @@ fun ContractsScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(R.color.background))
+            .background(MaterialTheme.colorScheme.background)
             .padding(vertical = 26.dp),
         horizontalAlignment = Alignment.Start
     ) {
@@ -76,8 +77,7 @@ fun ContractsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(36.dp)
-                .padding(horizontal = 15.dp)
-            ,
+                .padding(horizontal = 15.dp),
             placeholder = "Buscar no histórico"
         )
 
@@ -87,7 +87,8 @@ fun ContractsScreen(
                 .padding(horizontal = 26.dp),
             text = stringResource(R.string.agendados),
             fontWeight = FontWeight(500),
-            fontSize = 19.sp
+            fontSize = 19.sp,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         LazyColumn(
@@ -102,7 +103,7 @@ fun ContractsScreen(
                         text = date,
                         fontWeight = FontWeight.W500,
                         fontSize = 13.sp,
-                        color = colorResource(R.color.handle_titles),
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(vertical = 1.dp)
                     )
                 }
@@ -118,7 +119,8 @@ fun ContractsScreen(
                 .padding(horizontal = 26.dp),
             text = stringResource(R.string.historico),
             fontWeight = FontWeight(500),
-            fontSize = 19.sp
+            fontSize = 19.sp,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         LazyColumn(
@@ -133,7 +135,7 @@ fun ContractsScreen(
                         text = date,
                         fontWeight = FontWeight.W500,
                         fontSize = 13.sp,
-                        color = colorResource(R.color.handle_titles),
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(vertical = 1.dp)
                     )
                 }

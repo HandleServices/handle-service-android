@@ -33,19 +33,12 @@ fun FavoritesScreen(
     navController: NavController,
     favoritesViewModel: FavoritesViewModel
 ) {
-    // Observa as alterações na lista de favoritos
     val favorites by favoritesViewModel.favorites.collectAsState()
-
-    println("AAAAAAAAAAAAAA ViewModel in FavoritesScreen: $favoritesViewModel")
-    println("Favorites in FavoritesScreen: ${favorites.joinToString { it.name }}")
-
-    // Log para depuração
-    println("Favoritos NA TELA FAVORITESSCREEN: ${favorites.joinToString { it.name }}")
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.background))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Row(
             modifier = Modifier
@@ -60,7 +53,7 @@ fun FavoritesScreen(
                 modifier = Modifier
                     .size(24.dp)
                     .clickable { navController.popBackStack() },
-                tint = colorResource(R.color.handle_blue)
+                tint = MaterialTheme.colorScheme.primary
             )
 
             Text(
@@ -69,7 +62,7 @@ fun FavoritesScreen(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.W600
                 ),
-                color = colorResource(R.color.black),
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 24.dp),
@@ -82,18 +75,23 @@ fun FavoritesScreen(
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp),
             thickness = 1.dp,
-            color = colorResource(R.color.handle_gray_secondary)
+            color = MaterialTheme.colorScheme.outline
         )
         Spacer(modifier = Modifier.height(17.dp))
 
-        // Lista de favoritos
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 28.dp)
         ) {
             items(favorites) { favorite ->
-                FavoriteItem(favorite)
+                FavoriteItem(
+                    favorite = favorite,
+                    onFavoriteClick = { favoritesViewModel.removeFavorite(it) },
+                    onWorkerClick = {
+                        navController.navigate("worker_screen/${favorite.id}")
+                    }
+                )
             }
         }
     }

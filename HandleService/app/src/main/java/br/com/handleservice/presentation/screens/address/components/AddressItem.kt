@@ -55,14 +55,14 @@ fun AddressItem(
                 if (address.isSelected) {
                     Modifier.border(
                         width = 1.dp,
-                        color = colorResource(R.color.handle_blue),
+                        color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(13.dp)
                     )
                 } else Modifier
             )
             .clickable { onClick(address) },
         colors = CardDefaults.cardColors(
-            containerColor = Color.White
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         content = {
             Column(
@@ -76,15 +76,14 @@ fun AddressItem(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
                     Text(
                         text = address.type,
                         fontWeight = FontWeight(500),
                         fontSize = 16.sp,
                         color = if (address.isSelected) {
-                            colorResource(R.color.handle_blue)
+                            MaterialTheme.colorScheme.primary
                         } else {
-                            colorResource(R.color.handle_titles)
+                            MaterialTheme.colorScheme.onSurface
                         }
                     )
 
@@ -95,7 +94,7 @@ fun AddressItem(
                             Icon(
                                 imageVector = Icons.Rounded.CheckCircle,
                                 contentDescription = "Selected",
-                                tint = colorResource(R.color.handle_blue),
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier
                                     .size(25.dp)
                                     .padding(end = 4.dp)
@@ -105,9 +104,9 @@ fun AddressItem(
                             imageVector = Icons.Rounded.MoreVert,
                             contentDescription = "Menu",
                             tint = if (address.isSelected) {
-                                colorResource(R.color.handle_blue)
+                                MaterialTheme.colorScheme.primary
                             } else {
-                                colorResource(R.color.handle_light_gray)
+                                MaterialTheme.colorScheme.onSurfaceVariant
                             },
                             modifier = Modifier
                                 .size(20.dp)
@@ -119,40 +118,37 @@ fun AddressItem(
                 Spacer(modifier = Modifier.height(2.dp))
 
                 Text(
-                    modifier = Modifier
-                        .padding(0.dp),
+                    modifier = Modifier.padding(0.dp),
                     text = "${address.street}, ${address.number} - ${address.neighborhood}",
                     fontWeight = FontWeight(370),
                     fontSize = 16.sp,
                     color = if (address.isSelected) {
-                        colorResource(R.color.handle_blue)
+                        MaterialTheme.colorScheme.primary
                     } else {
-                        colorResource(R.color.handle_gray)
+                        MaterialTheme.colorScheme.onSurfaceVariant
                     }
                 )
                 Text(
-                    modifier = Modifier
-                        .padding(0.dp),
+                    modifier = Modifier.padding(0.dp),
                     text = "${address.city}/${address.state}",
                     fontWeight = FontWeight(300),
                     fontSize = 13.sp,
                     color = if (address.isSelected) {
-                        colorResource(R.color.handle_blue)
+                        MaterialTheme.colorScheme.primary
                     } else {
-                        colorResource(R.color.handle_gray)
+                        MaterialTheme.colorScheme.onSurfaceVariant
                     }
                 )
                 address.note?.let {
                     Text(
-                        modifier = Modifier
-                            .padding(0.dp),
+                        modifier = Modifier.padding(0.dp),
                         text = it,
                         fontWeight = FontWeight(400),
                         fontSize = 11.sp,
                         color = if (address.isSelected) {
-                            colorResource(R.color.handle_blue)
+                            MaterialTheme.colorScheme.primary
                         } else {
-                            colorResource(R.color.handle_gray)
+                            MaterialTheme.colorScheme.onSurfaceVariant
                         }
                     )
                 }
@@ -160,7 +156,6 @@ fun AddressItem(
         }
     )
 }
-
 
 @Composable
 @Preview

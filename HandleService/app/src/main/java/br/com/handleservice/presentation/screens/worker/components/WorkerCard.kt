@@ -24,6 +24,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -68,7 +69,7 @@ fun WorkerCard(
                     .height(133.dp),
                 shape = RoundedCornerShape(20.dp),
                 colors = CardDefaults.cardColors(
-                    containerColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.surface
                 ),
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 10.dp,
@@ -83,7 +84,7 @@ fun WorkerCard(
 
                     Text(
                         text = worker.businessName,
-                        color = colorResource(R.color.handle_titles),
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight(500),
                         fontSize = 17.sp,
                     )
@@ -95,19 +96,19 @@ fun WorkerCard(
                     ) {
                         Text(
                             text = "${worker.firstName} ${worker.lastName}",
-                            color = colorResource(R.color.handle_titles),
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight(300),
                             fontSize = 13.sp,
                         )
                         Text(
                             text = " • ${worker.job}",
-                            color = colorResource(R.color.handle_gray),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontWeight = FontWeight(400),
                             fontSize = 11.sp,
                         )
                     }
                     HorizontalDivider(
-                        color = colorResource(R.color.handle_gray_secondary),
+                        color = MaterialTheme.colorScheme.outline,
                         thickness = 0.6.dp,
                         modifier = Modifier.padding(vertical = 10.dp)
                     )
@@ -149,6 +150,7 @@ fun WorkerCard(
                                     favoriteState.value = !favoriteState.value
                                     onFavoriteClick(
                                         Favorite(
+                                            id = worker.id.toString(),
                                             name = worker.businessName,
                                             category = worker.job, // Usando job aqui
                                             isAvailable = worker.isAvailable

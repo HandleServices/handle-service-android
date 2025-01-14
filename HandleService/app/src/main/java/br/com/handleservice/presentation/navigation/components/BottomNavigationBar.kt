@@ -23,14 +23,14 @@ fun BottomNavigationBar(navController: NavController) {
     val currentDestination = navBackStackEntry?.destination
     val navItems = getNavItems()
 
-    val selectedColor = colorResource(id = R.color.handle_blue)
-    val unselectedColor = colorResource(id = R.color.handle_gray)
+    val selectedColor = MaterialTheme.colorScheme.primary
+    val unselectedColor = MaterialTheme.colorScheme.onSurfaceVariant
 
     Box(
         modifier = Modifier.zIndex(1f)
     ) {
         NavigationBar(
-            containerColor = Color.White,
+            containerColor = MaterialTheme.colorScheme.surface,
             modifier = Modifier.shadow(15.dp)
         ) {
             navItems.forEach { item ->
