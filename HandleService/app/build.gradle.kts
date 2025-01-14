@@ -110,4 +110,7 @@ dependencies {
 
     //Notification
     implementation(libs.androidx.core.ktx)
+
+    //Dark mode
+    implementation(libs.androidx.datastore.preferences.v100)
 }

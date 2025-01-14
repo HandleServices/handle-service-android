@@ -28,7 +28,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val favoritesViewModel: FavoritesViewModel by viewModels() // Instância compartilhada
-    private val notificationViewModel: NotificationViewModel by viewModels()
+    private val notificationViewModel: NotificationViewModel by viewModels() // Instância compartilhada
+    private val settingsViewModel: SettingsViewModel by viewModels() // Instância compartilhada
 
     companion object {
         const val NOTIFICATION_PERMISSION_REQUEST_CODE = 101
@@ -53,21 +54,22 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            val viewModel: SettingsViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
-            val isDarkTheme by viewModel.darkModeEnabled.collectAsState()
+            val isDarkTheme by settingsViewModel.darkModeEnabled.collectAsState()
 
-            HandleServiceTheme {
+            HandleServiceTheme(darkTheme = isDarkTheme) {
                 Box(modifier = Modifier.background(colorResource(id = R.color.background))) {
                     NavGraph(
                         startDestination = Route.HomeScreen.route,
                         isDarkTheme = isDarkTheme,
-                        onToggleTheme = { viewModel.toggleDarkMode(it) },
+                        onToggleTheme = { settingsViewModel.toggleDarkMode(it) },
                         favoritesViewModel = favoritesViewModel,
-                        notificationViewModel = notificationViewModel
+                        notificationViewModel = notificationViewModel,
+                        settingsViewModel = settingsViewModel
                     )
                 }
             }
         }
+
     }
 
     override fun onRequestPermissionsResult(

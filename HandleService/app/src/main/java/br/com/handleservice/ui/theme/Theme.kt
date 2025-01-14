@@ -13,28 +13,28 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = Color(0xFF4CA3FF),
-    secondary = Color(0xFF2C2C2E),
+    secondary = Color(0xFFFF5252),
     tertiary = Color(0xFF7C7C8A),
     background = Color(0xFF121212),
-    surface = Color(0xFF2C2C2E),
-    onPrimary = Color.White,
-    onSecondary = Color(0xFFE0E0E0),
+    surface = Color(0xFF1C1C1E),
+    onPrimary = Color.Black,
+    onSecondary = Color(0xFFE0E0E0), // sla
     onTertiary = Color(0xFF7C7C8A),
     onBackground = Color(0xFFE0E0E0),
-    onSurface = Color(0xFFE0E0E0),
-    outline = Color(0xFF444446)
+    onSurface = Color(0xFF7C7C8A),
+    outline = Color(0xFFC5CCD9)
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF1A73E8),
     secondary = Color(0xFFFF5252),
     tertiary = Color(0xFF7C7C8A),
-    background = Color(0xFFF4F5F8),
+    background = Color(0xFF121212),
     surface = Color.White,
     onPrimary = Color.White,
     onSecondary = Color.Black,
     onTertiary = Color(0xFF323238),
-    onBackground = Color.Black,
+    onBackground = Color(0xFF121212),
     onSurface = Color(0xFF323238),
     outline = Color(0xFFC5CCD9)
 )
@@ -45,9 +45,9 @@ fun HandleServiceTheme(
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    val context = LocalContext.current
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
         darkTheme -> DarkColorScheme
@@ -60,3 +60,4 @@ fun HandleServiceTheme(
         content = content
     )
 }
+
