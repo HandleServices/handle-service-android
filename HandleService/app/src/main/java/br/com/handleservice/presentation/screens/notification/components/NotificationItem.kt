@@ -32,14 +32,14 @@ fun NotificationItem(notification: Notification) {
                 text = notification.title,
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.W500),
                 fontSize = 16.sp,
-                color = colorResource(R.color.handle_titles)
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
                 text = notification.description,
                 style = MaterialTheme.typography.bodySmall,
                 fontSize = 12.sp,
-                color = colorResource(R.color.handle_gray),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 2
             )
         }
@@ -47,7 +47,7 @@ fun NotificationItem(notification: Notification) {
             text = notification.time,
             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium),
             fontSize = 13.sp,
-            color = colorResource(R.color.handle_blue)
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }

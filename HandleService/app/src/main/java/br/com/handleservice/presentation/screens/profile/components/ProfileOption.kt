@@ -64,7 +64,7 @@ fun ProfileOption(
                     painter = painterResource(R.drawable.ic_chevron_right),
                     contentDescription = "Seta",
                     modifier = Modifier.size(25.dp),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             }
         }

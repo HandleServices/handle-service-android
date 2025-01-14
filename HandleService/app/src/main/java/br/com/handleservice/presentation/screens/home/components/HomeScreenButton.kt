@@ -35,7 +35,7 @@ fun HomeScreenButton(category: ServicesCategoriesType, onClick: () -> Unit) {
             .height(64.dp),
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer // Alterado para MaterialTheme
+            containerColor = MaterialTheme.colorScheme.primaryContainer
         )
     ) {
         Column(
