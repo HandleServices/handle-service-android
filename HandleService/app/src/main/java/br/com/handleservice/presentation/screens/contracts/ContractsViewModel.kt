@@ -4,17 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.handleservice.domain.model.Order
 import br.com.handleservice.domain.model.OrderStatus
-import br.com.handleservice.ui.mock.getMockOrders
+import br.com.handleservice.domain.usecases.orders.GetAllOrdersUseCase
+import br.com.handleservice.ui.components.loading.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
+import kotlin.contracts.contract
 
 data class GroupedOrders(
     val scheduled: Map<String, List<Order>> = emptyMap(),
@@ -22,35 +25,44 @@ data class GroupedOrders(
 )
 
 @HiltViewModel
-class ContractsViewModel @Inject constructor() : ViewModel() {
+class ContractsViewModel @Inject constructor(
+    private val getAllOrdersUseCase: GetAllOrdersUseCase
+) : ViewModel() {
 
-    private val _orders = MutableStateFlow<List<Order>>(emptyList())
-    val orders: StateFlow<List<Order>> = _orders
+    private val _orders = MutableStateFlow<UiState<List<Order>>>(UiState.Loading())
+    val orders: StateFlow<UiState<List<Order>>> = _orders
+
+    val groupedContracts: StateFlow<GroupedOrders> = _orders.map { uiState ->
+        when (uiState) {
+            is UiState.Success -> {
+                val contracts = uiState.data ?: emptyList()
+                GroupedOrders(
+                    scheduled = contracts
+                        .filter { it.status == OrderStatus.IN_PROGRESS || it.status == OrderStatus.PENDING }
+                        .groupBy { formatDate(it.appointmentDate) },
+                    finished = contracts
+                        .filter { it.status == OrderStatus.FINISHED || it.status == OrderStatus.CANCELED }
+                        .groupBy { formatDate(it.appointmentDate) }
+                )
+            }
+            else -> GroupedOrders()
+        }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, GroupedOrders())
 
     init {
-        getContracts()
+        fetchOrders()
     }
 
-    private fun getContracts() {
+    private fun fetchOrders() {
         viewModelScope.launch {
-            _orders.value = getMockOrders()
+            getAllOrdersUseCase().collect { uiState ->
+                _orders.value = uiState
+            }
         }
     }
-
-    val groupedContracts: StateFlow<GroupedOrders> = _orders.map { contracts ->
-        GroupedOrders(
-            scheduled = contracts
-                .filter { it.status === OrderStatus.IN_PROGRESS || it.status === OrderStatus.PENDING }
-                .groupBy { formatDate(it.appointmentDate) },
-            finished = contracts
-                .filter { it.status === OrderStatus.FINISHED || it.status === OrderStatus.CANCELED }
-                .groupBy { formatDate(it.appointmentDate) }
-        )
-    }.stateIn(viewModelScope, SharingStarted.Lazily, GroupedOrders())
 
     private fun formatDate(date: LocalDateTime): String {
         val formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM")
         return date.format(formatter)
     }
-
 }

@@ -7,13 +7,14 @@ enum class OrderStatus {
     PENDING,
     IN_PROGRESS,
     FINISHED,
-    CANCELED
+    CANCELED,
+    SCHEDULED
 }
 
 data class Order (
     val id: Int,
     val appointmentDate: LocalDateTime,
-    val value: Int,
+    val value: Double,
     val purchaseTime: LocalDateTime,
     val workerRating: Int,
     val worker: Worker,

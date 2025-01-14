@@ -13,7 +13,7 @@ class OrderPreviewProvider : PreviewParameterProvider<Order> {
         Order(
             id = 1,
             appointmentDate = LocalDateTime.now(),
-            value = 100,
+            value = 100.1,
             purchaseTime = LocalDateTime.now(),
             workerRating = 5,
             worker = Worker(
@@ -31,7 +31,7 @@ class OrderPreviewProvider : PreviewParameterProvider<Order> {
             service = Service(
                 id = 1,
                 enable = true,
-                value = 100,
+                value = 100.1,
                 name = "Troca de pia",
                 description = "",
                 workerId = 1,
@@ -42,7 +42,7 @@ class OrderPreviewProvider : PreviewParameterProvider<Order> {
         Order(
             id = 2,
             appointmentDate = LocalDateTime.now().plusDays(1),
-            value = 200,
+            value = 200.1,
             purchaseTime = LocalDateTime.now(),
             workerRating = 4,
             worker = Worker(
@@ -60,7 +60,7 @@ class OrderPreviewProvider : PreviewParameterProvider<Order> {
             service = Service(
                 id = 1,
                 enable = true,
-                value = 100,
+                value = 100.1,
                 name = "Troca de pia",
                 description = "",
                 workerId = 1,

@@ -57,7 +57,8 @@ class MainActivity : ComponentActivity() {
             val isDarkTheme by settingsViewModel.darkModeEnabled.collectAsState()
 
             HandleServiceTheme(darkTheme = isDarkTheme) {
-                Box(modifier = Modifier.background(colorResource(id = R.color.background))) {
+
+              Box(modifier = Modifier.background(colorResource(id = R.color.background))) {
                     NavGraph(
                         startDestination = Route.HomeScreen.route,
                         isDarkTheme = isDarkTheme,
