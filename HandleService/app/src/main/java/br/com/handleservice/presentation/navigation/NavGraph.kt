@@ -21,6 +21,7 @@ import br.com.handleservice.presentation.screens.profile.ProfileScreen
 import br.com.handleservice.presentation.screens.notification.NotificationScreen
 import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.presentation.screens.settings.SettingsScreen
+import br.com.handleservice.presentation.screens.settings.SettingsViewModel
 import br.com.handleservice.presentation.screens.simple_search.SearchScreen
 import br.com.handleservice.presentation.screens.worker.WorkerScreen
 
@@ -29,6 +30,7 @@ fun NavGraph(
     startDestination: String,
     favoritesViewModel: FavoritesViewModel,
     notificationViewModel: NotificationViewModel,
+    settingsViewModel: SettingsViewModel,
     onToggleTheme: (Boolean) -> Unit,
     isDarkTheme: Boolean
 ) {
@@ -97,16 +99,21 @@ fun NavGraph(
                 )
             }
 
-            composable(Route.Notification.route) {
+            composable(
+                Route.Notification.route
+            ) {
                 NotificationScreen(
                     navController = navController,
                     viewModel = notificationViewModel
                 )
             }
 
-            composable(Route.Settings.route) {
+            composable(
+                Route.Settings.route
+            ) {
                 SettingsScreen(
                     navController = navController,
+                    viewModel = settingsViewModel
                 )
             }
 

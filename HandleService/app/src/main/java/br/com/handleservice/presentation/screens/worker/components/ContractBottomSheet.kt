@@ -120,6 +120,7 @@ fun ContractBottomSheet(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(vertical = 16.dp, horizontal = 20.dp)
         ) {
             Row(
@@ -128,13 +129,13 @@ fun ContractBottomSheet(
             ) {
                 Text(
                     text = service.name,
-                    color = colorResource(R.color.handle_titles),
+                    color = MaterialTheme.colorScheme.primary,
                     fontWeight = FontWeight(500),
                     fontSize = 21.sp,
                 )
                 Text(
                     text = " • ${service.estimatedTime.formatTime()}",
-                    color = colorResource(R.color.handle_gray),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight(400),
                     fontSize = 12.sp,
                 )
@@ -142,7 +143,7 @@ fun ContractBottomSheet(
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = service.description,
-                color = colorResource(R.color.handle_gray),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight(400),
                 fontSize = 14.sp,
             )
@@ -151,12 +152,12 @@ fun ContractBottomSheet(
                 modifier = Modifier
                     .fillMaxWidth(),
                 thickness = 1.dp,
-                color = colorResource(R.color.handle_gray_secondary)
+                color = MaterialTheme.colorScheme.outline
             )
             Spacer(modifier = Modifier.height(20.dp))
             Text(
                 text = "Escolha o dia e horário",
-                color = colorResource(R.color.handle_titles),
+                color = MaterialTheme.colorScheme.primary,
                 fontWeight = FontWeight(500),
                 fontSize = 19.sp,
             )
@@ -165,7 +166,7 @@ fun ContractBottomSheet(
                 text = selectedDate.format(dateFormatter),
                 fontSize = 16.sp,
                 fontWeight = FontWeight(400),
-                color = colorResource(R.color.handle_titles)
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(16.dp))
             LazyRow(
@@ -200,8 +201,8 @@ fun ContractBottomSheet(
                 modifier = Modifier
                     .fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.handle_blue),
-                    contentColor = Color.White
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 ),
                 onClick = {
                     handleContract(
@@ -216,7 +217,7 @@ fun ContractBottomSheet(
                     modifier = Modifier
                         .padding(horizontal = 13.dp),
                     text = "Contratar Serviço",
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontWeight = FontWeight(300),
                     fontSize = 20.sp,
                 )
@@ -225,7 +226,7 @@ fun ContractBottomSheet(
                     modifier = Modifier
                         .padding(horizontal = 13.dp),
                     text = formatBRCurrency(service.value),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontWeight = FontWeight(300),
                     fontSize = 20.sp,
                 )
@@ -260,8 +261,8 @@ fun DateButton(
             .width(80.dp)
             .clip(RoundedCornerShape(13.dp))
             .background(
-                if (isSelected) colorResource(R.color.handle_blue).copy(alpha = 0.3f)
-                else colorResource(R.color.handle_gray_tertiary)
+                if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                else MaterialTheme.colorScheme.surfaceVariant
             )
             .clickable { onSelectDate(date) }
     ) {
@@ -269,16 +270,16 @@ fun DateButton(
             Text(
                 text = dayAbbreviation,
                 style = MaterialTheme.typography.labelSmall,
-                color = if (isSelected) colorResource(R.color.handle_blue)
-                else colorResource(R.color.handle_titles),
+                color = if (isSelected) MaterialTheme.colorScheme.primary
+                else MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 fontWeight = FontWeight(300)
             )
             Text(
                 text = formattedDate,
                 style = MaterialTheme.typography.bodyMedium,
-                color = if (isSelected) colorResource(R.color.handle_blue)
-                else colorResource(R.color.handle_titles),
+                color = if (isSelected) MaterialTheme.colorScheme.primary // Alterado para MaterialTheme
+                else MaterialTheme.colorScheme.onSurface,
                 fontSize = 16.sp,
                 fontWeight = FontWeight(500)
             )
@@ -292,8 +293,8 @@ fun TimeButton(
     onSelectTime: (LocalTime) -> Unit,
     isSelected: Boolean
 ) {
-    val backgroundColor = if (isSelected) colorResource(R.color.handle_blue).copy(alpha = 0.3f) else colorResource(R.color.handle_gray_tertiary)
-    val textColor = if (isSelected) colorResource(R.color.handle_blue) else colorResource(R.color.handle_gray)
+    val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.surfaceVariant // Alterado para MaterialTheme
+    val textColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier

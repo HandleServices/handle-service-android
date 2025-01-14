@@ -20,6 +20,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -38,7 +39,7 @@ import androidx.compose.ui.text.input.ImeAction
 fun <T> HandleSearchBar(
     searchableElements: List<T> = emptyList(),
     placeholder: String,
-    iconColor: Color = Color.Gray,
+    iconColor: Color = MaterialTheme.colorScheme.onSurfaceVariant, // Alterado para MaterialTheme
     modifier: Modifier = Modifier,
     value: String = "",
     onValueChange: (String) -> Unit = {},
@@ -57,7 +58,7 @@ fun <T> HandleSearchBar(
             .fillMaxWidth()
             .height(40.dp)
             .shadow(elevation = 4.dp, shape = RoundedCornerShape(5.dp), clip = false)
-            .background(Color.White, shape = RoundedCornerShape(5.dp)),
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(5.dp)), // Alterado para MaterialTheme
     ) {
         BasicTextField(
             value = value,
@@ -68,7 +69,7 @@ fun <T> HandleSearchBar(
             singleLine = true,
             textStyle = LocalTextStyle.current.copy(
                 fontSize = 14.sp,
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onSurface // Alterado para MaterialTheme
             ),
             decorationBox = { innerTextField ->
                 Row(
@@ -78,7 +79,7 @@ fun <T> HandleSearchBar(
 
                     Icon(
                         imageVector = Icons.Default.Search,
-                        tint = iconColor,
+                        tint = iconColor, // Alterado para MaterialTheme
                         contentDescription = null,
                         modifier = Modifier.size(15.dp)
                     )
@@ -86,7 +87,10 @@ fun <T> HandleSearchBar(
 
                     Box(modifier = Modifier.weight(1f)) {
                         if (value.isEmpty()) {
-                            Text(placeholder, color = Color.Gray)
+                            Text(
+                                placeholder,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant // Alterado para MaterialTheme
+                            )
                         }
                         innerTextField()
                     }
@@ -100,7 +104,7 @@ fun <T> HandleSearchBar(
                                     onValueChange("")
                                     viewModel.onSearchTextChange("")
                                 },
-                            tint = iconColor
+                            tint = iconColor // Alterado para MaterialTheme
                         )
                     }
                 }
@@ -116,36 +120,4 @@ fun <T> HandleSearchBar(
             )
         )
     }
-}
-
-// Just example: delete after full implementation
-data class Person(
-    val firstName: String,
-    val lastName: String
-) : SearchableClass {
-    override fun doesMatchSearchQuery(query: String): Boolean {
-        val matchingCombinations = listOf(
-            "$firstName$lastName",
-            "$firstName $lastName",
-            "${firstName.first()} ${lastName.first()}"
-        )
-        return matchingCombinations.any { it.contains(query, ignoreCase = true) }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewSearchBar() {
-    val persons = listOf(
-        Person(firstName = "Philipp", lastName = "Lackner"),
-        Person(firstName = "Beff", lastName = "Jezos"),
-        Person(firstName = "Chris P.", lastName = "Bacon"),
-        Person(firstName = "Jeve", lastName = "Stops")
-    )
-
-    // Preview the search bar with some example data
-    HandleSearchBar<Person>(
-        searchableElements = persons,
-        placeholder = "Search..."
-    )
 }

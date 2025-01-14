@@ -33,14 +33,14 @@ fun FilterButton(
 ) {
     OutlinedButton(
         onClick = onClick,
-        contentPadding = PaddingValues(0.dp, 0.dp, 0.dp, 0.dp),
+        contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = colorResource(R.color.handle_gray_tertiary),
-            contentColor = Color.White
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.primary
         ),
         shape = RoundedCornerShape(50.dp),
         modifier = Modifier.height(17.dp),
-        border = null // Removes the border
+        border = null
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -49,7 +49,7 @@ fun FilterButton(
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontSize = TextUnit(8f, TextUnitType.Sp)
                 )
             )

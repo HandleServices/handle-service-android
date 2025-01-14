@@ -38,7 +38,7 @@ fun FavoritesScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(colorResource(R.color.background))
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Row(
             modifier = Modifier
@@ -53,7 +53,7 @@ fun FavoritesScreen(
                 modifier = Modifier
                     .size(24.dp)
                     .clickable { navController.popBackStack() },
-                tint = colorResource(R.color.handle_blue)
+                tint = MaterialTheme.colorScheme.primary
             )
 
             Text(
@@ -62,7 +62,7 @@ fun FavoritesScreen(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.W600
                 ),
-                color = colorResource(R.color.black),
+                color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 24.dp),
@@ -75,11 +75,10 @@ fun FavoritesScreen(
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp),
             thickness = 1.dp,
-            color = colorResource(R.color.handle_gray_secondary)
+            color = MaterialTheme.colorScheme.outline
         )
         Spacer(modifier = Modifier.height(17.dp))
 
-        // Lista de favoritos
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

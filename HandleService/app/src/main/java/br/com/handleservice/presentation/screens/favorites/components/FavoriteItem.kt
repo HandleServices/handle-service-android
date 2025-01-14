@@ -35,8 +35,8 @@ fun FavoriteItem(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .background(Color.White, shape = RoundedCornerShape(16.dp))
-            .clickable { onWorkerClick(favorite) } // Trata o clique para abrir a WorkerScreen
+            .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(16.dp))
+            .clickable { onWorkerClick(favorite) }
             .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -48,10 +48,10 @@ fun FavoriteItem(
             Icon(
                 painter = painterResource(R.drawable.ic_favorite_filled),
                 contentDescription = "Remover favorito",
-                tint = colorResource(R.color.handle_blue),
+                tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .size(24.dp)
-                    .clickable { onFavoriteClick(favorite) } // Remove o favorito
+                    .clickable { onFavoriteClick(favorite) }
             )
             Spacer(modifier = Modifier.width(12.dp))
 
@@ -61,7 +61,7 @@ fun FavoriteItem(
                         text = favorite.name,
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.W500),
                         fontSize = 16.sp,
-                        color = colorResource(R.color.handle_titles)
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     if (favorite.isAvailable) {
                         Spacer(modifier = Modifier.width(12.dp))
@@ -69,7 +69,7 @@ fun FavoriteItem(
                             text = "Disponível Agora!",
                             style = MaterialTheme.typography.bodySmall,
                             fontSize = 9.sp,
-                            color = colorResource(R.color.handle_blue)
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
@@ -78,13 +78,13 @@ fun FavoriteItem(
                         .fillMaxWidth()
                         .padding(vertical = 4.dp),
                     thickness = 1.dp,
-                    color = colorResource(R.color.handle_gray_secondary)
+                    color = MaterialTheme.colorScheme.outline
                 )
                 Text(
                     text = favorite.category,
                     style = MaterialTheme.typography.bodySmall,
                     fontSize = 11.sp,
-                    color = colorResource(R.color.handle_gray)
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

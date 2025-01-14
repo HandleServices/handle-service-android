@@ -21,13 +21,13 @@ import br.com.handleservice.R
 import br.com.handleservice.domain.model.Address
 
 @Composable
-fun BottomSheetLayout (
+fun BottomSheetLayout(
     address: Address? = null,
     onCancel: () -> Unit,
     content: @Composable () -> Unit
 ) {
     if (address != null) {
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp, horizontal = 10.dp),
@@ -39,7 +39,7 @@ fun BottomSheetLayout (
                     fontSize = 22.sp,
                     fontWeight = FontWeight.W600
                 ),
-                color = colorResource(R.color.black),
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
                 textAlign = TextAlign.Center
@@ -50,7 +50,7 @@ fun BottomSheetLayout (
                     .fillMaxWidth()
                     .padding(start = 32.dp, end = 32.dp),
                 thickness = 1.dp,
-                color = colorResource(R.color.handle_gray_secondary)
+                color = MaterialTheme.colorScheme.outline
             )
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -62,7 +62,7 @@ fun BottomSheetLayout (
             ) {
                 Text(
                     text = "Cancelar",
-                    color = colorResource(R.color.handle_blue),
+                    color = MaterialTheme.colorScheme.primary,
                     style = MaterialTheme.typography.bodyLarge
                 )
             }

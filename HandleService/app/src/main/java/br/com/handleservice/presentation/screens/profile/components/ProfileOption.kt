@@ -40,7 +40,7 @@ fun ProfileOption(
                     painter = painterResource(id = icon),
                     contentDescription = label,
                     modifier = Modifier.size(25.dp),
-                    tint = colorResource(R.color.handle_light_gray)
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Column(
@@ -50,21 +50,21 @@ fun ProfileOption(
                         text = label,
                         style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Normal),
                         fontSize = 18.sp,
-                        color = colorResource(R.color.handle_titles)
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = description,
                         style = MaterialTheme.typography.bodySmall,
                         fontSize = 14.sp,
-                        color = colorResource(R.color.handle_gray)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
                 Icon(
                     painter = painterResource(R.drawable.ic_chevron_right),
                     contentDescription = "Seta",
                     modifier = Modifier.size(25.dp),
-                    tint = colorResource(R.color.handle_gray)
+                    tint = MaterialTheme.colorScheme.tertiary
                 )
             }
         }
@@ -73,7 +73,7 @@ fun ProfileOption(
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter),
             thickness = 1.dp,
-            color = colorResource(R.color.handle_gray_secondary)
+            color = MaterialTheme.colorScheme.outline
         )
     }
 }

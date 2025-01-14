@@ -93,7 +93,7 @@ fun WorkerScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(R.color.background))
+            .background(MaterialTheme.colorScheme.background)
             .padding(vertical = 26.dp)
     ) {
         // Header
@@ -140,7 +140,7 @@ fun WorkerScreen(
                     )
                     Text(
                         text = "Serviços",
-                        color = colorResource(R.color.handle_titles),
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight(500),
                         fontSize = 17.sp,
                     )
@@ -180,7 +180,7 @@ fun WorkerScreen(
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
                     text = "Vídeo de Apresentação",
-                    color = colorResource(R.color.handle_titles),
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight(500),
                     fontSize = 17.sp,
                 )

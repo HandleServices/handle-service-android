@@ -105,8 +105,8 @@ fun EditAddressForm(
         Button(
             onClick = onSave,
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.handle_blue),
-                contentColor = Color.White
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             ),
             modifier = Modifier
                 .fillMaxWidth()
