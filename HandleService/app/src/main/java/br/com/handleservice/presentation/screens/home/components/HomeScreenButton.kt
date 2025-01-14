@@ -17,14 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import br.com.handleservice.R
+import androidx.compose.material3.MaterialTheme // Adicionado para acessar o esquema de cores
+import androidx.compose.ui.res.painterResource
 import br.com.handleservice.presentation.screens.home.ServicesCategoriesType
 
 @Composable
@@ -36,7 +34,9 @@ fun HomeScreenButton(category: ServicesCategoriesType, onClick: () -> Unit) {
             .width(167.dp)
             .height(64.dp),
         contentPadding = PaddingValues(0.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFCEE1F2))
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer // Alterado para MaterialTheme
+        )
     ) {
         Column(
             modifier = Modifier
@@ -46,7 +46,7 @@ fun HomeScreenButton(category: ServicesCategoriesType, onClick: () -> Unit) {
         ) {
             Text(
                 text = category.name,
-                color = colorResource(R.color.handle_blue),
+                color = MaterialTheme.colorScheme.primary, // Alterado para MaterialTheme
                 style = TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold
@@ -54,14 +54,16 @@ fun HomeScreenButton(category: ServicesCategoriesType, onClick: () -> Unit) {
             )
         }
         Column(
-            modifier = Modifier.weight(1f).fillMaxHeight(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
             verticalArrangement = Arrangement.Bottom,
             horizontalAlignment = Alignment.End,
         ) {
             Icon(
                 painter = painterResource(id = category.iconResId),
                 contentDescription = category.name,
-                tint = colorResource(R.color.handle_blue),
+                tint = MaterialTheme.colorScheme.primary, // Alterado para MaterialTheme
                 modifier = Modifier
                     .size(44.dp)
                     .fillMaxWidth()

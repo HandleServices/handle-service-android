@@ -76,11 +76,10 @@ fun AddressScreen(
     var showBottomSheet by remember { mutableStateOf(false) }
     var bottomSheetContentState by remember { mutableStateOf<BottomSheetContentState>(BottomSheetContentState.Actions) }
 
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colorResource(R.color.background))
-
+            .background(MaterialTheme.colorScheme.background) // Ajustado
     ) {
         Row(
             modifier = Modifier
@@ -97,7 +96,7 @@ fun AddressScreen(
                     .clickable {
                         navController?.popBackStack()
                     },
-                tint = colorResource(R.color.handle_blue)
+                tint = MaterialTheme.colorScheme.primary // Ajustado
             )
 
             Text(
@@ -106,7 +105,7 @@ fun AddressScreen(
                     fontSize = 22.sp,
                     fontWeight = FontWeight.W600
                 ),
-                color = colorResource(R.color.black),
+                color = MaterialTheme.colorScheme.onSurface, // Ajustado
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 24.dp),
@@ -119,7 +118,7 @@ fun AddressScreen(
                 .fillMaxWidth()
                 .padding(start = 32.dp, end = 32.dp),
             thickness = 1.dp,
-            color = colorResource(R.color.handle_gray_secondary)
+            color = MaterialTheme.colorScheme.outline // Ajustado
         )
         Spacer(modifier = Modifier.height(17.dp))
 
@@ -129,7 +128,7 @@ fun AddressScreen(
                 .padding(horizontal = 28.dp)
         ) {
             items(addresses) { address ->
-                AddressItem (
+                AddressItem(
                     address = address,
                     modifier = Modifier
                         .padding(vertical = 8.dp),
@@ -161,7 +160,7 @@ fun AddressScreen(
             },
             sheetState = bottomSheetState,
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-            containerColor = colorResource(R.color.white),
+            containerColor = MaterialTheme.colorScheme.surface, // Ajustado
             tonalElevation = 16.dp,
             dragHandle = {
                 Box(
@@ -170,7 +169,7 @@ fun AddressScreen(
                         .width(50.dp)
                         .height(6.dp)
                         .clip(RoundedCornerShape(50))
-                        .background(colorResource(R.color.handle_gray_tertiary))
+                        .background(MaterialTheme.colorScheme.outlineVariant) // Ajustado
                 )
             },
             modifier = Modifier
@@ -192,8 +191,8 @@ fun AddressScreen(
                             Button(
                                 onClick = { showBottomSheet = false },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = colorResource(R.color.handle_blue),
-                                    contentColor = Color.White
+                                    containerColor = MaterialTheme.colorScheme.primary, // Ajustado
+                                    contentColor = MaterialTheme.colorScheme.onPrimary // Ajustado
                                 ),
                                 shape = RoundedCornerShape(50),
                                 modifier = Modifier
@@ -206,8 +205,8 @@ fun AddressScreen(
                             Button(
                                 onClick = { bottomSheetContentState = BottomSheetContentState.EditForm },
                                 colors = ButtonDefaults.buttonColors(
-                                    containerColor = colorResource(R.color.handle_blue),
-                                    contentColor = Color.White
+                                    containerColor = MaterialTheme.colorScheme.primary, // Ajustado
+                                    contentColor = MaterialTheme.colorScheme.onPrimary // Ajustado
                                 ),
                                 shape = RoundedCornerShape(50),
                                 modifier = Modifier

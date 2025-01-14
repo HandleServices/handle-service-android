@@ -104,6 +104,7 @@ fun SearchScreen(query: String, navController: NavController?) {
                 Text(
                     text = "Sugestões",
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 FilterButton(
                     text = "Filtros",
@@ -111,7 +112,7 @@ fun SearchScreen(query: String, navController: NavController?) {
                         Icon(
                             painter = painterResource(R.drawable.tune),
                             contentDescription = "Filtro",
-                            tint = Color.Black,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(10.dp)
                         )
                     },
@@ -123,7 +124,7 @@ fun SearchScreen(query: String, navController: NavController?) {
                         Icon(
                             painter = painterResource(R.drawable.arrow_down),
                             contentDescription = "Ordenar",
-                            tint = Color.Black,
+                            tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(10.dp)
                         )
                     },
@@ -147,7 +148,7 @@ fun SearchScreen(query: String, navController: NavController?) {
 @Composable
 fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(8.dp),
         modifier = Modifier
             .fillMaxWidth()
@@ -173,7 +174,7 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        color = Color.Black,
+                        color = MaterialTheme.colorScheme.onSurface,
                         text = item.name,
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.W500),
                         maxLines = 1,
@@ -186,7 +187,7 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
                         Text(
                             text = "Disponível Agora!",
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                color = colorResource(R.color.handle_blue),
+                                color = MaterialTheme.colorScheme.primary,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 10.sp
                             )
@@ -197,7 +198,7 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
                 HorizontalDivider(
                     modifier = Modifier.fillMaxWidth(),
                     thickness = 1.dp,
-                    color = colorResource(R.color.handle_gray_secondary)
+                    color = MaterialTheme.colorScheme.outline
                 )
 
                 Row(
@@ -206,16 +207,16 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
                     Icon(
                         painter = painterResource(R.drawable.star),
                         contentDescription = "Rating",
-                        tint = colorResource(R.color.handle_blue),
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(15.dp)
                     )
                     Text(
                         text = "${item.rating}",
-                        color = colorResource(R.color.handle_blue)
+                        color = MaterialTheme.colorScheme.primary
                     )
                     Text(
                         text = " • ${item.category}",
-                        style = MaterialTheme.typography.bodyMedium.copy(color = Color.Gray)
+                        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onSurfaceVariant)
                     )
                 }
             }
@@ -237,6 +238,7 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
         }
     }
 }
+
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
