@@ -22,13 +22,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +41,7 @@ import br.com.handleservice.R
 import br.com.handleservice.domain.model.Order
 import br.com.handleservice.domain.model.OrderStatus
 import br.com.handleservice.ui.preview.OrderPreviewProvider
+import br.com.handleservice.presentation.screens.contracts.components.RatingBottomSheet
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 
@@ -46,6 +50,18 @@ fun ContractsCard(
     modifier: Modifier = Modifier,
     order: Order
 ) {
+    var showRatingBottomSheet by remember { mutableStateOf(false) }
+
+    if (showRatingBottomSheet) {
+        RatingBottomSheet(
+            onDismissRequest = { showRatingBottomSheet = false },
+            onSubmit = { ratings ->
+
+                showRatingBottomSheet = false
+            }
+        )
+    }
+
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -113,6 +129,7 @@ fun ContractsCard(
                             .data(order.worker.profilePicUrl)
                             .crossfade(true)
                             .placeholder(R.drawable.profile_image_fallback)
+                            .error(R.drawable.profile_image_fallback)
                             .build(),
                         contentDescription = "Profile Picture",
                         modifier = Modifier
@@ -123,32 +140,57 @@ fun ContractsCard(
                 }
             }
             if (order.status == OrderStatus.FINISHED) {
-                Button(
-                    onClick = {},
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .padding(bottom = 8.dp)
-                        .padding(horizontal = 13.dp),
-                    shape = RoundedCornerShape(10),
-                    contentPadding = PaddingValues(0.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                ) {
-                    Text(
-                        text = "Contratar novamente",
-                        fontSize = 14.sp,
-                    )
+                Row {
+                    Button(
+                        onClick = {},
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .height(40.dp)
+                            .padding(bottom = 8.dp)
+                            .padding(end = 6.dp)
+                            .padding(start = 13.dp),
+                        shape = RoundedCornerShape(10),
+                        contentPadding = PaddingValues(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    ) {
+                        Text(
+                            text = "Contratar novamente",
+                            fontSize = 10.sp,
+                        )
+                    }
+                    Button(
+                        onClick = {
+                            showRatingBottomSheet = true
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp)
+                            .weight(1f)
+                            .padding(bottom = 8.dp)
+                            .padding(end = 13.dp)
+                            .padding(start = 6.dp),
+                        shape = RoundedCornerShape(10),
+                        contentPadding = PaddingValues(0.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    ) {
+                        Text(
+                            text = "Avaliar",
+                            fontSize = 10.sp,
+                        )
+                    }
                 }
             }
         }
     }
 }
 
-
-// TO-DO: implements that after mobile delivery
 @Composable
 fun LearnMoreButton(
     modifier: Modifier = Modifier,
@@ -175,10 +217,9 @@ fun LearnMoreButton(
     }
 }
 
-
 @Composable
 @Preview
-private fun ContractsCardPreview () {
+private fun ContractsCardPreview() {
     ContractsCard(
         order = OrderPreviewProvider().values.first(),
     )
