@@ -1,40 +1,17 @@
-package br.com.handleservice.presentation.screens.contracts
-
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.absoluteOffset
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,11 +20,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
+import br.com.handleservice.presentation.screens.contracts.ContractsViewModel
 import br.com.handleservice.presentation.screens.contracts.components.ContractsCard
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 
-@Preview
 @Composable
 fun ContractsScreen(
     modifier: Modifier = Modifier,
@@ -55,6 +32,7 @@ fun ContractsScreen(
     viewModel: ContractsViewModel = hiltViewModel()
 ) {
     val groupedContracts by viewModel.groupedContracts.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState(initial = true)
 
     Column(
         modifier = modifier
@@ -86,56 +64,75 @@ fun ContractsScreen(
                 .padding(horizontal = 26.dp, vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item {
-                Text(
-                    text = stringResource(R.string.agendados),
-                    fontWeight = FontWeight(500),
-                    fontSize = 19.sp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier
-                        .padding(top = 30.dp, bottom = 1.dp)
-                )
-            }
-
-            groupedContracts.scheduled.forEach { (date, contracts) ->
+            if (isLoading) {
+                items(5) {
+                    SkeletonCard()
+                }
+            } else {
                 item {
                     Text(
-                        text = date,
-                        fontWeight = FontWeight.W500,
-                        fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(vertical = 1.dp)
+                        text = stringResource(R.string.agendados),
+                        fontWeight = FontWeight(500),
+                        fontSize = 19.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier
+                            .padding(top = 30.dp, bottom = 1.dp)
                     )
                 }
-                items(contracts) { contract ->
-                    ContractsCard(modifier = Modifier.fillMaxWidth(), order = contract)
+
+                groupedContracts.scheduled.forEach { (date, contracts) ->
+                    item {
+                        Text(
+                            text = date,
+                            fontWeight = FontWeight.W500,
+                            fontSize = 13.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(vertical = 1.dp)
+                        )
+                    }
+                    items(contracts) { contract ->
+                        ContractsCard(modifier = Modifier.fillMaxWidth(), order = contract)
+                    }
                 }
-            }
 
-            item {
-                Text(
-                    text = stringResource(R.string.historico),
-                    fontWeight = FontWeight(500),
-                    fontSize = 19.sp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.padding(top = 30.dp, bottom = 1.dp)
-                )
-            }
-
-            groupedContracts.finished.forEach { (date, contracts) ->
                 item {
                     Text(
-                        text = date,
-                        fontWeight = FontWeight.W500,
-                        fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier.padding(vertical = 1.dp)
+                        text = stringResource(R.string.historico),
+                        fontWeight = FontWeight(500),
+                        fontSize = 19.sp,
+                        color = MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(top = 30.dp, bottom = 1.dp)
                     )
                 }
-                items(contracts) { contract ->
-                    ContractsCard(modifier = Modifier.fillMaxWidth(), order = contract)
+
+                groupedContracts.finished.forEach { (date, contracts) ->
+                    item {
+                        Text(
+                            text = date,
+                            fontWeight = FontWeight.W500,
+                            fontSize = 13.sp,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(vertical = 1.dp)
+                        )
+                    }
+                    items(contracts) { contract ->
+                        ContractsCard(modifier = Modifier.fillMaxWidth(), order = contract)
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+fun SkeletonCard() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(80.dp)
+            .background(
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                shape = RoundedCornerShape(8.dp)
+            )
+    )
 }
