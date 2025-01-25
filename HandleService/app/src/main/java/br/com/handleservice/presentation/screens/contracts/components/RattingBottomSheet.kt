@@ -33,22 +33,13 @@ fun RatingBottomSheet(
     var serviceRating by remember { mutableIntStateOf(0) }
     var handleRating by remember { mutableIntStateOf(0) }
 
-    var showFeedbackDialog by remember { mutableStateOf(false) }
-
     ModalBottomSheet(
-        onDismissRequest = onDismissRequest,
-        sheetState = sheetState,
-        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        dragHandle = {
-            BottomSheetDefaults.DragHandle(
-                modifier = Modifier.padding(0.dp),
-                width = 123.dp,
-                height = 6.dp,
-                color = MaterialTheme.colorScheme.surfaceContainerHigh,
-                shape = RoundedCornerShape(30.dp)
-            )
+        onDismissRequest = {
+            scope.launch { sheetState.hide() }
+            onDismissRequest()
         },
-        modifier = Modifier.padding(0.dp)
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
     ) {
         Column(
             modifier = Modifier
@@ -98,7 +89,6 @@ fun RatingBottomSheet(
                             "handleRating" to handleRating
                         )
                     )
-                    showFeedbackDialog = true
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -119,13 +109,4 @@ fun RatingBottomSheet(
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
-
-    if (showFeedbackDialog) {
-        FeedbackDialog(
-            onDismiss = {
-                showFeedbackDialog = false
-            }
-        )
-    }
 }
-

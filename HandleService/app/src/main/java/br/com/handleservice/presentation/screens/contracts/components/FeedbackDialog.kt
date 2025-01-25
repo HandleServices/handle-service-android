@@ -24,13 +24,11 @@ fun FeedbackDialog(onDismiss: () -> Unit) {
         confirmButton = {
             Icon(
                 imageVector = Icons.Rounded.CheckCircle,
-                contentDescription = "Menu",
+                contentDescription = "Ícone de confirmação",
                 tint = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .size(55.dp)
-                    .width(55.dp)
-                    .height(55.dp)
-                    .rotate(21.57f)
+                    .rotate(21.57f) // Gira o ícone levemente
             )
         },
         title = {
