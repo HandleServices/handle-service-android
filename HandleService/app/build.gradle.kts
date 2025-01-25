@@ -117,4 +117,7 @@ dependencies {
 
     //DataStore
     implementation(libs.androidx.datastore.preferences)
+
+    // Compose Animation
+
 }

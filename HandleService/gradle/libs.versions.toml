@@ -27,6 +27,8 @@ pagingCompose = "3.3.4"
 retrofit = "2.9.0"
 viewpump = "2.0.3"
 runtimeLivedata = "1.7.6"
+composeAnimation = "1.5.1"
+navigationComposeAnimations = "2.7.0"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }

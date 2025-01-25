@@ -1,5 +1,7 @@
 package br.com.handleservice.presentation.screens.worker.components
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -27,11 +29,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -46,6 +52,7 @@ import br.com.handleservice.presentation.screens.favorites.Favorite
 import br.com.handleservice.ui.preview.WorkerPreviewProvider
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import kotlinx.coroutines.launch
 
 @Composable
 fun WorkerCard(
@@ -56,6 +63,8 @@ fun WorkerCard(
 ) {
     if (worker != null) {
         val favoriteState = remember { mutableStateOf(isFavorite) }
+        val scale = remember { androidx.compose.animation.core.Animatable(1f) }
+        val coroutineScope = rememberCoroutineScope()
 
         Box(
             modifier = Modifier
@@ -146,6 +155,7 @@ fun WorkerCard(
                             tint = colorResource(R.color.handle_blue),
                             modifier = Modifier
                                 .size(20.dp)
+                                .scale(scale.value)
                                 .clickable {
                                     favoriteState.value = !favoriteState.value
                                     onFavoriteClick(
@@ -156,6 +166,22 @@ fun WorkerCard(
                                             isAvailable = worker.isAvailable
                                         )
                                     )
+                                    // Animações
+                                    coroutineScope.launch {
+                                        scale.animateTo(
+                                            targetValue = 2.5f, // Cresce
+                                            animationSpec = tween(durationMillis = 200)
+                                        )
+                                        scale.animateTo(
+                                            targetValue = 1.2f, // Vibração
+                                            animationSpec = tween(durationMillis = 100)
+                                        )
+                                        scale.animateTo(
+                                            targetValue = 1f, // Volta ao tamanho normal
+                                            animationSpec = tween(durationMillis = 200)
+                                        )
+                                    }
+
                                 }
                         )
                     }
