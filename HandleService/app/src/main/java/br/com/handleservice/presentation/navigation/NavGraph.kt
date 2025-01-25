@@ -2,6 +2,16 @@ package br.com.handleservice.presentation.navigation
 
 import BottomNavigationBar
 import ContractsScreen
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -25,6 +35,7 @@ import br.com.handleservice.presentation.screens.settings.SettingsViewModel
 import br.com.handleservice.presentation.screens.simple_search.SearchScreen
 import br.com.handleservice.presentation.screens.worker.WorkerScreen
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(
     startDestination: String,
@@ -45,22 +56,32 @@ fun NavGraph(
             modifier = Modifier.padding(paddingValues)
         ) {
             composable(
-                route = Route.HomeScreen.route
+                route = Route.HomeScreen.route,
+                enterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { it } },
+                exitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { -it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { it } }
             ) {
                 HomeScreen(navController = navController)
             }
 
             composable(
-                route = Route.Contracts.route
+                route = Route.Contracts.route,
+                enterTransition = { fadeIn(animationSpec = tween(500)) + slideInVertically { it } },
+                exitTransition = { fadeOut(animationSpec = tween(500)) + slideOutVertically { it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(500)) + slideInVertically { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(500)) + slideOutVertically { -it } }
             ) {
-                ContractsScreen(
-                    navController = navController
-                )
+                ContractsScreen(navController = navController)
             }
 
             composable(
                 route = "${Route.SearchScreen.route}/{query}",
-                arguments = listOf(navArgument("query") { type = NavType.StringType; defaultValue = "" })
+                arguments = listOf(navArgument("query") { type = NavType.StringType; defaultValue = "" }),
+                enterTransition = { fadeIn(animationSpec = tween(800)) + slideInVertically { it } },
+                exitTransition = { fadeOut(animationSpec = tween(800)) + slideOutVertically { -it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(800)) + slideInVertically { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(800)) + slideOutVertically { it } }
             ) { backStackEntry ->
                 val query = backStackEntry.arguments?.getString("query").orEmpty()
                 SearchScreen(query = query, navController = navController)
@@ -68,7 +89,11 @@ fun NavGraph(
 
             composable(
                 route = "worker_screen/{worker-id}",
-                arguments = listOf(navArgument("worker-id") { type = NavType.IntType })
+                arguments = listOf(navArgument("worker-id") { type = NavType.IntType }),
+                enterTransition = { fadeIn(animationSpec = tween(500)) + expandIn() },
+                exitTransition = { fadeOut(animationSpec = tween(500)) + shrinkOut() },
+                popEnterTransition = { fadeIn(animationSpec = tween(500)) + expandIn() },
+                popExitTransition = { fadeOut(animationSpec = tween(500)) + shrinkOut() }
             ) { backStackEntry ->
                 val workerId = backStackEntry.arguments?.getInt("worker-id") ?: 0
                 WorkerScreen(
@@ -81,7 +106,11 @@ fun NavGraph(
             }
 
             composable(
-                route = Route.Profile.route
+                route = Route.Profile.route,
+                enterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { it } },
+                exitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { -it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { it } }
             ) {
                 ProfileScreen(
                     navController = navController,
@@ -100,8 +129,13 @@ fun NavGraph(
                 )
             }
 
+            // Aplicando as animações de Favorites para todas as telas filhas de Profile
             composable(
-                Route.Notification.route
+                Route.Notification.route,
+                enterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { it } },
+                exitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { -it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { it } }
             ) {
                 NotificationScreen(
                     navController = navController,
@@ -110,7 +144,11 @@ fun NavGraph(
             }
 
             composable(
-                Route.Settings.route
+                Route.Settings.route,
+                enterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { it } },
+                exitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { -it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { it } }
             ) {
                 SettingsScreen(
                     navController = navController,
@@ -119,7 +157,11 @@ fun NavGraph(
             }
 
             composable(
-                route = Route.Favorites.route
+                route = Route.Favorites.route,
+                enterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { it } },
+                exitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { -it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { it } }
             ) {
                 FavoritesScreen(
                     navController = navController,
@@ -129,7 +171,11 @@ fun NavGraph(
             }
 
             composable(
-                route = Route.Address.route
+                route = Route.Address.route,
+                enterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { it } },
+                exitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { -it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { it } }
             ) {
                 AddressScreen(navController = navController)
             }

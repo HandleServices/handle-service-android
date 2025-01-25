@@ -12,6 +12,8 @@ hiltAndroid = "2.52"
 devtoolsKsp = "2.0.21-1.0.27"
 loggingInterceptor = "5.0.0-alpha.11"
 media3Exoplayer = "1.5.1"
+navigationComposeAnimationsVersion = "2.7.2"
+navigationComposeVersion = "2.7.2"
 okhttp = "4.11.0"
 room = "2.6.1"
 kotlin = "2.0.21"
@@ -27,8 +29,7 @@ pagingCompose = "3.3.4"
 retrofit = "2.9.0"
 viewpump = "2.0.3"
 runtimeLivedata = "1.7.6"
-composeAnimation = "1.5.1"
-navigationComposeAnimations = "2.7.0"
+accompanistNavigationAnimation = "0.31.4-beta"
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
@@ -39,7 +40,7 @@ androidx-datastore-preferences-v100 = { module = "androidx.datastore:datastore-p
 androidx-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "foundation" }
 androidx-media3-exoplayer = { module = "androidx.media3:media3-exoplayer", version.ref = "media3Exoplayer" }
 androidx-media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3Exoplayer" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation-compose-v272 = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingCompose" }
 calligraphy3 = { module = "io.github.inflationx:calligraphy3", version.ref = "calligraphy3" }
@@ -69,6 +70,9 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 viewpump = { module = "io.github.inflationx:viewpump", version.ref = "viewpump" }
 androidx-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedata" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationComposeVersion" }
+androidx-navigation-compose-animations = { module = "androidx.navigation:navigation-compose-animations", version.ref = "navigationComposeAnimationsVersion" }
+accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanistNavigationAnimation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

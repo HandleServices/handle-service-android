@@ -137,6 +137,14 @@ fun SettingsScreen(
                 }
             )
 
+            HorizontalDivider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 32.dp, end = 32.dp),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.outline
+            )
+
             SettingsItem(
                 title = "Animações Visuais",
                 description = "Desative para economizar recursos ou preferências pessoais.",

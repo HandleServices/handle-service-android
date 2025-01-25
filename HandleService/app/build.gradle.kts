@@ -119,5 +119,6 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     // Compose Animation
-
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.accompanist.navigation.animation)
 }
