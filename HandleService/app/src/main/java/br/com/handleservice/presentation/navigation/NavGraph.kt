@@ -75,7 +75,8 @@ fun NavGraph(
                     workerId = workerId,
                     navController = navController,
                     favoritesViewModel = favoritesViewModel,
-                    notificationViewModel = notificationViewModel
+                    notificationViewModel = notificationViewModel,
+                    settingsViewModel = settingsViewModel
                 )
             }
 

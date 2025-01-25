@@ -47,6 +47,7 @@ import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
 import br.com.handleservice.presentation.screens.notification.Notification
 import br.com.handleservice.presentation.screens.notification.NotificationViewModel
+import br.com.handleservice.presentation.screens.settings.SettingsViewModel
 import br.com.handleservice.ui.preview.ServicesPreviewProvider
 import br.com.handleservice.util.FormatUtils.formatBRCurrency
 import br.com.handleservice.util.FormatUtils.formatTime
@@ -59,7 +60,8 @@ import java.util.Locale
 @Composable
 fun ContractBottomSheet(
     service: Service? = null,
-    notificationViewModel: NotificationViewModel
+    notificationViewModel: NotificationViewModel,
+    settingsViewModel: SettingsViewModel
 ) {
     val context = LocalContext.current
     val dateFormatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale("pt", "BR"))
@@ -76,8 +78,16 @@ fun ContractBottomSheet(
         context: Context,
         serviceName: String,
         selectedDate: String,
-        selectedTime: String
+        selectedTime: String,
+        settingsViewModel: SettingsViewModel
     ) {
+        // Verifica se notificações estão habilitadas
+        val notificationsEnabled = settingsViewModel.notificationsEnabled.value
+        if (!notificationsEnabled) {
+            Toast.makeText(context, "Notificações estão desativadas.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val permissionGranted = ContextCompat.checkSelfPermission(
                 context,
@@ -209,7 +219,8 @@ fun ContractBottomSheet(
                         serviceName = service.name,
                         selectedDate = selectedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                         selectedTime = selectedTime.format(DateTimeFormatter.ofPattern("HH:mm")),
-                        context = context
+                        context = context,
+                        settingsViewModel = settingsViewModel
                     )
                 }
             ) {
@@ -326,6 +337,7 @@ fun TimeButton(
 private fun ContractBottomSheetPreview() {
     ContractBottomSheet(
         service = ServicesPreviewProvider().values.first(),
-        notificationViewModel = TODO()
+        notificationViewModel = TODO(),
+        settingsViewModel = TODO()
     )
 }
