@@ -33,6 +33,11 @@ class ContractsViewModel @Inject constructor(
     private val _orders = MutableStateFlow<UiState<List<Order>>>(UiState.Loading())
     val orders: StateFlow<UiState<List<Order>>> = _orders
 
+    // Estado de carregamento
+    val isLoading: StateFlow<Boolean> = _orders.map { uiState ->
+        uiState is UiState.Loading
+    }.stateIn(viewModelScope, SharingStarted.Lazily, true)
+
     val groupedContracts: StateFlow<GroupedOrders> = _orders.map { uiState ->
         when (uiState) {
             is UiState.Success -> {
@@ -56,9 +61,13 @@ class ContractsViewModel @Inject constructor(
 
     private fun fetchOrders() {
         viewModelScope.launch {
-            getAllOrdersUseCase().collect { uiState ->
-                _orders.value = uiState
-            }
+            _orders.value = UiState.Loading()
+            //kotlinx.coroutines.delay(5000)
+
+            getAllOrdersUseCase()
+                .collect { uiState ->
+                    _orders.value = uiState
+                }
         }
     }
 
