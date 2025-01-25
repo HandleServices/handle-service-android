@@ -51,15 +51,20 @@ fun ContractsCard(
     order: Order
 ) {
     var showRatingBottomSheet by remember { mutableStateOf(false) }
+    var showFeedbackDialog by remember { mutableStateOf(false) }
 
     if (showRatingBottomSheet) {
         RatingBottomSheet(
             onDismissRequest = { showRatingBottomSheet = false },
             onSubmit = { ratings ->
-
                 showRatingBottomSheet = false
+                showFeedbackDialog = true
             }
         )
+    }
+
+    if (showFeedbackDialog) {
+        FeedbackDialog(onDismiss = { showFeedbackDialog = false })
     }
 
     Box(

@@ -22,6 +22,7 @@ import br.com.handleservice.R
 import br.com.handleservice.domain.model.Service
 import br.com.handleservice.presentation.screens.contracts.ContractsViewModel
 import br.com.handleservice.presentation.screens.contracts.components.ContractsCard
+import br.com.handleservice.presentation.screens.contracts.components.SkeletonCard
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
 
@@ -124,15 +125,4 @@ fun ContractsScreen(
     }
 }
 
-@Composable
-fun SkeletonCard() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(80.dp)
-            .background(
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(8.dp)
-            )
-    )
-}
+
