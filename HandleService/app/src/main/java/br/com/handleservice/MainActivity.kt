@@ -27,9 +27,9 @@ import dagger.hilt.android.AndroidEntryPoint
 @Suppress("UNCHECKED_CAST")
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val favoritesViewModel: FavoritesViewModel by viewModels() // Instância compartilhada
-    private val notificationViewModel: NotificationViewModel by viewModels() // Instância compartilhada
-    private val settingsViewModel: SettingsViewModel by viewModels() // Instância compartilhada
+    private val favoritesViewModel: FavoritesViewModel by viewModels()
+    private val notificationViewModel: NotificationViewModel by viewModels()
+    private val settingsViewModel: SettingsViewModel by viewModels()
 
     companion object {
         const val NOTIFICATION_PERMISSION_REQUEST_CODE = 101
@@ -39,18 +39,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         NotificationUtils.createNotificationChannel(this)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                    NOTIFICATION_PERMISSION_REQUEST_CODE
-                )
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                NOTIFICATION_PERMISSION_REQUEST_CODE
+            )
         }
 
         setContent {

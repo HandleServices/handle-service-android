@@ -80,22 +80,23 @@ fun ContractsScreen(
             placeholder = "Buscar no histórico"
         )
 
-        Text(
-            modifier = Modifier
-                .padding(top = 30.dp, bottom = 1.dp)
-                .padding(horizontal = 26.dp),
-            text = stringResource(R.string.agendados),
-            fontWeight = FontWeight(500),
-            fontSize = 19.sp,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-
         LazyColumn(
             modifier = Modifier
-                .wrapContentSize()
-                .padding(horizontal = 26.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+                .fillMaxSize()
+                .padding(horizontal = 26.dp, vertical = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            item {
+                Text(
+                    text = stringResource(R.string.agendados),
+                    fontWeight = FontWeight(500),
+                    fontSize = 19.sp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier
+                        .padding(top = 30.dp, bottom = 1.dp)
+                )
+            }
+
             groupedContracts.scheduled.forEach { (date, contracts) ->
                 item {
                     Text(
@@ -107,27 +108,20 @@ fun ContractsScreen(
                     )
                 }
                 items(contracts) { contract ->
-                    ContractsCard(modifier, contract)
+                    ContractsCard(modifier = Modifier.fillMaxWidth(), order = contract)
                 }
             }
-        }
 
-        Text(
-            modifier = Modifier
-                .padding(top = 30.dp, bottom = 1.dp)
-                .padding(horizontal = 26.dp),
-            text = stringResource(R.string.historico),
-            fontWeight = FontWeight(500),
-            fontSize = 19.sp,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+            item {
+                Text(
+                    text = stringResource(R.string.historico),
+                    fontWeight = FontWeight(500),
+                    fontSize = 19.sp,
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(top = 30.dp, bottom = 1.dp)
+                )
+            }
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 26.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
             groupedContracts.finished.forEach { (date, contracts) ->
                 item {
                     Text(
@@ -139,7 +133,7 @@ fun ContractsScreen(
                     )
                 }
                 items(contracts) { contract ->
-                    ContractsCard(modifier, contract)
+                    ContractsCard(modifier = Modifier.fillMaxWidth(), order = contract)
                 }
             }
         }
