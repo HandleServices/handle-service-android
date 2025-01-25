@@ -123,7 +123,8 @@ fun NavGraph(
             ) {
                 FavoritesScreen(
                     navController = navController,
-                    favoritesViewModel = favoritesViewModel
+                    favoritesViewModel = favoritesViewModel,
+                    settingsViewModel = settingsViewModel
                 )
             }
 

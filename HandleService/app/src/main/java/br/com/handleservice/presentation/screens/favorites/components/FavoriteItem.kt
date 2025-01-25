@@ -40,13 +40,13 @@ import br.com.handleservice.presentation.screens.favorites.Favorite
 fun FavoriteItem(
     favorite: Favorite,
     onFavoriteClick: (Favorite) -> Unit,
-    onWorkerClick: (Favorite) -> Unit
+    onWorkerClick: (Favorite) -> Unit,
+    animationsEnabled: Boolean
 ) {
-    var isRemoving by remember { mutableStateOf(false) } // Controla se a animação de remoção deve ser ativada.
+    var isRemoving by remember { mutableStateOf(false) }
 
-    // Controla a remoção do item
     fun removeFavorite() {
-        isRemoving = true // Ativa a animação de remoção
+        isRemoving = true
     }
 
     AnimatedVisibility(
@@ -133,7 +133,7 @@ fun FavoriteItem(
     // Remover favorito após a animação
     if (isRemoving) {
         LaunchedEffect(Unit) {
-            kotlinx.coroutines.delay(300) // Aguarda o término da animação
+            kotlinx.coroutines.delay(if (animationsEnabled) 300 else 0)
             onFavoriteClick(favorite) // Remove o item do ViewModel
         }
     }

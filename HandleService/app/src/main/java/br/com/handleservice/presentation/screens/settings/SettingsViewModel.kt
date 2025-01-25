@@ -30,6 +30,11 @@ class SettingsViewModel @Inject constructor(
             preferences[PreferencesKeys.NOTIFICATIONS_ENABLED] ?: true
         }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
 
+    val animationsEnabled: StateFlow<Boolean> = dataStore.data
+        .map { preferences ->
+            preferences[PreferencesKeys.ANIMATIONS_ENABLED] ?: true // Ativado por padrão
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
     fun toggleDarkMode(isEnabled: Boolean) {
         viewModelScope.launch {
             dataStore.edit { preferences ->
@@ -45,5 +50,14 @@ class SettingsViewModel @Inject constructor(
             }
         }
     }
+
+    fun toggleAnimations(isEnabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { preferences ->
+                preferences[PreferencesKeys.ANIMATIONS_ENABLED] = isEnabled
+            }
+        }
+    }
+
 }
 

@@ -27,13 +27,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import br.com.handleservice.R
 import br.com.handleservice.presentation.screens.favorites.components.FavoriteItem
+import br.com.handleservice.presentation.screens.settings.SettingsViewModel
 
 @Composable
 fun FavoritesScreen(
     navController: NavController,
-    favoritesViewModel: FavoritesViewModel
+    favoritesViewModel: FavoritesViewModel,
+    settingsViewModel: SettingsViewModel
 ) {
     val favorites by favoritesViewModel.favorites.collectAsState()
+    val animationsEnabled by settingsViewModel.animationsEnabled.collectAsState()
 
     Column(
         modifier = Modifier
@@ -90,7 +93,8 @@ fun FavoritesScreen(
                     onFavoriteClick = { favoritesViewModel.removeFavorite(it) },
                     onWorkerClick = {
                         navController.navigate("worker_screen/${favorite.id}")
-                    }
+                    },
+                    animationsEnabled = animationsEnabled
                 )
             }
         }

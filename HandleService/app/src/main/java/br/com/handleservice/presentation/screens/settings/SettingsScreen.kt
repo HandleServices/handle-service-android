@@ -24,6 +24,7 @@ fun SettingsScreen(
 ) {
     val notificationsEnabled by viewModel.notificationsEnabled.collectAsState()
     val darkModeEnabled by viewModel.darkModeEnabled.collectAsState()
+    val animationsEnabled by viewModel.animationsEnabled.collectAsState()
 
     Column(
         modifier = Modifier
@@ -124,6 +125,25 @@ fun SettingsScreen(
                     Switch(
                         checked = darkModeEnabled,
                         onCheckedChange = { viewModel.toggleDarkMode(it) },
+                        colors = SwitchDefaults.colors(
+                            checkedThumbColor = colorResource(R.color.white),
+                            uncheckedThumbColor = colorResource(R.color.white),
+                            checkedTrackColor = colorResource(R.color.handle_blue),
+                            uncheckedTrackColor = colorResource(R.color.handle_red),
+                            uncheckedBorderColor = colorResource(R.color.transparent),
+                            checkedBorderColor = colorResource(R.color.transparent)
+                        )
+                    )
+                }
+            )
+
+            SettingsItem(
+                title = "Animações Visuais",
+                description = "Desative para economizar recursos ou preferências pessoais.",
+                action = {
+                    Switch(
+                        checked = animationsEnabled,
+                        onCheckedChange = { viewModel.toggleAnimations(it) },
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = colorResource(R.color.white),
                             uncheckedThumbColor = colorResource(R.color.white),

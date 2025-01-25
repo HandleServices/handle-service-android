@@ -138,8 +138,10 @@ fun WorkerScreen(
                             } else {
                                 favoritesViewModel.addFavorite(favorite)
                             }
-                        }
+                        },
+                        animationsEnabled = settingsViewModel.animationsEnabled.collectAsState().value
                     )
+
                     Text(
                         text = "Serviços",
                         color = MaterialTheme.colorScheme.onSurface,

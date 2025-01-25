@@ -1,5 +1,6 @@
 package br.com.handleservice.presentation.screens.worker.components
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -59,11 +60,12 @@ fun WorkerCard(
     modifier: Modifier = Modifier,
     worker: Worker?,
     isFavorite: Boolean = false,
-    onFavoriteClick: (Favorite) -> Unit
+    onFavoriteClick: (Favorite) -> Unit,
+    animationsEnabled: Boolean
 ) {
     if (worker != null) {
         val favoriteState = remember { mutableStateOf(isFavorite) }
-        val scale = remember { androidx.compose.animation.core.Animatable(1f) }
+        val scale = remember { Animatable(1f) }
         val coroutineScope = rememberCoroutineScope()
 
         Box(
@@ -167,21 +169,22 @@ fun WorkerCard(
                                         )
                                     )
                                     // Animações
-                                    coroutineScope.launch {
-                                        scale.animateTo(
-                                            targetValue = 2.5f, // Cresce
-                                            animationSpec = tween(durationMillis = 200)
-                                        )
-                                        scale.animateTo(
-                                            targetValue = 1.2f, // Vibração
-                                            animationSpec = tween(durationMillis = 100)
-                                        )
-                                        scale.animateTo(
-                                            targetValue = 1f, // Volta ao tamanho normal
-                                            animationSpec = tween(durationMillis = 200)
-                                        )
+                                    if (animationsEnabled) {
+                                        coroutineScope.launch {
+                                            scale.animateTo(
+                                                targetValue = 2.5f, // Cresce
+                                                animationSpec = tween(durationMillis = 200)
+                                            )
+                                            scale.animateTo(
+                                                targetValue = 1.2f, // Vibração
+                                                animationSpec = tween(durationMillis = 100)
+                                            )
+                                            scale.animateTo(
+                                                targetValue = 1f, // Volta ao tamanho normal
+                                                animationSpec = tween(durationMillis = 200)
+                                            )
+                                        }
                                     }
-
                                 }
                         )
                     }
@@ -222,6 +225,8 @@ private fun WorkerCardPreview() {
         isFavorite = false,
         onFavoriteClick = {
             // Mock action for preview
-        }
+        },
+        modifier = TODO(),
+        animationsEnabled = TODO(),
     )
 }
