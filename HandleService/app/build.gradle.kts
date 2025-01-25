@@ -114,4 +114,7 @@ dependencies {
 
     //Dark mode
     implementation(libs.androidx.datastore.preferences.v100)
+
+    //DataStore
+    implementation(libs.androidx.datastore.preferences)
 }

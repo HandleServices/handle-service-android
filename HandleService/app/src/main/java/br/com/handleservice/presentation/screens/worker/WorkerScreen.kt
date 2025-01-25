@@ -56,6 +56,7 @@ import br.com.handleservice.domain.model.Service
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.notification.NotificationViewModel
 import br.com.handleservice.presentation.screens.address.AddressScreen
+import br.com.handleservice.presentation.screens.settings.SettingsViewModel
 import br.com.handleservice.presentation.screens.worker.components.ContractBottomSheet
 import br.com.handleservice.presentation.screens.worker.components.ServiceItem
 import br.com.handleservice.presentation.screens.worker.components.WorkerCard
@@ -72,7 +73,8 @@ fun WorkerScreen(
     modifier: Modifier = Modifier,
     viewModel: WorkerViewModel = hiltViewModel(),
     favoritesViewModel: FavoritesViewModel,
-    notificationViewModel: NotificationViewModel
+    notificationViewModel: NotificationViewModel,
+    settingsViewModel: SettingsViewModel
 ) {
     LaunchedEffect(workerId) {
         viewModel.loadWorkerById(workerId)
@@ -245,7 +247,8 @@ fun WorkerScreen(
             selectedService.value?.let { service ->
                 ContractBottomSheet(
                     service = service,
-                    notificationViewModel = notificationViewModel
+                    notificationViewModel = notificationViewModel,
+                    settingsViewModel = settingsViewModel
                 )
             }
         }

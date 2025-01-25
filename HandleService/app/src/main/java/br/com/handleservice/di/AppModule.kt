@@ -1,6 +1,7 @@
 package br.com.handleservice.di
 
 import android.app.Application
+import android.content.Context
 import br.com.handleservice.data.manager.LocalUserManagerImpl
 import br.com.handleservice.domain.manager.LocalUserManager
 import br.com.handleservice.domain.usecases.entry.AppEntryUseCases
@@ -15,6 +16,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    fun provideContext(application: Context): Context {
+        return application
+    }
 
     @Provides
     @Singleton
