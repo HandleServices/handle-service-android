@@ -16,7 +16,7 @@ private val DarkColorScheme = darkColorScheme(
     secondary = Color(0xFFFF5252),
     tertiary = Color(0xFF8D8D99),
     background = Color.Black,
-    surface = Color(0xFF2C2C2E),
+    surface = Color(0xFF1C1C1E),
     onPrimary = Color.Black,
     onSecondary = Color(0xFFE0E0E0), // sla
     onTertiary = Color(0xFF7C7C8A),
@@ -24,7 +24,7 @@ private val DarkColorScheme = darkColorScheme(
     onSurface = Color(0xFF7C7C8A),
     onSurfaceVariant = Color(0xFF7C7C8A),
     outline = Color(0xFFC5CCD9),
-
+    onTertiaryContainer = Color(0xFF2C2C2E),
     primaryContainer = Color(0xFF2C2C2E)
 )
 

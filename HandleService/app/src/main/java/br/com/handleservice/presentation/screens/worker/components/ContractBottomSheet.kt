@@ -273,7 +273,7 @@ fun DateButton(
             .clip(RoundedCornerShape(13.dp))
             .background(
                 if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-                else MaterialTheme.colorScheme.surfaceVariant
+                else MaterialTheme.colorScheme.onTertiaryContainer
             )
             .clickable { onSelectDate(date) }
     ) {
@@ -304,7 +304,7 @@ fun TimeButton(
     onSelectTime: (LocalTime) -> Unit,
     isSelected: Boolean
 ) {
-    val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.surfaceVariant // Alterado para MaterialTheme
+    val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f) else MaterialTheme.colorScheme.onTertiaryContainer
     val textColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
     Box(
         contentAlignment = Alignment.Center,

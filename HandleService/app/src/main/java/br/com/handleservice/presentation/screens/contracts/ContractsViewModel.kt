@@ -62,7 +62,7 @@ class ContractsViewModel @Inject constructor(
     private fun fetchOrders() {
         viewModelScope.launch {
             _orders.value = UiState.Loading()
-            //kotlinx.coroutines.delay(5000)
+            kotlinx.coroutines.delay(5000)
 
             getAllOrdersUseCase()
                 .collect { uiState ->

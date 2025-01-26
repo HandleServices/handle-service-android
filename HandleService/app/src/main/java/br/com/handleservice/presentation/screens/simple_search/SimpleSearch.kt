@@ -105,7 +105,7 @@ fun SearchScreen(query: String, navController: NavController?) {
                         Icon(
                             painter = painterResource(R.drawable.tune),
                             contentDescription = "Filtro",
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onTertiary,
                             modifier = Modifier.size(10.dp)
                         )
                     },
@@ -117,7 +117,7 @@ fun SearchScreen(query: String, navController: NavController?) {
                         Icon(
                             painter = painterResource(R.drawable.arrow_down),
                             contentDescription = "Ordenar",
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.onTertiary,
                             modifier = Modifier.size(10.dp)
                         )
                     },

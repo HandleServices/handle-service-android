@@ -35,8 +35,8 @@ fun FilterButton(
         onClick = onClick,
         contentPadding = PaddingValues(0.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-            contentColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.onTertiaryContainer,
+            contentColor = MaterialTheme.colorScheme.onTertiary
         ),
         shape = RoundedCornerShape(50.dp),
         modifier = Modifier.height(17.dp),

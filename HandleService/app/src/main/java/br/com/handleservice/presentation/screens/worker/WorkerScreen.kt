@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -231,8 +232,8 @@ fun WorkerScreen(
             },
             sheetState = serviceBottomSheetState,
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-            containerColor = colorResource(R.color.white),
-            tonalElevation = 16.dp,
+            containerColor = MaterialTheme.colorScheme.surface,
+            tonalElevation = 0.dp,
             dragHandle = {
                 Box(
                     modifier = Modifier
@@ -240,7 +241,7 @@ fun WorkerScreen(
                         .width(50.dp)
                         .height(6.dp)
                         .clip(RoundedCornerShape(50))
-                        .background(colorResource(R.color.handle_gray_tertiary))
+                        .background(MaterialTheme.colorScheme.onTertiaryContainer)
                 )
             },
             modifier = Modifier
