@@ -47,7 +47,7 @@ class ContractsViewModel @Inject constructor(
                         .filter { it.status == OrderStatus.IN_PROGRESS || it.status == OrderStatus.PENDING }
                         .groupBy { formatDate(it.appointmentDate) },
                     finished = contracts
-                        .filter { it.status == OrderStatus.FINISHED || it.status == OrderStatus.CANCELED }
+                        .filter { it.status == OrderStatus.FINISHED || it.status == OrderStatus.CANCELLED }
                         .groupBy { formatDate(it.appointmentDate) }
                 )
             }
