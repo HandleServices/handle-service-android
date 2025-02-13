@@ -1,14 +1,12 @@
 package br.com.handleservice.di
 
 import br.com.handleservice.data.network.OrdersApiService
-import br.com.handleservice.data.repository.OrdersRepository
-import br.com.handleservice.util.Constants
+import br.com.handleservice.data.repository.OrdersRepositoryImpl
 import br.com.handleservice.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import jakarta.inject.Singleton
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -23,14 +21,14 @@ object NetworkModule {
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY // Configura o nível de logging para o corpo das requisições/respostas
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return loggingInterceptor
     }
 
     @Provides
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)  // Adiciona o interceptor de logging
+            .addInterceptor(loggingInterceptor)
             .build()
     }
 
@@ -38,7 +36,7 @@ object NetworkModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(okHttpClient)  // Configura o Retrofit para usar o OkHttp com logging
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -49,7 +47,7 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideOrdersRepository(apiService: OrdersApiService): OrdersRepository {
-        return OrdersRepository(apiService)
+    fun provideOrdersRepository(apiService: OrdersApiService): OrdersRepositoryImpl {
+        return OrdersRepositoryImpl(apiService)
     }
 }
