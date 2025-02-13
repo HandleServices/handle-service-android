@@ -13,27 +13,26 @@ import br.com.handleservice.domain.repository.OrdersRepository
 import br.com.handleservice.ui.mock.getMockServices
 import br.com.handleservice.ui.mock.getMockWorker
 import jakarta.inject.Inject
+import jakarta.inject.Singleton
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
 
-class OrdersRepository @Inject constructor(private val apiService: OrdersApiService) :
-    OrdersRepository {
+@Singleton
+class OrdersRepositoryImpl @Inject constructor(
+    private val apiService: OrdersApiService
+) : OrdersRepository {
+
     private val workers: List<Worker> = getMockWorker().toList()
     private val services: List<Service> = getMockServices().toList()
 
     override suspend fun getAllOrders(): List<Order> {
         try {
             val response = apiService.getAllOrders().map { apiOrder ->
-                val actualWorker = workers[workers.indices.random()]
-                val filteredServices = services.filter { service -> service.workerId == actualWorker.id }
-
-                val service = if (filteredServices.isNotEmpty()) {
-                    filteredServices.random()
-                } else {
-                    services[services.indices.random()]
-                }
+                val actualWorker = workers.random()
+                val filteredServices = services.filter { it.workerId == actualWorker.id }
+                val service = filteredServices.ifEmpty { services }.random()
 
                 Order(
                     id = apiOrder.id,
