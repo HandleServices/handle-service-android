@@ -1,14 +1,22 @@
 package br.com.handleservice.presentation.screens.simple_search.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import br.com.handleservice.R
 import kotlinx.coroutines.launch
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,28 +51,54 @@ fun SortBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                listOf("default" to "🔃", "price" to "💲", "rating" to "⭐").forEach { (type, icon) ->
-                    Button(
-                        onClick = { selectedSort = type },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = if (selectedSort == type) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
-                        )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                listOf(
+                    "default" to Pair("Ordenação\nPadrão", R.drawable.compare_arrows),
+                    "price" to Pair("Preço\n", R.drawable.coin),
+                    "rating" to Pair("Avaliação\n", null) // Usamos o ícone do Material Design para avaliação
+                ).forEach { (type, pair) ->
+                    val (label, drawableRes) = pair
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.width(80.dp) // Garante que os textos fiquem alinhados uniformemente
                     ) {
-                        Text("$icon")
+                        IconButton(
+                            onClick = { selectedSort = type },
+                            modifier = Modifier.size(60.dp),
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = if (selectedSort == type) MaterialTheme.colorScheme.primary else Color.LightGray
+                            )
+                        ) {
+                            if (drawableRes != null) {
+                                Image(
+                                    painter = painterResource(id = drawableRes),
+                                    contentDescription = label,
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Filled.Star,
+                                    contentDescription = label,
+                                    tint = if (selectedSort == type) MaterialTheme.colorScheme.onPrimary else Color.Gray,
+                                    modifier = Modifier.size(30.dp)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = label,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            fontSize = 14.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
                 }
             }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            Button(
-                onClick = { onApplySort(selectedSort) },
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
-            ) {
-                Text("Aplicar Ordenação")
-            }
-
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
