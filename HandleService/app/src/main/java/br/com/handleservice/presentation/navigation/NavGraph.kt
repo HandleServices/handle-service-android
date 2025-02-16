@@ -24,6 +24,8 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.com.handleservice.presentation.screens.address.AddressScreen
+import br.com.handleservice.presentation.screens.chat.ChatDetailScreen
+import br.com.handleservice.presentation.screens.chat.ChatScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.home.HomeScreen
@@ -125,6 +127,9 @@ fun NavGraph(
                     },
                     onAddressClick = {
                         navController.navigate(Route.Address.route)
+                    },
+                    onChatClick = {
+                        navController.navigate(Route.Chat.route)
                     }
                 )
             }
@@ -179,6 +184,25 @@ fun NavGraph(
             ) {
                 AddressScreen(navController = navController)
             }
+
+            composable(
+                route = Route.Chat.route,
+                enterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { it } },
+                exitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { -it } },
+                popEnterTransition = { fadeIn(animationSpec = tween(700)) + slideInHorizontally { -it } },
+                popExitTransition = { fadeOut(animationSpec = tween(700)) + slideOutHorizontally { it } }
+            ) {
+                ChatScreen(navController = navController)
+            }
+
+            composable(
+                route = "chat_detail/{userName}",
+                arguments = listOf(navArgument("userName") { type = NavType.StringType })
+            ) { backStackEntry ->
+                val userName = backStackEntry.arguments?.getString("userName") ?: "Desconhecido"
+                ChatDetailScreen(navController = navController, userName = userName)
+            }
+
         }
     }
 }
