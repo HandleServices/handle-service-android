@@ -16,11 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.com.handleservice.presentation.screens.address.AddressScreen
@@ -196,11 +194,16 @@ fun NavGraph(
             }
 
             composable(
-                route = "chat_detail/{userName}",
-                arguments = listOf(navArgument("userName") { type = NavType.StringType })
+                route = "chat_detail/{chatId}/{userName}",
+                arguments = listOf(
+                    navArgument("chatId") { type = NavType.IntType },
+                    navArgument("userName") { type = NavType.StringType }
+                )
             ) { backStackEntry ->
+                val chatId = backStackEntry.arguments?.getInt("chatId") ?: 1
                 val userName = backStackEntry.arguments?.getString("userName") ?: "Desconhecido"
-                ChatDetailScreen(navController = navController, userName = userName)
+
+                ChatDetailScreen(navController, chatId, userName)
             }
 
         }

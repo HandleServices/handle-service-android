@@ -12,26 +12,48 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.handleservice.presentation.screens.chat.model.Message
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
-fun ChatBubble(message: Message) {
+fun ChatBubble(message: Message, currentUserRole: String) {
+    val isSentByUser = message.from != "worker"
+
+    val formattedTime = try {
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val targetFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val date = originalFormat.parse(message.time)
+        date?.let { targetFormat.format(it) } ?: message.time
+    } catch (e: Exception) {
+        message.time
+    }
+
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = if (message.isSent) Arrangement.End else Arrangement.Start
+        horizontalArrangement = if (isSentByUser) Arrangement.End else Arrangement.Start
     ) {
         Box(
             modifier = Modifier
                 .background(
-                    if (message.isSent) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.tertiary,
+                    if (isSentByUser) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.outline,
                     RoundedCornerShape(16.dp)
                 )
                 .padding(12.dp)
         ) {
-            Text(
-                text = message.text,
-                fontSize = 16.sp,
-                color = if (message.isSent) Color.White else MaterialTheme.colorScheme.onSurface
-            )
+            Column {
+                Text(
+                    text = message.content,
+                    fontSize = 16.sp,
+                    color = if (isSentByUser) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = formattedTime,
+                    fontSize = 12.sp,
+                    color = if (isSentByUser) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.align(Alignment.End) // ⬅️ Alinha a hora à direita
+                )
+            }
         }
     }
     Spacer(modifier = Modifier.height(4.dp))
