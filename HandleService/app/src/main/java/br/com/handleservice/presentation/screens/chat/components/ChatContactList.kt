@@ -55,10 +55,10 @@ fun ChatContactList(contacts: List<ChatContact>, navController: NavController) {
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
         )
 
-        // Listagem dos contatos mockados
+        // Listagem dos contatos carregados
         contacts.forEach { contact ->
             ChatContactItem(contact, onClick = {
-                navController.navigate("chat_detail/1/${contact.name}")
+                navController.navigate("chat_detail/${contact.chatId}/${contact.name}")
             })
             Divider(
                 color = MaterialTheme.colorScheme.outline,

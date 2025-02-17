@@ -73,7 +73,9 @@ fun ChatDetailScreen(navController: NavController, chatId: Int, userName: String
                 messages = fetchedMessages
 
                 coroutineScope.launch {
-                    listState.scrollToItem(messages.size - 1)
+                    if (messages.isNotEmpty()) {
+                        listState.scrollToItem(messages.size - 1)
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -102,7 +104,9 @@ fun ChatDetailScreen(navController: NavController, chatId: Int, userName: String
                     messages = messages + receivedMessage
 
                     coroutineScope.launch {
-                        listState.animateScrollToItem(messages.size - 1)
+                        if (messages.isNotEmpty()) {
+                            listState.scrollToItem(messages.size - 1)
+                        }
                     }
                 }
             }
@@ -114,6 +118,7 @@ fun ChatDetailScreen(navController: NavController, chatId: Int, userName: String
 
         webSocket = socketClient.newWebSocket(wsRequest, listener)
     }
+
 
     DisposableEffect(Unit) {
         onDispose {
