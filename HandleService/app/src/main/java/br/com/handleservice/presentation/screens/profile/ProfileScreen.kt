@@ -28,7 +28,8 @@ fun ProfileScreen(
     navController: NavController,
     onNotificationClick: () -> Unit,
     onSettingsClick: () -> Unit,
-    onFavoritesClick: () -> Unit
+    onFavoritesClick: () -> Unit,
+    onChatClick: () -> Unit
 ) {
     val profileState = viewModel.profileState.collectAsState().value
 
@@ -65,6 +66,12 @@ fun ProfileScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
+        ProfileOption(
+            icon = R.drawable.ic_chat,
+            label = "Chat",
+            description = "Meu histórico de conversas",
+            onClick = onChatClick
+        )
         ProfileOption(
             icon = R.drawable.ic_filled_address,
             label = "Meus Endereços",

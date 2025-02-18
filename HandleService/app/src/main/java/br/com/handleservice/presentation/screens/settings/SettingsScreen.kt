@@ -140,9 +140,9 @@ fun SettingsScreen(
             HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 32.dp, end = 32.dp),
+                    .padding(start = 16.dp, end = 16.dp),
                 thickness = 1.dp,
-                color = MaterialTheme.colorScheme.outline
+                color = colorResource(R.color.handle_gray_secondary)
             )
 
             SettingsItem(

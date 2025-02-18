@@ -25,8 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.handleservice.R
+import br.com.handleservice.presentation.screens.simple_search.components.FilterBottomSheet
 import br.com.handleservice.presentation.screens.simple_search.components.FilterButton
 import br.com.handleservice.presentation.screens.simple_search.components.ServiceItemCard
+import br.com.handleservice.presentation.screens.simple_search.components.SortBottomSheet
 import br.com.handleservice.presentation.screens.simple_search.model.ServiceItem
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
@@ -60,8 +62,11 @@ fun SearchScreen(query: String, navController: NavController?) {
     } else {
         serviceList
     }
-
     var filterValue by remember { mutableStateOf(query) }
+
+    // Estados para controle dos BottomSheets
+    var showFilterSheet by remember { mutableStateOf(false) }
+    var showSortSheet by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background
@@ -106,7 +111,7 @@ fun SearchScreen(query: String, navController: NavController?) {
                             modifier = Modifier.size(10.dp)
                         )
                     },
-                    onClick = { /* Ação para filtros */ }
+                    onClick = { showFilterSheet = true }
                 )
                 FilterButton(
                     text = "Ordenar",
@@ -118,7 +123,7 @@ fun SearchScreen(query: String, navController: NavController?) {
                             modifier = Modifier.size(10.dp)
                         )
                     },
-                    onClick = { /* Ação para ordenar */ }
+                    onClick = { showSortSheet = true }
                 )
             }
 
@@ -139,11 +144,33 @@ fun SearchScreen(query: String, navController: NavController?) {
             }
         }
     }
-}
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
-@Composable
-fun SearchScreenPreview() {
-    SearchScreen(query = "Encanador", navController = null)
+    // BottomSheet de Filtros
+    if (showFilterSheet) {
+        FilterBottomSheet(
+            onDismissRequest = { showFilterSheet = false },
+            onApplyFilters = { startDate, endDate, selectedRating ->
+                showFilterSheet = false
+                filteredList = serviceList.filter { service ->
+                    (selectedRating == null || service.rating >= selectedRating) &&
+                            (startDate.isBlank() || endDate.isBlank()) // Adicionar lógica de filtragem por data, se necessário
+                }
+            }
+        )
+    }
+
+    // BottomSheet de Ordenação
+    if (showSortSheet) {
+        SortBottomSheet(
+            onDismissRequest = { showSortSheet = false },
+            onApplySort = { sortType ->
+                showSortSheet = false
+                filteredList = when (sortType) {
+                    "price" -> filteredList.sortedBy { it.id } // Mockado por ID, ajustar para preço real se necessário
+                    "rating" -> filteredList.sortedByDescending { it.rating }
+                    else -> serviceList
+                }
+            }
+        )
+    }
 }
