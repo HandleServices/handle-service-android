@@ -54,7 +54,7 @@ fun SearchScreen(query: String, navController: NavController?) {
         )
     }
 
-    val filteredList = if (query.isNotBlank()) {
+    var filteredList = if (query.isNotBlank()) {
         val normalizedQuery = query.replace("_", " ").lowercase()
         serviceList.filter {
             it.category.lowercase().contains(normalizedQuery) || it.name.lowercase().contains(normalizedQuery)
@@ -151,7 +151,7 @@ fun SearchScreen(query: String, navController: NavController?) {
             onDismissRequest = { showFilterSheet = false },
             onApplyFilters = { startDate, endDate, selectedRating ->
                 showFilterSheet = false
-                filteredList = serviceList.filter { service ->
+                val filteredList = serviceList.filter { service ->
                     (selectedRating == null || service.rating >= selectedRating) &&
                             (startDate.isBlank() || endDate.isBlank()) // Adicionar lógica de filtragem por data, se necessário
                 }
