@@ -1,7 +1,6 @@
 package br.com.handleservice.presentation.navigation
 
 import BottomNavigationBar
-import ContractsScreen
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandIn
@@ -24,6 +23,7 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import br.com.handleservice.presentation.screens.address.AddressScreen
+import br.com.handleservice.presentation.screens.contracts.ContractsScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesScreen
 import br.com.handleservice.presentation.screens.favorites.FavoritesViewModel
 import br.com.handleservice.presentation.screens.home.HomeScreen
@@ -182,3 +182,4 @@ fun NavGraph(
         }
     }
 }
+
