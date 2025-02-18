@@ -25,6 +25,7 @@ import java.util.Locale
 fun FilterBottomSheet(
     onDismissRequest: () -> Unit,
     onApplyFilters: (String, String, Int?) -> Unit,
+    onClearFilters: () -> Unit // Novo callback para limpar filtros
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
@@ -151,9 +152,11 @@ fun FilterBottomSheet(
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
                     onClick = {
+                        // Reseta os valores dos filtros
                         startDate = dateFormat.format(Calendar.getInstance().time)
                         endDate = dateFormat.format(Calendar.getInstance().time)
                         selectedRating = null
+                        onClearFilters() // Chama a função para atualizar os resultados sem filtro
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary),
                     modifier = Modifier.weight(1f).height(60.dp)
