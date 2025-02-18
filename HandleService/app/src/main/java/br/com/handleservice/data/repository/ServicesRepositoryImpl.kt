@@ -1,69 +1,34 @@
 package br.com.handleservice.data.repository
 
 import android.util.Log
-import br.com.handleservice.data.model.Expedient
-import br.com.handleservice.data.model.OrderCreateDTO
-import br.com.handleservice.data.model.OrderUpdateDTO
-import br.com.handleservice.data.model.WorkerCreateDTO
-import br.com.handleservice.data.model.WorkerUpdateDTO
-import br.com.handleservice.data.network.OrdersApiService
-import br.com.handleservice.data.network.WorkersApiService
-import br.com.handleservice.domain.model.Order
-import br.com.handleservice.domain.model.OrderStatus
+import br.com.handleservice.data.model.ServiceCreateDTO
+import br.com.handleservice.data.model.ServiceUpdateDTO
+import br.com.handleservice.data.network.ServicesApiService
 import br.com.handleservice.domain.model.Service
-import br.com.handleservice.domain.model.Worker
-import br.com.handleservice.domain.repository.OrdersRepository
-import br.com.handleservice.domain.repository.WorkersRepository
-import br.com.handleservice.ui.mock.getMockServices
-import br.com.handleservice.ui.mock.getMockWorker
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import br.com.handleservice.domain.repository.ServicesRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class ServicesRepositoryImpl @Inject constructor(
-    private val apiService: WorkersApiService
-) : WorkersRepository {
+    private val apiService: ServicesApiService
+) : ServicesRepository {
 
-    override suspend fun getAllWorkers(): List<Worker> {
+    override suspend fun getAllWorkerServices(userId: Int): List<Service> {
         return try {
-            apiService.getAllWorkers()
+            apiService.getAllWorkerServices(userId)
         } catch (e: Exception) {
-            Log.e("WorkersRepository", "Error fetching all workers: ${e.localizedMessage}")
+            Log.e("ServicesRepositoryImpl", "Error fetching services for worker $userId: ${e.localizedMessage}")
             throw e
         }
     }
 
-    override suspend fun getWorkerExpedient(id: Int): Expedient {
+    override suspend fun getService(serviceId: Int, userId: Int): Service {
         return try {
-            apiService.getWorkerExpedient(id)
+            apiService.getService(serviceId, userId)
         } catch (e: Exception) {
-            Log.e("WorkersRepository", "Error fetching worker expedient: ${e.localizedMessage}")
+            Log.e("ServicesRepositoryImpl", "Error fetching service with id $serviceId: ${e.localizedMessage}")
             throw e
         }
     }
-
-    override suspend fun getWorker(id: Int): Worker {
-        return try {
-            apiService.getWorker(id)
-        } catch (e: Exception) {
-            Log.e("WorkersRepository", "Error fetching worker: ${e.localizedMessage}")
-            throw e
-        }
-    }
-
-    override suspend fun getWorkerBySearch(search: String): List<Worker> {
-        return try {
-            apiService.getWorkerBySearch(search)
-        } catch (e: Exception) {
-            Log.e("WorkersRepository", "Error searching workers: ${e.localizedMessage}")
-            throw e
-        }
-    }
-
 }
