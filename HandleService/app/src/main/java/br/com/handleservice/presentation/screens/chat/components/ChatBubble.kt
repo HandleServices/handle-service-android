@@ -13,14 +13,20 @@ import androidx.compose.ui.unit.sp
 import br.com.handleservice.presentation.screens.chat.model.Message
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.TimeZone
 
 @Composable
 fun ChatBubble(message: Message, currentUserRole: String) {
     val isSentByUser = message.from != "worker"
 
     val formattedTime = try {
-        val originalFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-        val targetFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val originalFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+        val targetFormat = SimpleDateFormat("HH:mm", Locale.getDefault()).apply {
+            timeZone = TimeZone.getDefault()
+        }
+
         val date = originalFormat.parse(message.time)
         date?.let { targetFormat.format(it) } ?: message.time
     } catch (e: Exception) {
@@ -30,7 +36,7 @@ fun ChatBubble(message: Message, currentUserRole: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 38.dp), // Espaço lateral
+            .padding(horizontal = 38.dp),
         horizontalArrangement = if (isSentByUser) Arrangement.End else Arrangement.Start
     ) {
         Box(
