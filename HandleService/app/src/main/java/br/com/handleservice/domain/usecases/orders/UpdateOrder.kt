@@ -1,6 +1,7 @@
 package br.com.handleservice.domain.usecases.orders
 
 import br.com.handleservice.data.model.OrderCreateDTO
+import br.com.handleservice.data.model.OrderUpdateDTO
 import br.com.handleservice.domain.model.Order
 import br.com.handleservice.domain.repository.OrdersRepository
 import br.com.handleservice.ui.components.loading.UiState
@@ -9,14 +10,14 @@ import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-class CreateOrderUseCase @Inject constructor(
+class UpdateOrderUseCase @Inject constructor(
     private val ordersRepository: OrdersRepository
 ) {
-    operator fun invoke(order: OrderCreateDTO): Flow<UiState<Order>> = flow {
+    operator fun invoke(id: Int, order: OrderUpdateDTO): Flow<UiState<Order>> = flow {
         emit(UiState.Loading())
         try {
-            val createdOrder = ordersRepository.createOrder(order)
-            emit(UiState.Success(data = createdOrder))
+            val updatedOrder = ordersRepository.updateOrder(id, order)
+            emit(UiState.Success(data = updatedOrder))
         } catch (e: IOException) {
             emit(UiState.Error(message = "Network error: ${e.localizedMessage}"))
         } catch (e: Exception) {

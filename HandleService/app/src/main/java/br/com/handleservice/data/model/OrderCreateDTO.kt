@@ -5,5 +5,5 @@ data class OrderCreateDTO(
     val value: Double,
     val serviceId: Int,
     val workerId: Int,
-    val status: String
+    val clientId: Int
 )

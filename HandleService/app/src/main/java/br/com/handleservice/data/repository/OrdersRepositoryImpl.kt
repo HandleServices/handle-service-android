@@ -3,97 +3,81 @@ package br.com.handleservice.data.repository
 import android.util.Log
 import br.com.handleservice.data.model.OrderCreateDTO
 import br.com.handleservice.data.model.OrderUpdateDTO
-import br.com.handleservice.data.model.OrdersDTO
 import br.com.handleservice.data.network.OrdersApiService
 import br.com.handleservice.domain.model.Order
 import br.com.handleservice.domain.model.OrderStatus
-import br.com.handleservice.domain.model.Service
-import br.com.handleservice.domain.model.Worker
 import br.com.handleservice.domain.repository.OrdersRepository
-import br.com.handleservice.ui.mock.getMockServices
-import br.com.handleservice.ui.mock.getMockWorker
-import jakarta.inject.Inject
-import jakarta.inject.Singleton
-import java.time.Instant
+import javax.inject.Inject
+import javax.inject.Singleton
 import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 @Singleton
 class OrdersRepositoryImpl @Inject constructor(
     private val apiService: OrdersApiService
 ) : OrdersRepository {
 
-    private val workers: List<Worker> = getMockWorker().toList()
-    private val services: List<Service> = getMockServices().toList()
+    private fun parseAppointmentDate(dateStr: String): LocalDateTime {
+        return try {
+            if (dateStr.length == 16) {
+                LocalDateTime.parse(dateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
+            } else {
+                LocalDateTime.parse(dateStr, DateTimeFormatter.ISO_DATE_TIME)
+            }
+        } catch (e: Exception) {
+            Log.e("OrdersRepository", "Error parsing appointmentDate: ${e.localizedMessage}")
+            throw e
+        }
+    }
+
+    private fun parsePurchaseTime(timeStr: String): LocalDateTime {
+        return try {
+            LocalDateTime.parse(timeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSX"))
+        } catch (e: Exception) {
+            LocalDateTime.parse(timeStr, DateTimeFormatter.ISO_DATE_TIME)
+        }
+    }
 
     override suspend fun getAllOrders(): List<Order> {
         try {
-            val response = apiService.getAllOrders().map { apiOrder ->
-                val actualWorker = workers.random()
-                val filteredServices = services.filter { it.workerId == actualWorker.id }
-                val service = filteredServices.ifEmpty { services }.random()
-
+            return apiService.getAllOrders().map { apiOrder ->
                 Order(
                     id = apiOrder.id,
-                    appointmentDate = LocalDateTime.ofInstant(
-                        Instant.parse(apiOrder.appointmentDate), ZoneId.systemDefault()
-                    ),
+                    appointmentDate = parseAppointmentDate(apiOrder.appointmentDate.toString()),
                     value = apiOrder.value,
-                    purchaseTime = LocalDateTime.ofInstant(
-                        Instant.parse(apiOrder.purchaseTime), ZoneId.systemDefault()
-                    ),
+                    purchaseTime = parsePurchaseTime(apiOrder.purchaseTime.toString()),
                     workerRating = apiOrder.workerRating,
-                    worker = actualWorker,
-                    service = service,
-                    status = OrderStatus.valueOf(apiOrder.status.uppercase())
+                    workerId = apiOrder.workerId,
+                    serviceId = apiOrder.serviceId,
+                    status = OrderStatus.valueOf(apiOrder.status.toString())
                 )
             }
-            return response
         } catch (e: Exception) {
             Log.e("OrdersRepository", "Error fetching orders: ${e.localizedMessage}")
             throw e
         }
     }
 
-    override suspend fun getOrderById(id: String): Order {
-        val apiOrder = apiService.getOrderById(id)
-        return Order(
-            id = apiOrder.id,
-            appointmentDate = LocalDateTime.ofInstant(
-                Instant.parse(apiOrder.appointmentDate), ZoneId.systemDefault()
-            ),
-            value = apiOrder.value,
-            purchaseTime = LocalDateTime.ofInstant(
-                Instant.parse(apiOrder.purchaseTime), ZoneId.systemDefault()
-            ),
-            workerRating = apiOrder.workerRating,
-            worker = Worker(
-                id = apiOrder.workerId,
-                firstName = "Placeholder",
-                businessName = "Placeholder",
-                lastName = "Placeholder",
-                job = "Placeholder",
-                email = "placeholder@example.com",
-                phone = "1234567890",
-                gender = "Male",
-                profilePicUrl = "https://example.com/profile.jpg",
-                isAvailable = true
-            ),
-            service = Service(
-                id = apiOrder.serviceId,
-                value = 50.0,
+    override suspend fun getOrderById(id: Int): Order {
+        try {
+            val apiOrder = apiService.getOrderById(id)
+            return Order(
+                id = apiOrder.id,
+                appointmentDate = parseAppointmentDate(apiOrder.appointmentDate.toString()),
+                value = apiOrder.value,
+                purchaseTime = parsePurchaseTime(apiOrder.purchaseTime.toString()),
+                workerRating = apiOrder.workerRating,
                 workerId = apiOrder.workerId,
-                name = "Placeholder Service",
-                enable = true,
-                estimatedTime = LocalTime.of(5, 0),
-                description = "Placeholder Description"
-            ),
-            status = OrderStatus.valueOf(apiOrder.status.uppercase())
-        )
+                serviceId = apiOrder.serviceId,
+                status = OrderStatus.valueOf(apiOrder.status.toString())
+            )
+        } catch (e: Exception) {
+            Log.e("OrdersRepository", "Error fetching order by id: ${e.localizedMessage}")
+            throw e
+        }
     }
 
-    override suspend fun editOrder(id: String, orderUpdate: OrderUpdateDTO): OrdersDTO {
+    override suspend fun updateOrder(id: Int, orderUpdate: OrderUpdateDTO): Order {
         return try {
             apiService.editOrder(id, orderUpdate)
         } catch (e: Exception) {
@@ -102,7 +86,7 @@ class OrdersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteOrder(id: String): String {
+    override suspend fun deleteOrder(id: Int): String {
         return try {
             apiService.deleteOrder(id)
         } catch (e: Exception) {
@@ -111,7 +95,7 @@ class OrdersRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun createOrder(orderCreateDTO: OrderCreateDTO): OrdersDTO {
+    override suspend fun createOrder(orderCreateDTO: OrderCreateDTO): Order {
         return try {
             apiService.createOrder(orderCreateDTO)
         } catch (e: Exception) {

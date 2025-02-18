@@ -1,7 +1,9 @@
 package br.com.handleservice.domain.model
 
+import LocalDateTimeAdapter
+import br.com.handleservice.util.LocalTimeAdapter
+import com.google.gson.annotations.JsonAdapter
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 enum class OrderStatus {
     PENDING,
@@ -13,11 +15,13 @@ enum class OrderStatus {
 
 data class Order (
     val id: Int,
+    @JsonAdapter(LocalDateTimeAdapter::class)
     val appointmentDate: LocalDateTime,
     val value: Double,
+    @JsonAdapter(LocalDateTimeAdapter::class)
     val purchaseTime: LocalDateTime,
     val workerRating: Int,
-    val worker: Worker,
-    val service: Service,
+    val workerId: Int,
+    val serviceId: Int,
     val status: OrderStatus
 )
