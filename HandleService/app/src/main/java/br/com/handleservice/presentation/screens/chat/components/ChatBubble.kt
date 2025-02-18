@@ -8,7 +8,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.handleservice.presentation.screens.chat.model.Message
@@ -29,7 +28,9 @@ fun ChatBubble(message: Message, currentUserRole: String) {
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 38.dp), // Espaço lateral
         horizontalArrangement = if (isSentByUser) Arrangement.End else Arrangement.Start
     ) {
         Box(
@@ -51,7 +52,7 @@ fun ChatBubble(message: Message, currentUserRole: String) {
                     text = formattedTime,
                     fontSize = 12.sp,
                     color = if (isSentByUser) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.align(Alignment.End) // ⬅️ Alinha a hora à direita
+                    modifier = Modifier.align(Alignment.End)
                 )
             }
         }

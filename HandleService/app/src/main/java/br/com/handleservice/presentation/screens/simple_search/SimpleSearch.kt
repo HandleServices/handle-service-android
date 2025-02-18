@@ -43,30 +43,55 @@ fun SearchScreen(query: String, navController: NavController?) {
     val viewModel: SimpleSearchViewModel = hiltViewModel()
     val workers by viewModel.workers.collectAsState()
 
-    val serviceList = workers.map { worker ->
-        ServiceItem(
-            id = worker.id,
-            name = worker.businessName,
-            rating = (Math.round(Random.nextDouble(3.0, 5.0) * 10) / 10.0),
-            category = worker.job,
-            isAvailableNow = worker.isAvailable,
-            imageUrl = worker.profilePicUrl
+    var serviceList by remember {
+        mutableStateOf(
+            workers.map { worker ->
+                ServiceItem(
+                    id = worker.id,
+                    name = worker.businessName,
+                    rating = (Math.round(Random.nextDouble(3.0, 5.0) * 10) / 10.0), // Mock do rating
+                    category = worker.job,
+                    isAvailableNow = worker.isAvailable,
+                    imageUrl = worker.profilePicUrl
+                )
+            }
         )
     }
 
-    var filteredList = if (query.isNotBlank()) {
-        val normalizedQuery = query.replace("_", " ").lowercase()
-        serviceList.filter {
-            it.category.lowercase().contains(normalizedQuery) || it.name.lowercase().contains(normalizedQuery)
-        }
-    } else {
-        serviceList
-    }
+    var filteredList by remember { mutableStateOf(serviceList) }
     var filterValue by remember { mutableStateOf(query) }
-
-    // Estados para controle dos BottomSheets
+    var selectedRating by remember { mutableStateOf<Int?>(null) }
     var showFilterSheet by remember { mutableStateOf(false) }
     var showSortSheet by remember { mutableStateOf(false) }
+    var selectedSort by remember { mutableStateOf("default") }
+
+    // ✅ Defina a função ANTES de chamá-la
+    fun aplicarFiltrosEOrdenacao() {
+        val normalizedQuery = filterValue.replace("_", " ").lowercase()
+
+        filteredList = serviceList.filter { service ->
+            // Mantém apenas os itens que correspondem à busca inicial
+            service.category.lowercase().contains(normalizedQuery) || service.name.lowercase().contains(normalizedQuery)
+        }.filter { service ->
+            // Aplica o filtro de rating
+            selectedRating == null || service.rating >= selectedRating!!
+        }
+    }
+
+    // Atualiza os dados quando os workers forem carregados do backend
+    LaunchedEffect(workers) {
+        serviceList = workers.map { worker ->
+            ServiceItem(
+                id = worker.id,
+                name = worker.businessName,
+                rating = (Math.round(Random.nextDouble(3.0, 5.0) * 10) / 10.0), // Mock do rating
+                category = worker.job,
+                isAvailableNow = worker.isAvailable,
+                imageUrl = worker.profilePicUrl
+            )
+        }
+        aplicarFiltrosEOrdenacao() // ✅ Agora a função existe antes de ser chamada
+    }
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background
@@ -85,7 +110,10 @@ fun SearchScreen(query: String, navController: NavController?) {
             HandleSearchBar<ServiceItem>(
                 placeholder = "Buscar em Manutenção & Reparos",
                 value = filterValue,
-                onValueChange = { newText -> filterValue = newText },
+                onValueChange = { newText ->
+                    filterValue = newText
+                    aplicarFiltrosEOrdenacao()
+                },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
             )
 
@@ -132,7 +160,7 @@ fun SearchScreen(query: String, navController: NavController?) {
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                if (workers.isEmpty()) {
+                if (filteredList.isEmpty()) {
                     items(5) {
                         SkeletonCard()
                     }
@@ -149,12 +177,16 @@ fun SearchScreen(query: String, navController: NavController?) {
     if (showFilterSheet) {
         FilterBottomSheet(
             onDismissRequest = { showFilterSheet = false },
-            onApplyFilters = { startDate, endDate, selectedRating ->
+            onApplyFilters = { _, _, selectedRatingValue ->
                 showFilterSheet = false
-                val filteredList = serviceList.filter { service ->
-                    (selectedRating == null || service.rating >= selectedRating) &&
-                            (startDate.isBlank() || endDate.isBlank()) // Adicionar lógica de filtragem por data, se necessário
-                }
+                selectedRating = selectedRatingValue
+                aplicarFiltrosEOrdenacao()
+            },
+            onClearFilters = {
+                showFilterSheet = false
+                selectedRating = null
+                filterValue = query
+                aplicarFiltrosEOrdenacao()
             }
         )
     }
@@ -165,12 +197,14 @@ fun SearchScreen(query: String, navController: NavController?) {
             onDismissRequest = { showSortSheet = false },
             onApplySort = { sortType ->
                 showSortSheet = false
-                filteredList = when (sortType) {
-                    "price" -> filteredList.sortedBy { it.id } // Mockado por ID, ajustar para preço real se necessário
-                    "rating" -> filteredList.sortedByDescending { it.rating }
-                    else -> serviceList
+                selectedSort = sortType
+
+                when (sortType) {
+                    "rating" -> filteredList = filteredList.sortedByDescending { it.rating }
+                    "default" -> aplicarFiltrosEOrdenacao()
                 }
-            }
+            },
+            selectedSort = selectedSort
         )
     }
 }

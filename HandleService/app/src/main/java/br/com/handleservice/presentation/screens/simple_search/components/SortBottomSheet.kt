@@ -22,12 +22,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun SortBottomSheet(
     onDismissRequest: () -> Unit,
-    onApplySort: (String) -> Unit
+    onApplySort: (String) -> Unit,
+    selectedSort: String
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()
-
-    var selectedSort by remember { mutableStateOf("default") }
 
     ModalBottomSheet(
         onDismissRequest = {
@@ -64,10 +63,10 @@ fun SortBottomSheet(
                     val (label, drawableRes) = pair
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.width(80.dp) // Garante que os textos fiquem alinhados uniformemente
+                        modifier = Modifier.width(80.dp)
                     ) {
                         IconButton(
-                            onClick = { selectedSort = type },
+                            onClick = { onApplySort(type) },
                             modifier = Modifier.size(60.dp),
                             colors = IconButtonDefaults.iconButtonColors(
                                 containerColor = if (selectedSort == type) MaterialTheme.colorScheme.primary else Color.LightGray

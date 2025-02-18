@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -21,7 +23,7 @@ import br.com.handleservice.presentation.screens.chat.ChatContact
 
 @Composable
 fun ChatContactList(contacts: List<ChatContact>, navController: NavController) {
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Column(modifier = Modifier.fillMaxSize()) {
         // Cabeçalho
         Row(
             modifier = Modifier
@@ -55,16 +57,17 @@ fun ChatContactList(contacts: List<ChatContact>, navController: NavController) {
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp)
         )
 
-        // Listagem dos contatos carregados
-        contacts.forEach { contact ->
-            ChatContactItem(contact, onClick = {
-                navController.navigate("chat_detail/${contact.chatId}/${contact.name}")
-            })
-            Divider(
-                color = MaterialTheme.colorScheme.outline,
-                thickness = 1.dp,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+        LazyColumn(modifier = Modifier.fillMaxSize()) {
+            items(contacts) { contact ->
+                ChatContactItem(contact, onClick = {
+                    navController.navigate("chat_detail/${contact.chatId}/${contact.name}")
+                })
+                Divider(
+                    color = MaterialTheme.colorScheme.outline,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
         }
     }
 }
