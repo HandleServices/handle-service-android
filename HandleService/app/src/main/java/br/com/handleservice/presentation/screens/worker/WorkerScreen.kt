@@ -99,7 +99,6 @@ fun WorkerScreen(
             .background(MaterialTheme.colorScheme.background)
             .padding(vertical = 26.dp)
     ) {
-        // Header
         item {
             HandleHeader(
                 modifier = Modifier
@@ -160,7 +159,6 @@ fun WorkerScreen(
             }
         }
 
-        // Services list
         items(services) { service ->
             ServiceItem(
                 service = service,
@@ -176,7 +174,6 @@ fun WorkerScreen(
             )
         }
 
-        // Video section
         item {
             Column(
                 modifier = Modifier
@@ -244,14 +241,14 @@ fun WorkerScreen(
                         .background(MaterialTheme.colorScheme.onTertiaryContainer)
                 )
             },
-            modifier = Modifier
-                .wrapContentSize()
+            modifier = Modifier.wrapContentSize()
         ) {
             selectedService.value?.let { service ->
                 ContractBottomSheet(
                     service = service,
                     notificationViewModel = notificationViewModel,
-                    settingsViewModel = settingsViewModel
+                    settingsViewModel = settingsViewModel,
+                    workerId = worker?.id ?: 0
                 )
             }
         }

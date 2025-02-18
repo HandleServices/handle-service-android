@@ -1,23 +1,17 @@
 package br.com.handleservice.domain.repository
 
-import br.com.handleservice.data.model.OrderCreateDTO
-import br.com.handleservice.data.model.OrderUpdateDTO
-import br.com.handleservice.domain.model.Order
-import br.com.handleservice.domain.model.Service
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Path
+import br.com.handleservice.data.model.Expedient
+import br.com.handleservice.data.model.WorkerCreateDTO
+import br.com.handleservice.data.model.WorkerUpdateDTO
+import br.com.handleservice.domain.model.Worker
+import retrofit2.http.Body
 
 interface WorkersRepository {
-    suspend fun getAllServices(userId: Int): List<Service>
+    suspend fun getAllWorkers(): List<Worker>
 
-    suspend fun getService(id: Int): Service
+    suspend fun getWorkerExpedient(id: Int): Expedient
 
-    suspend fun editService(id: Int, orderUpdate: OrderUpdateDTO): Service
+    suspend fun getWorker(id: Int): Worker
 
-    suspend fun deleteService(id: Int): String
-
-    suspend fun createService(orderCreateDTO: OrderCreateDTO): Service
+    suspend fun getWorkerBySearch(search: String): List<Worker>
 }

@@ -1,22 +1,15 @@
 package br.com.handleservice.data.model
 
-
-data class Expedient(
-    val startTime: String,
-    val endTime: String,
-    val weekDay: String
-)
-
-data class WorkerCreateDTO(
-    val businessName: String,
-    val docNum: String,
-    val docType: String,
-    val email: String,
-    val expedient: Expedient,
-    val firstName: String,
-    val gender: String,
-    val jobId: String,
-    val lastName: String,
-    val phone: String,
-    val profilePicUrl: String
+data class WorkerUpdateDTO(
+    val businessName: String? = null,
+    val docNum: String? = null,
+    val docType: String? = null,
+    val email: String? = null,
+    val expedient: Expedient? = null,
+    val firstName: String? = null,
+    val gender: String? = null,
+    val jobId: String? = null,
+    val lastName: String? = null,
+    val phone: String? = null,
+    val profilePicUrl: String? = null
 )

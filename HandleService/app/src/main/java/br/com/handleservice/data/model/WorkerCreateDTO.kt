@@ -1,6 +1,5 @@
 package br.com.handleservice.data.model
 
-
 data class Expedient(
     val startTime: String,
     val endTime: String,

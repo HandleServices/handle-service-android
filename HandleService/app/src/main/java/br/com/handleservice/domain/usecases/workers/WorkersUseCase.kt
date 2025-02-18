@@ -1,12 +1,10 @@
-package br.com.handleservice.domain.usecases.services
+package br.com.handleservice.domain.usecases.workers
 
 import jakarta.inject.Inject
 
 class WorkersUseCase @Inject constructor(
-    val listOrders: GetAllOrdersUseCase,
-    val getOrderByIdUseCase: GetOrderByIdUseCase,
-    val createOrderUseCase: CreateOrderUseCase,
-    val cancelOrderUseCase: CancelOrderUseCase
+    val getWorkerByIdUseCase: GetWorkerByIdUseCase,
+    val listAllWorkersUseCase: GetAllWorkersUseCase
 ) {
 
 }

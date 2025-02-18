@@ -205,6 +205,7 @@ fun WorkerCard(
                         .data(worker.profilePicUrl)
                         .crossfade(true)
                         .placeholder(R.drawable.profile_image_fallback)
+                        .error(R.drawable.profile_image_fallback)
                         .build(),
                     contentScale = ContentScale.Crop,
                     contentDescription = "Profile Picture",

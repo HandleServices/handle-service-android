@@ -1,7 +1,7 @@
 package br.com.handleservice.di
 
-import br.com.handleservice.data.repository.OrdersRepositoryImpl
-import br.com.handleservice.domain.repository.OrdersRepository
+import br.com.handleservice.data.repository.WorkersRepositoryImpl
+import br.com.handleservice.domain.repository.WorkersRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ abstract class WorkersRepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindOrdersRepository(
-        ordersRepositoryImpl: OrdersRepositoryImpl
-    ): OrdersRepository
+    abstract fun bindWorkersRepository(
+        workersRepositoryImpl: WorkersRepositoryImpl
+    ): WorkersRepository
 }
