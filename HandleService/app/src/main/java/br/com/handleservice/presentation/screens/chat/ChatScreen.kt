@@ -8,8 +8,11 @@ import androidx.navigation.NavController
 import br.com.handleservice.presentation.screens.chat.components.ChatContactList
 import br.com.handleservice.presentation.screens.chat.components.SkeletonLoader
 import kotlinx.coroutines.*
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -38,6 +41,7 @@ fun ChatScreen(navController: NavController) {
 fun fetchChatContacts(chatContacts: MutableList<ChatContact>, onComplete: () -> Unit) {
     val client = OkHttpClient()
     val userId = "1"
+    val workerIdToCheck = 3
 
     CoroutineScope(Dispatchers.IO).launch {
         try {
@@ -51,15 +55,28 @@ fun fetchChatContacts(chatContacts: MutableList<ChatContact>, onComplete: () -> 
             val ordersArray = JSONArray(ordersJson)
 
             val workerChannels = mutableListOf<Pair<Int, Int>>()
+            var hasOrderWithWorker3 = false
 
             for (i in 0 until ordersArray.length()) {
                 val order = ordersArray.getJSONObject(i)
                 val workerId = order.getInt("workerId")
                 val chatId = order.getInt("channelId")
+
                 workerChannels.add(workerId to chatId)
+
+                if (workerId == workerIdToCheck) {
+                    hasOrderWithWorker3 = true
+                }
             }
 
             println("📌 Lista de WorkerIDs e ChatIDs obtidos: $workerChannels")
+
+            if (!hasOrderWithWorker3) {
+                println("🚀 Nenhuma Order com Worker ID $workerIdToCheck encontrada. Criando nova Order...")
+                createOrderForWorker(client, userId, workerIdToCheck)
+            } else {
+                println("✅ Order com Worker ID $workerIdToCheck já existe. Nenhuma ação necessária.")
+            }
 
             workerChannels.forEach { (workerId, chatId) ->
                 println("🔍 Buscando dados do Worker ID: $workerId")
@@ -88,6 +105,39 @@ fun fetchChatContacts(chatContacts: MutableList<ChatContact>, onComplete: () -> 
             }
         } catch (e: Exception) {
             println("❌ Erro ao buscar contatos: ${e.message}")
+        }
+    }
+}
+
+fun createOrderForWorker(client: OkHttpClient, userId: String, workerId: Int) {
+    CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val requestBody = JSONObject().apply {
+                put("appointmentDate", "2025-02-17T00:00:00Z")
+                put("clientId", userId.toInt())
+                put("serviceId", 2)
+                put("value", 100.0)
+                put("workerId", workerId)
+            }
+
+            val request = Request.Builder()
+                .url("https://handle-api-1017711936653.us-central1.run.app/api/v1/orders")
+                .post(RequestBody.create("application/json".toMediaTypeOrNull(), requestBody.toString()))
+                .build()
+
+            val response = client.newCall(request).execute()
+            val responseBody = response.body?.string()
+
+            if (response.isSuccessful && !responseBody.isNullOrEmpty()) {
+                val jsonResponse = JSONObject(responseBody)
+                val newChatId = jsonResponse.getInt("channelId")
+
+                println("✅ Nova Order criada com sucesso! WorkerID: $workerId | ChatID: $newChatId")
+            } else {
+                println("❌ Erro ao criar a Order: ${response.message}")
+            }
+        } catch (e: Exception) {
+            println("❌ Exceção ao criar Order: ${e.message}")
         }
     }
 }
