@@ -6,27 +6,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -38,26 +32,36 @@ import br.com.handleservice.presentation.screens.simple_search.components.SortBo
 import br.com.handleservice.presentation.screens.simple_search.model.ServiceItem
 import br.com.handleservice.ui.components.handleHeader.HandleHeader
 import br.com.handleservice.ui.components.searchbar.HandleSearchBar
-import br.com.handleservice.ui.mock.getMockWorker
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import androidx.hilt.navigation.compose.hiltViewModel
+import br.com.handleservice.presentation.screens.contracts.components.SkeletonCard
+import kotlin.random.Random
 
 @Composable
 fun SearchScreen(query: String, navController: NavController?) {
-    val serviceList = remember {
-        getMockWorker().map { worker ->
-            ServiceItem(
-                id = worker.id,
-                name = worker.businessName,
-                rating = 4.5, // Valor fixo para rating (mock)
-                category = worker.job,
-                isAvailableNow = worker.isAvailable,
-                imageUrl = worker.profilePicUrl
-            )
-        }.toList()
+    val viewModel: SimpleSearchViewModel = hiltViewModel()
+    val workers by viewModel.workers.collectAsState()
+
+    val serviceList = workers.map { worker ->
+        ServiceItem(
+            id = worker.id,
+            name = worker.businessName,
+            rating = (Math.round(Random.nextDouble(3.0, 5.0) * 10) / 10.0),
+            category = worker.job,
+            isAvailableNow = worker.isAvailable,
+            imageUrl = worker.profilePicUrl
+        )
     }
 
-    var filteredList by remember { mutableStateOf(serviceList) }
+    var filteredList = if (query.isNotBlank()) {
+        val normalizedQuery = query.replace("_", " ").lowercase()
+        serviceList.filter {
+            it.category.lowercase().contains(normalizedQuery) || it.name.lowercase().contains(normalizedQuery)
+        }
+    } else {
+        serviceList
+    }
     var filterValue by remember { mutableStateOf(query) }
 
     // Estados para controle dos BottomSheets
@@ -128,8 +132,14 @@ fun SearchScreen(query: String, navController: NavController?) {
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(filteredList) { item ->
-                    ServiceItemCard(item = item, navController = navController)
+                if (workers.isEmpty()) {
+                    items(5) {
+                        SkeletonCard()
+                    }
+                } else {
+                    items(filteredList) { item ->
+                        ServiceItemCard(item = item, navController = navController)
+                    }
                 }
             }
         }
@@ -141,7 +151,7 @@ fun SearchScreen(query: String, navController: NavController?) {
             onDismissRequest = { showFilterSheet = false },
             onApplyFilters = { startDate, endDate, selectedRating ->
                 showFilterSheet = false
-                filteredList = serviceList.filter { service ->
+                val filteredList = serviceList.filter { service ->
                     (selectedRating == null || service.rating >= selectedRating) &&
                             (startDate.isBlank() || endDate.isBlank()) // Adicionar lógica de filtragem por data, se necessário
                 }

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
 class GetOrderByIdUseCase @Inject constructor(private val repositoryImpl : OrdersRepository)  {
-    operator fun invoke(id: String): Flow<UiState<Order>> = flow {
+    operator fun invoke(id: Int): Flow<UiState<Order>> = flow {
         emit(UiState.Loading())
         try {
             val order = repositoryImpl.getOrderById(id)

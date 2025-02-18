@@ -53,7 +53,7 @@ fun ServiceItem(
                         fontSize = 15.sp,
                     )
                     Text(
-                        text = " • ${service.estimatedTime.formatTime()}",
+                        text = " • ${service.estimatedTime?.formatTime() ?: "00:00"}",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontWeight = FontWeight(400),
                         fontSize = 12.sp,

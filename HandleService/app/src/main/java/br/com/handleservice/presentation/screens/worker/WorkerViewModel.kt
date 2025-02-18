@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import br.com.handleservice.domain.model.Order
 import br.com.handleservice.domain.model.Service
 import br.com.handleservice.domain.model.Worker
+import br.com.handleservice.domain.repository.ServicesRepository
+import br.com.handleservice.domain.repository.WorkersRepository
 import br.com.handleservice.ui.mock.getMockServices
 import br.com.handleservice.ui.mock.getMockWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +18,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WorkerViewModel @Inject constructor() : ViewModel() {
+class WorkerViewModel @Inject constructor(
+    private val workersRepository: WorkersRepository,
+    private val servicesRepository: ServicesRepository
+) : ViewModel() {
+
     private val _worker = MutableLiveData<Worker>()
     val worker: LiveData<Worker> = _worker
 
@@ -25,15 +31,23 @@ class WorkerViewModel @Inject constructor() : ViewModel() {
 
     fun loadWorkerById(workerId: Int) {
         viewModelScope.launch {
-            val foundWorker = getMockWorker().find { it.id == workerId }
-                ?: throw IllegalArgumentException("Trabalhador com ID $workerId não encontrado")
-            _worker.value = foundWorker
+            try {
+                val foundWorker = workersRepository.getWorker(workerId)
+                _worker.value = foundWorker
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     fun loadServicesForWorker(workerId: Int) {
         viewModelScope.launch {
-            _services.value = getMockServices().filter { it.workerId == workerId }
+            try {
+                val servicesList = servicesRepository.getAllWorkerServices(workerId)
+                _services.value = servicesList
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

@@ -109,6 +109,7 @@ fun ServiceItemCard(item: ServiceItem, navController: NavController?) {
                     .data(item.imageUrl)
                     .crossfade(true)
                     .placeholder(R.drawable.profile_image_fallback)
+                    .error(R.drawable.profile_image_fallback)
                     .build(),
                 contentDescription = item.name,
                 modifier = Modifier

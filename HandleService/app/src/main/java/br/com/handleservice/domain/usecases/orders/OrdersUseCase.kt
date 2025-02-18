@@ -1,5 +1,12 @@
 package br.com.handleservice.domain.usecases.orders
 
-data class OrdersUseCase(
-    val listOrders: GetAllOrdersUseCase
-)
+import jakarta.inject.Inject
+
+class OrdersUseCase @Inject constructor(
+    val listOrders: GetAllOrdersUseCase,
+    val getOrderByIdUseCase: GetOrderByIdUseCase,
+    val createOrderUseCase: CreateOrderUseCase,
+    val cancelOrderUseCase: CancelOrderUseCase
+) {
+
+}
